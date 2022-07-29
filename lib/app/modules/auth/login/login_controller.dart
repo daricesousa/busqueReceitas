@@ -29,7 +29,7 @@ final repository = AuthRepository();
         );
         loading.value = false;
         AppSnackBar.success(res["message"]);
-        Get.toNamed('/login');
+        Get.toNamed('/');
       }
       on DioError catch(e){
         loading.value = false;

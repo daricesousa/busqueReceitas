@@ -1,10 +1,11 @@
+import 'package:busque_receitas/app/core/ui/app_theme.dart';
 import 'package:busque_receitas/app/models/groupIngredients_model.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
-import './despensa_controller.dart';
+import 'pantry_controller.dart';
 
-class DespensaPage extends GetView<DespensaController> {
-  const DespensaPage({Key? key}) : super(key: key);
+class PantryPage extends GetView<PantryController> {
+  const PantryPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +20,7 @@ class DespensaPage extends GetView<DespensaController> {
         title: const Text('Despensa'),
         centerTitle: true,
       ),
-      body: body(),
+      body: Obx(() => body()),
     );
   }
 
@@ -35,11 +36,11 @@ class DespensaPage extends GetView<DespensaController> {
   Widget ingredient(String nome) {
     return Container(
       padding: const EdgeInsets.all(10),
+      decoration: decoration(),
       child: Text(
         nome,
-        style: TextStyle(fontSize: 18, color: Colors.white),
+        style: const TextStyle(fontSize: 18, color: Colors.white),
       ),
-      decoration: decoration(),
     );
   }
 
@@ -53,6 +54,7 @@ class DespensaPage extends GetView<DespensaController> {
           Expanded(
             child: Center(
               child: Text(nome,
+                  textAlign: TextAlign.center,
                   style: const TextStyle(
                     fontSize: 23,
                   )),
@@ -64,15 +66,20 @@ class DespensaPage extends GetView<DespensaController> {
   }
 
   Widget groupCard(GroupIngredientsModel group) {
-    return Card(
-      elevation: 10,
-      child: ExpansionTile(
-        title: title(group.name),
-        children: [
-          listIngredients(
-            group.listIngredients.map((e) => ingredient(e.name)).toList()
-          )
-        ],
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Card(
+        elevation: 10,
+        child: Theme(
+          data: AppTheme.theme.copyWith(dividerColor: Colors.transparent),
+          child: ExpansionTile(
+            title: title(group.name),
+            children: [
+              listIngredients(
+                  group.listIngredients.map((e) => ingredient(e.name)).toList())
+            ],
+          ),
+        ),
       ),
     );
   }
@@ -93,7 +100,7 @@ class DespensaPage extends GetView<DespensaController> {
     return BoxDecoration(
         borderRadius: BorderRadius.circular(5),
         color: cor,
-        boxShadow: [
+        boxShadow: const [
           BoxShadow(
             color: Colors.grey,
             blurRadius: 2,
