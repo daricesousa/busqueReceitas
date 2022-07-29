@@ -21,11 +21,11 @@ class PantryController extends GetxController {
   }
 
   Future<void> getGroupsIngredients() async {
-    listGroupsIngredients.assignAll([
-      GroupIngredientsModel(id: 1, name: 'Lacticínios'),
-      GroupIngredientsModel(id: 2, name: 'Frutas, verduras e legumes'),
-      GroupIngredientsModel(id: 7, name: 'Massas'),
-    ]);
+    try {
+      listGroupsIngredients.assignAll(await repository.getGroups());
+    } on DioError catch (e) {
+      print("Erro ao carregar groups");
+    }
   }
 
   Future<void> getIngredients() async {
