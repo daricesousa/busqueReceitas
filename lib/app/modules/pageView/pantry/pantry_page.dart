@@ -21,6 +21,7 @@ class PantryPage extends GetView<PantryController> {
         centerTitle: true,
       ),
       body: Obx(() => body()),
+      floatingActionButton: addButton(),
     );
   }
 
@@ -107,5 +108,13 @@ class PantryPage extends GetView<PantryController> {
             offset: Offset(3, 3),
           )
         ]);
+  }
+
+  Widget addButton() {
+    return FloatingActionButton(
+        onPressed: () {
+          Get.toNamed('/ingredients');
+        },
+        child: const Icon(Icons.add));
   }
 }

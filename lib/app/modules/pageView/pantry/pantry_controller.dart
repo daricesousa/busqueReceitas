@@ -6,7 +6,7 @@ import 'package:get/get.dart';
 
 class PantryController extends GetxController {
   final listGroupsIngredients = <GroupIngredientsModel>[].obs;
-  List<IngredientModel> listIngredients = [];
+  List<IngredientModel> _listIngredients = [];
   final repository = IngredientRepository();
 
   @override
@@ -16,29 +16,29 @@ class PantryController extends GetxController {
   }
 
   Future<void> inicialize() async {
-    await Future.wait([getIngredients(), getGroupsIngredients()]);
-    aggregateIngredients();
+    await Future.wait([_getIngredients(), _getGroupsIngredients()]);
+    _aggregateIngredients();
   }
 
-  Future<void> getGroupsIngredients() async {
+  Future<void> _getGroupsIngredients() async {
     try {
       listGroupsIngredients.assignAll(await repository.getGroups());
-    } on DioError catch (e) {
+    } on DioError {
       print("Erro ao carregar groups");
     }
   }
 
-  Future<void> getIngredients() async {
+  Future<void> _getIngredients() async {
     try {
-      listIngredients = await repository.getIngredients();
-    } on DioError catch (e) {
-      print(e.response?.data["message"] ?? "Erro ao carregar ingredientes");
+      _listIngredients = await repository.getIngredients();
+    } on DioError {
+      print("Erro ao carregar ingredientes");
     }
   }
 
-  void aggregateIngredients() {
+  void _aggregateIngredients() {
     List<GroupIngredientsModel> ingredients = [...listGroupsIngredients];
-    for (var ingrediente in listIngredients) {
+    for (var ingrediente in _listIngredients) {
       final groupId = ingrediente.groupId;
       final index = ingredients.indexWhere(
         (GroupIngredientsModel group) => group.id == groupId,
@@ -48,5 +48,20 @@ class PantryController extends GetxController {
       }
     }
     listGroupsIngredients.assignAll(ingredients);
+  }
+
+  void changeIngredient(IngredientModel ingredient) {
+    final indexGroup = listGroupsIngredients.indexWhere(
+      (GroupIngredientsModel group) => group.id == ingredient.groupId,
+    );
+    if (indexGroup >= 0) {
+      GroupIngredientsModel group = listGroupsIngredients[indexGroup];
+      final indexIngredient = group.listIngredients.indexWhere(
+        (IngredientModel ingredientFind) => ingredientFind.id == ingredient.id,
+      );
+      listGroupsIngredients[indexGroup]
+          .listIngredients[indexIngredient]
+          .pantry = ingredient.pantry;
+    }
   }
 }

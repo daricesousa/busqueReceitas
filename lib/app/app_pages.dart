@@ -1,3 +1,5 @@
+import 'package:busque_receitas/app/modules/add_ingredients/add_ingredients_bindings.dart';
+import 'package:busque_receitas/app/modules/add_ingredients/add_ingredients_page.dart';
 import 'package:busque_receitas/app/modules/auth/register/register_bindings.dart';
 import 'package:busque_receitas/app/modules/auth/login/login_bindings.dart';
 import 'package:busque_receitas/app/modules/auth/register/register_page.dart';
@@ -24,6 +26,11 @@ class AppPages {
       name: '/register',
       page: () => const RegisterPage(),
       binding: RegisterBindings(),
+    ),
+    GetPage(
+      name: '/ingredients',
+      page: () => const AddIngredientsPage(),
+      binding: AddIngredientsBindings(),
     ),
   ];
 }
