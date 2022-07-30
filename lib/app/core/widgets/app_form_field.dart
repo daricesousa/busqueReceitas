@@ -8,6 +8,7 @@ class AppFormField extends StatefulWidget {
   final List<TextInputFormatter>? inputFormatters;
   final bool obscuredText;
   final String? Function(String?)? validator;
+  final void Function(String)? onChanged;
 
   const AppFormField({
     Key? key,
@@ -17,6 +18,7 @@ class AppFormField extends StatefulWidget {
     this.inputFormatters,
     this.validator,
     this.obscuredText = false,
+    this.onChanged,
   }) : super(key: key);
 
   @override
@@ -36,6 +38,7 @@ class _AppFormFieldState extends State<AppFormField> {
         autovalidateMode: AutovalidateMode.onUserInteraction,
         obscureText: widget.obscuredText,
         validator: widget.validator,
+        onChanged: widget.onChanged,
         decoration: InputDecoration(
             labelText: widget.label,
             border: OutlineInputBorder(

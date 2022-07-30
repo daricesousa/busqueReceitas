@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 
 class AddIngredientsController extends GetxController {
   final listIngredients = <IngredientModel>[].obs;
+  final List<IngredientModel> listIngredientsMain = [];
   final PantryController pantryController;
 
   AddIngredientsController({required this.pantryController});
@@ -13,6 +14,7 @@ class AddIngredientsController extends GetxController {
   void onInit() {
     getIngredients();
     sortIngredients();
+    listIngredientsMain.assignAll(listIngredients.value);
     super.onInit();
   }
 
@@ -35,5 +37,15 @@ class AddIngredientsController extends GetxController {
     listIngredients[index].pantry = !listIngredients[index].pantry;
     listIngredients[index] = listIngredients[index];
     pantryController.changeIngredient(listIngredients[index]);
+  }
+
+  void search(String word) {
+    if (word.length < 3) {
+      listIngredients.assignAll(listIngredientsMain);
+    } else {
+      var itens = listIngredients.where((IngredientModel ingredient) =>
+          ingredient.name.toUpperCase().contains(word.toUpperCase()));
+      listIngredients.assignAll(itens.toList());
+    }
   }
 }
