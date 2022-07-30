@@ -36,7 +36,8 @@ class AddIngredientsController extends GetxController {
   void changeIngredient(int index) {
     listIngredients[index].pantry = !listIngredients[index].pantry;
     listIngredients[index] = listIngredients[index];
-    pantryController.changeIngredient(listIngredients[index]);
+    pantryController.changeIngredient(
+        listIngredients[index], listIngredients[index].pantry);
   }
 
   void search(String word) {

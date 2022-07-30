@@ -50,7 +50,7 @@ class PantryController extends GetxController {
     listGroupsIngredients.assignAll(ingredients);
   }
 
-  void changeIngredient(IngredientModel ingredient) {
+  void changeIngredient(IngredientModel ingredient, bool pantry) {
     final indexGroup = listGroupsIngredients.indexWhere(
       (GroupIngredientsModel group) => group.id == ingredient.groupId,
     );
@@ -61,7 +61,8 @@ class PantryController extends GetxController {
       );
       listGroupsIngredients[indexGroup]
           .listIngredients[indexIngredient]
-          .pantry = ingredient.pantry;
+          .pantry = pantry;
+      listGroupsIngredients[indexGroup] = listGroupsIngredients[indexGroup];
     }
   }
 }

@@ -1,5 +1,6 @@
 import 'package:busque_receitas/app/core/ui/app_theme.dart';
 import 'package:busque_receitas/app/models/groupIngredients_model.dart';
+import 'package:busque_receitas/app/models/ingredient_model.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'pantry_controller.dart';
@@ -11,12 +12,6 @@ class PantryPage extends GetView<PantryController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        actions: const [
-          Padding(
-            padding: EdgeInsets.only(right: 20.0),
-            child: Icon(Icons.add_circle),
-          ),
-        ],
         title: const Text('Despensa'),
         centerTitle: true,
       ),
@@ -34,14 +29,19 @@ class PantryPage extends GetView<PantryController> {
         }));
   }
 
-  Widget ingredient(String nome) {
-    return Container(
-      padding: const EdgeInsets.all(10),
-      decoration: decoration(),
-      child: Text(
-        nome,
-        style: const TextStyle(fontSize: 18, color: Colors.white),
+  Widget ingredientCard(IngredientModel ingredient) {
+    return GestureDetector(
+      child: Container(
+        padding: const EdgeInsets.all(10),
+        decoration: decoration(),
+        child: Text(
+          ingredient.name,
+          style: const TextStyle(fontSize: 18, color: Colors.white),
+        ),
       ),
+      onTap: () {
+        controller.changeIngredient(ingredient, !ingredient.pantry);
+      },
     );
   }
 
@@ -77,7 +77,12 @@ class PantryPage extends GetView<PantryController> {
             title: title(group.name),
             children: [
               listIngredients(
-                  group.listIngredients.map((e) => ingredient(e.name)).toList())
+                  group.listIngredients.map((IngredientModel ingredient) {
+                if (ingredient.pantry) {
+                  return ingredientCard(ingredient);
+                }
+                return Container();
+              }).toList())
             ],
           ),
         ),
@@ -85,15 +90,14 @@ class PantryPage extends GetView<PantryController> {
     );
   }
 
-  listIngredients(List<Widget> lista) {
+  Widget listIngredients(List<Widget> lista) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Wrap(
-        spacing: 10,
-        runSpacing: 10,
-        alignment: WrapAlignment.spaceEvenly,
-        children: lista,
-      ),
+          spacing: 10,
+          runSpacing: 10,
+          alignment: WrapAlignment.spaceEvenly,
+          children: lista),
     );
   }
 
