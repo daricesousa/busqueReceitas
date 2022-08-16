@@ -3,13 +3,13 @@ import 'package:busque_receitas/app/models/ingredient_model.dart';
 class GroupIngredientsModel {
   int id;
   String name;
-  List<IngredientModel> listIngredients = [];
+  List<IngredientModel> listIngredients;
 
   GroupIngredientsModel({
     required this.id,
     required this.name,
-    listIngredients,
-  });
+    List<IngredientModel>? listIngredients,
+  }) :listIngredients = listIngredients ?? [];
 
   Map<String, dynamic> toMap() {
     return {
@@ -23,10 +23,9 @@ class GroupIngredientsModel {
     return GroupIngredientsModel(
       id: map['id']?.toInt() ?? 0,
       name: map['name'] ?? '',
-      listIngredients: List<IngredientModel>.from(map['listIngredients'] ??
-          [].map(
+      listIngredients: map['listIngredients'].map<IngredientModel>(
             (e) => IngredientModel.fromMap(e),
-          )),
+          ).toList(),
     );
   }
 }

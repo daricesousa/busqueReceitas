@@ -1,8 +1,8 @@
 import 'package:busque_receitas/app/models/groupIngredients_model.dart';
 import 'package:busque_receitas/app/models/ingredient_model.dart';
 import 'package:busque_receitas/app/repositories/ingredient_repository.dart';
-import 'package:dio/dio.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 
 class PantryController extends GetxController {
   final listGroupsIngredients = <GroupIngredientsModel>[].obs;
@@ -10,34 +10,34 @@ class PantryController extends GetxController {
   final repository = IngredientRepository();
 
   @override
-  void onInit() {
-    inicialize();
+  void onInit() async {
+    try {
+      await _getIngredientsNet();
+      _aggregateIngredients();
+      _saveIngredients();
+    } catch (e) {
+      print("Erro ao obter ingredientes da internet");
+      _loadIngredients();
+    }
     super.onInit();
   }
 
-  Future<void> inicialize() async {
+  Future<void> _getIngredientsNet() async {
     await Future.wait([_getIngredients(), _getGroupsIngredients()]);
-    _aggregateIngredients();
   }
 
   Future<void> _getGroupsIngredients() async {
-    try {
-      listGroupsIngredients.assignAll(await repository.getGroups());
-    } on DioError {
-      print("Erro ao carregar groups");
-    }
+    listGroupsIngredients.assignAll(await repository.getGroups());
+    throw ("erro");
   }
 
   Future<void> _getIngredients() async {
-    try {
-      _listIngredients = await repository.getIngredients();
-    } on DioError {
-      print("Erro ao carregar ingredientes");
-    }
+    _listIngredients = await repository.getIngredients();
   }
 
   void _aggregateIngredients() {
     List<GroupIngredientsModel> ingredients = [...listGroupsIngredients];
+    print(_listIngredients);
     for (var ingrediente in _listIngredients) {
       final groupId = ingrediente.groupId;
       final index = ingredients.indexWhere(
@@ -48,6 +48,27 @@ class PantryController extends GetxController {
       }
     }
     listGroupsIngredients.assignAll(ingredients);
+  }
+
+  Future<void> _loadIngredients() async {
+    print("carregando");
+    final storage = GetStorage();
+    final data = await storage.read('groups') ?? [];
+    List<GroupIngredientsModel> newList = [];
+    newList = data.map<GroupIngredientsModel>((g) {
+      return GroupIngredientsModel.fromMap(g);
+    }).toList();
+    listGroupsIngredients.assignAll(newList);
+  }
+
+  void _saveIngredients() {
+    print("salvando");
+    final storage = GetStorage();
+    final listJson = listGroupsIngredients.map((g) {
+      return g.toMap();
+    }).toList();
+    storage.write('groups', listJson);
+   
   }
 
   void changeIngredient(IngredientModel ingredient, bool pantry) {
