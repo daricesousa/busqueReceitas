@@ -15,32 +15,35 @@ class PantryPage extends GetView<PantryController> {
         title: const Text('Despensa'),
         centerTitle: true,
       ),
-      body: Obx(() => body()),
+      body: body(),
       floatingActionButton: addButton(),
     );
   }
 
   Widget body() {
     return ListView.builder(
-        itemCount: controller.listGroupsIngredients.length,
+        itemCount: controller.splashController.listGroups.length,
         itemBuilder: ((context, index) {
-          final group = controller.listGroupsIngredients[index];
-          return groupCard(group);
+          final group = controller.splashController.listGroups[index];
+          return Obx(() {
+            return groupCard(group);
+          });
         }));
   }
 
-  Widget ingredientCard(IngredientModel ingredient) {
+  Widget ingredientCard(
+      {required IngredientModel ingredient, Color color = Colors.green}) {
     return GestureDetector(
       child: Container(
         padding: const EdgeInsets.all(10),
-        decoration: decoration(),
+        decoration: decoration(color: color),
         child: Text(
           ingredient.name,
           style: const TextStyle(fontSize: 18, color: Colors.white),
         ),
       ),
       onTap: () {
-        controller.changeIngredient(ingredient, !ingredient.pantry);
+        controller.changeIngredient(ingredient: ingredient);
       },
     );
   }
@@ -77,9 +80,13 @@ class PantryPage extends GetView<PantryController> {
             title: title(group.name),
             children: [
               listIngredients(
-                  group.listIngredients.map((IngredientModel ingredient) {
-                if (ingredient.pantry) {
-                  return ingredientCard(ingredient);
+                  controller.listIngredients.map((IngredientModel ingredient) {
+                if (group.id == ingredient.groupId) {
+                  if (controller.havePatry(ingredient.id)) {
+                    return ingredientCard(ingredient: ingredient);
+                  }
+                  return ingredientCard(
+                      ingredient: ingredient, color: Colors.grey);
                 }
                 return Container();
               }).toList())
@@ -101,10 +108,10 @@ class PantryPage extends GetView<PantryController> {
     );
   }
 
-  BoxDecoration decoration({Color cor = Colors.green}) {
+  BoxDecoration decoration({Color color = Colors.green}) {
     return BoxDecoration(
         borderRadius: BorderRadius.circular(5),
-        color: cor,
+        color: color,
         boxShadow: const [
           BoxShadow(
             color: Colors.grey,

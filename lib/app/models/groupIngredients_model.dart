@@ -15,7 +15,7 @@ class GroupIngredientsModel {
     return {
       'id': id,
       'name': name,
-      'listIngredients': listIngredients.map((e) => e.toMap()).toList(),
+      // 'listIngredients': listIngredients.map((e) => e.toMap()).toList(),
     };
   }
 
@@ -23,9 +23,9 @@ class GroupIngredientsModel {
     return GroupIngredientsModel(
       id: map['id']?.toInt() ?? 0,
       name: map['name'] ?? '',
-      listIngredients: map['listIngredients'].map<IngredientModel>(
-            (e) => IngredientModel.fromMap(e),
-          ).toList(),
+      // listIngredients: map['listIngredients'].map<IngredientModel>(
+      //       (e) => IngredientModel.fromMap(e),
+      //     ).toList(),
     );
   }
 }

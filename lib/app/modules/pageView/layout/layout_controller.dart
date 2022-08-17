@@ -6,6 +6,7 @@ class LayoutController extends GetxController {
   final pageController = PageController();
 
   @override
+
   void onClose() {
     pageController.dispose();
     super.onClose();

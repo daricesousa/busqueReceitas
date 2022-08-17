@@ -20,7 +20,7 @@ class AddIngredientsPage extends GetView<AddIngredientsController> {
             child: AppFormField(
               label: "Pesquise aqui",
               onChanged: (word) {
-                controller.search(word);
+                // controller.search(word);
               },
             )),
         Flexible(

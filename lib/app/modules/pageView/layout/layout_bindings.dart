@@ -6,6 +6,6 @@ class LayoutBindings implements Bindings {
     @override
     void dependencies() {
         Get.put(LayoutController());
-        Get.put(PantryController());
+        Get.put(PantryController(splashController: Get.find()));
     }
 }

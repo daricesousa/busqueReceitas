@@ -4,6 +4,6 @@ import 'add_ingredients_controller.dart';
 class AddIngredientsBindings implements Bindings {
     @override
     void dependencies() {
-        Get.put(AddIngredientsController(pantryController: Get.find()));
+      Get.put(AddIngredientsController(splashController: Get.find()));
     }
 }
