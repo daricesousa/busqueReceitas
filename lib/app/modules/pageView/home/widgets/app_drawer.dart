@@ -31,6 +31,14 @@ class _AppDrawerState extends State<AppDrawer> {
             subtitle: const Text("tela de inicio"),
             onTap: () {},
           ),
+          ListTile(
+            leading: const Icon(Icons.home),
+            title: const Text("Receita"),
+            subtitle: const Text("tela de receita"),
+            onTap: () {
+              Get.toNamed("/recipe");
+            },
+          ),
          
         ],
       ),

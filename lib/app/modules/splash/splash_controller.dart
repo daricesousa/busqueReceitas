@@ -60,8 +60,10 @@ class SplashController extends GetxController {
 
   Future<void> _loadPantry() async {
     try {
-      final data = await _storage.read('pantry') ?? <int>[];
+      final data = (await _storage.read('pantry') ?? []).cast<int>();
+      listPantry.assignAll(data as List<int>);
     } catch (e) {
+      print(e);
       print("Erro ao carregar despensa");
     }
   }

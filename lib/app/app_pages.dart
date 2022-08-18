@@ -6,7 +6,9 @@ import 'package:busque_receitas/app/modules/auth/register/register_page.dart';
 import 'package:busque_receitas/app/modules/auth/login/login_page.dart';
 import 'package:busque_receitas/app/modules/pageView/layout/layout_bindings.dart';
 import 'package:busque_receitas/app/modules/pageView/layout/layout_page.dart';
+import 'package:busque_receitas/app/modules/recipe/recipe_page.dart';
 import 'package:busque_receitas/app/modules/splash/splash_bindings.dart';
+import 'package:busque_receitas/app/modules/recipe/recipe_bindings.dart';
 import 'package:busque_receitas/app/modules/splash/splash_page.dart';
 import 'package:get/get_navigation/src/routes/get_route.dart';
 
@@ -38,6 +40,11 @@ class AppPages {
       name: '/ingredients',
       page: () => const AddIngredientsPage(),
       binding: AddIngredientsBindings(),
+    ),
+    GetPage(
+      name: '/recipe',
+      page: () => const RecipePage(),
+      binding: RecipeBindings(),
     ),
   ];
 }

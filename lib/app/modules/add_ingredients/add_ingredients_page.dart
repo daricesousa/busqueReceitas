@@ -20,7 +20,7 @@ class AddIngredientsPage extends GetView<AddIngredientsController> {
             child: AppFormField(
               label: "Pesquise aqui",
               onChanged: (word) {
-                // controller.search(word);
+                controller.search.value = word;
               },
             )),
         Flexible(
@@ -36,7 +36,7 @@ class AddIngredientsPage extends GetView<AddIngredientsController> {
                             const Icon(Icons.check_box_outline_blank_outlined),
                         child: const Icon(Icons.check_box)),
                     title: Text(ingredient.name),
-                    onTap: () => controller.changeIngredient(index),
+                    onTap: () => controller.changeIngredient(ingredient.id),
                   ),
                 );
               }),
