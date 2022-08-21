@@ -14,9 +14,9 @@ class SplashController extends GetxController {
   @override
   void onReady() async {
     try {
-      await _getIngredientsNet();
-      _saveIngredients();
-      _saveGroups();
+      await getIngredientsNet();
+      saveIngredients();
+      saveGroups();
 
     } catch (e) {
       print("Erro ao obter ingredientes da internet");
@@ -26,7 +26,7 @@ class SplashController extends GetxController {
     super.onReady();
   }
 
-  Future<void> _getIngredientsNet() async {
+  Future<void> getIngredientsNet() async {
     await Future.wait(
         [_getIngredients(), _getGroupsIngredients(), _loadPantry()]);
   }
@@ -43,7 +43,7 @@ class SplashController extends GetxController {
     listIngredients.assignAll(await _repository.getIngredients());
   }
 
-  void _saveIngredients() {
+  void saveIngredients() {
     print("salvando");
     final ingredients = listIngredients.map((i) {
       return i.toMap();
@@ -51,7 +51,7 @@ class SplashController extends GetxController {
     _storage.write('ingredients', ingredients);
   }
 
-  void _saveGroups() {
+  void saveGroups() {
     final groups = listGroups.map((g) {
       return g.toMap();
     }).toList();

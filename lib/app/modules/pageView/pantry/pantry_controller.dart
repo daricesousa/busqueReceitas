@@ -5,6 +5,8 @@ import 'package:get/get.dart';
 class PantryController extends GetxController {
   SplashController splashController;
   final listIngredients = <IngredientModel>[].obs;
+  final visibleRefrash = false.obs;
+
 
   PantryController({required this.splashController});
 
@@ -19,8 +21,7 @@ class PantryController extends GetxController {
     for (IngredientModel ingredient in splashController.listIngredients) {
       if (splashController.havePatry(ingredient.id)) {
         ingredient.pantry = true;
-      }
-       else{
+      } else {
         ingredient.pantry = false;
       }
       elements.add(ingredient);
@@ -35,5 +36,18 @@ class PantryController extends GetxController {
 
   bool havePatry(int ingredientId) {
     return splashController.havePatry(ingredientId);
+  }
+
+  Future<void> refrashPage() async{
+    try{
+    visibleRefrash.value = true;
+    await splashController.getIngredientsNet();
+    splashController.saveGroups();
+    splashController.saveIngredients();
+    Get.offNamedUntil('/layout', (route) => false);
+    }
+    catch(e){
+      visibleRefrash.value = false;
+    }
   }
 }

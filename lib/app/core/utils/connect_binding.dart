@@ -8,7 +8,7 @@ class ConnectBinding implements Bindings {
   @override
   void dependencies() {
     const baseUrl =
-        "https://6fca-2804-ad8-c008-1c00-5b5a-c99c-56d9-960c.ngrok.io";
+        "https://d9b8-2804-ad8-c008-1c00-34cf-9812-eda3-2fc2.ngrok.io";
     Dio dio = Dio(BaseOptions(baseUrl: baseUrl));
     (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
         (HttpClient client) {
