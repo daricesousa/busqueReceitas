@@ -32,4 +32,5 @@ class IngredientModel {
       // pantry: json['pantry'] ?? false,
     );
   }
+  
 }

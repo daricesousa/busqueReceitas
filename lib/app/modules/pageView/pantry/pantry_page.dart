@@ -40,7 +40,7 @@ class PantryPage extends GetView<PantryController> {
     return GestureDetector(
       child: Container(
         padding: const EdgeInsets.all(10),
-        decoration: decoration(color: color),
+        decoration: AppTheme.boxDecoration(color: color),
         child: Text(
           ingredient.name,
           style: const TextStyle(fontSize: 18, color: Colors.white),
@@ -110,18 +110,7 @@ class PantryPage extends GetView<PantryController> {
     );
   }
 
-  BoxDecoration decoration({Color color = Colors.green}) {
-    return BoxDecoration(
-        borderRadius: BorderRadius.circular(5),
-        color: color,
-        boxShadow: const [
-          BoxShadow(
-            color: Colors.grey,
-            blurRadius: 2,
-            offset: Offset(1, 1),
-          )
-        ]);
-  }
+
 
   Widget addButton() {
     return Visibility(

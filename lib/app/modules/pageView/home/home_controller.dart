@@ -22,6 +22,10 @@ class HomeController extends GetxController {
     }
   }
 
+  void goPageRecipe(RecipeModel recipe){
+    Get.toNamed('/recipe', arguments: recipe);
+  }
+
 
 
 

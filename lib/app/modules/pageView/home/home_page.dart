@@ -1,4 +1,5 @@
 import 'package:busque_receitas/app/core/utils/image_convert.dart';
+import 'package:busque_receitas/app/models/recipe/recipe_model.dart';
 import 'package:busque_receitas/app/modules/pageView/home/home_controller.dart';
 import 'package:busque_receitas/app/modules/pageView/home/widgets/app_drawer.dart';
 import 'package:get/get.dart';
@@ -54,30 +55,39 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
         itemCount: controller.listRecipes.length,
         itemBuilder: ((context, index) {
           final recipe = controller.listRecipes[index];
-          return Card(
-            color: Colors.amber,
-            child: Column(
-              children: [
-                ImageConvert.base64fromImage(
-                    base64String: recipe.picture, width: Get.width / 2.1),
-                Container(height: 8),
-                Text(
-                  recipe.title,
-                  style: const TextStyle(fontSize: 20),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(Icons.star),
-                    Icon(Icons.star),
-                    Icon(Icons.star),
-                    Icon(Icons.star),
-                    Icon(Icons.star),
-                  ],
-                )
-              ],
-            ),
-          );
+          return widgetRecipe(recipe);
         }));
+  }
+
+  Widget widgetRecipe(RecipeModel recipe) {
+    return GestureDetector(
+      child: Card(
+        color: Colors.amber,
+        child: Column(
+          children: [
+            ImageConvert.base64fromImage(
+                base64String: recipe.picture, width: Get.width / 2.1),
+            Container(height: 8),
+            Text(
+              recipe.title,
+              style: const TextStyle(fontSize: 20),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(Icons.star),
+                Icon(Icons.star),
+                Icon(Icons.star),
+                Icon(Icons.star),
+                Icon(Icons.star),
+              ],
+            )
+          ],
+        ),
+      ),
+      onTap: () {
+        controller.goPageRecipe(recipe);
+      },
+    );
   }
 }

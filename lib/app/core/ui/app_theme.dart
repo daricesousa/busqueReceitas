@@ -8,4 +8,17 @@ class AppTheme {
     colorScheme: ColorScheme.fromSeed(seedColor: Colors.purple),
     primaryColor: Colors.purpleAccent,
   );
+
+    static BoxDecoration boxDecoration({Color color = Colors.green}) {
+    return BoxDecoration(
+        borderRadius: BorderRadius.circular(5),
+        color: color,
+        boxShadow: const [
+          BoxShadow(
+            color: Colors.grey,
+            blurRadius: 2,
+            offset: Offset(1, 1),
+          )
+        ]);
+  }
 }
