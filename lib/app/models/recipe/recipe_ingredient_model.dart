@@ -9,7 +9,11 @@ class RecipeIngredientModel {
       required this.measurer});
 
   Map<String, dynamic> toMap() {
-    return {'id': ingredientId, 'quantity': quantity, 'measurer': measurer};
+    return {
+      'id': ingredientId,
+      'quantity': quantity,
+      'measurer': measurer,
+    };
   }
 
   factory RecipeIngredientModel.fromMap(Map<String, dynamic> json) {

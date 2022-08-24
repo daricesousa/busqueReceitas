@@ -25,8 +25,7 @@ class RecipePage extends GetView<RecipeController> {
   }
 
   Widget body(RecipeModel recipe) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+    return ListView(
       children: [
         image(recipe),
         cards(
@@ -35,38 +34,8 @@ class RecipePage extends GetView<RecipeController> {
             cardAvaliation(recipe),
           ],
         ),
-        const Padding(
-          padding: EdgeInsets.all(8.0),
-          child: Text(
-            "Ingredientes:",
-            style: TextStyle(fontSize: 20, color: Colors.green),
-            textAlign: TextAlign.start,
-          ),
-        ),
-        Expanded(
-          child: ListView.builder(
-              itemCount: recipe.listIngredients.length,
-              itemBuilder: ((context, index) {
-                final ingredient = recipe.listIngredients[index];
-                return ingredientWidget(ingredient);
-              })),
-        ),
-        const Padding(
-          padding: EdgeInsets.all(8.0),
-          child: Text(
-            "Modo de preparo:",
-            style: TextStyle(fontSize: 20, color: Colors.green),
-            textAlign: TextAlign.start,
-          ),
-        ),
-        Expanded(
-          child: ListView.builder(
-              itemCount: recipe.method.length,
-              itemBuilder: ((context, index) {
-                final method = recipe.method[index];
-                return methodWidget(index: index, method: method);
-              })),
-        ),
+        ...listIngredients(recipe),
+        ...listMethods(recipe),
         avaliation(recipe),
       ],
     );
@@ -93,7 +62,7 @@ class RecipePage extends GetView<RecipeController> {
       children: [
         Row(
           mainAxisSize: MainAxisSize.min,
-          children: Stars.stars(recipe.rating),
+          children: Stars.stars(rating: recipe.rating),
         ),
         Text('${recipe.avaliations.length} avaliações',
             style: const TextStyle(fontSize: 18, color: Colors.white))
@@ -101,7 +70,37 @@ class RecipePage extends GetView<RecipeController> {
     ));
   }
 
-  
+  List<Widget> listIngredients(RecipeModel recipe) {
+    return [
+      const Padding(
+        padding: EdgeInsets.all(8.0),
+        child: Text(
+          "Ingredientes:",
+          style: TextStyle(fontSize: 20, color: Colors.green),
+          textAlign: TextAlign.start,
+        ),
+      ),
+      ...recipe.listIngredients.map((e) => ListTile(title: ingredientWidget(e)))
+    ];
+  }
+
+  List<Widget> listMethods(RecipeModel recipe) {
+    int index = 0;
+    return [
+      const Padding(
+        padding: EdgeInsets.all(8.0),
+        child: Text(
+          "Modo de preparo:",
+          style: TextStyle(fontSize: 20, color: Colors.green),
+          textAlign: TextAlign.start,
+        ),
+      ),
+      ...recipe.method.map((e) {
+        index++;
+        return ListTile(title: methodWidget(method: e, index: index));
+      })
+    ];
+  }
 
   Widget cardDifficulty(RecipeModel recipe) {
     return Padding(
@@ -118,9 +117,8 @@ class RecipePage extends GetView<RecipeController> {
   }
 
   Widget methodWidget({required String method, required int index}) {
-    final step = index + 1;
     return ListTile(
-      leading: Text(step.toString()),
+      leading: Text(index.toString()),
       title: Text(method),
     );
   }
@@ -143,17 +141,21 @@ class RecipePage extends GetView<RecipeController> {
   }
 
   Widget avaliation(RecipeModel recipe) {
-    return Padding(
-      padding: const EdgeInsets.all(10.0),
-      child: Center(
-        child: Column(
-          children: [
-            const Text("Avalie aqui"),
-            Row(
-              children: Stars.stars(0),
-            )
-          ],
-        ),
+    return Center(
+      child: Column(
+        children: [
+          const Padding(
+            padding: EdgeInsets.all(8.0),
+            child: Text("Avalie aqui"),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(bottom: 20.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: Stars.stars(rating: 0, color: Colors.green),
+            ),
+          ),
+        ],
       ),
     );
   }

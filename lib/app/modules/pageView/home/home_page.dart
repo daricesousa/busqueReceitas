@@ -75,7 +75,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: Stars.stars(recipe.rating)
+              children: Stars.stars(rating: recipe.rating)
             )
           ],
         ),

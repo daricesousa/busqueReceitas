@@ -1,32 +1,29 @@
 import 'package:flutter/material.dart';
 
-class Stars{
+class Stars {
   Stars._();
 
-  static List<Widget> stars(double rating) {
+  static List<Widget> stars(
+      {required double rating, Color? color = Colors.white}) {
     List<Widget> list = [];
     for (int i = 1; i <= 5; i++) {
       if (i <= rating) {
-        list.add(const Icon(
+        list.add(Icon(
           Icons.star,
-          color: Colors.white,
+          color: color,
         ));
-      }
-      else if(i - rating <= 0.5){
-        list.add(const Icon(
+      } else if (i - rating <= 0.5) {
+        list.add(Icon(
           Icons.star_half,
-          color: Colors.white,
+          color: color,
         ));
-      }
-      else{
-        list.add(const Icon(
+      } else {
+        list.add(Icon(
           Icons.star_border,
-          color: Colors.white,
+          color: color,
         ));
       }
     }
     return list;
   }
 }
-
-
