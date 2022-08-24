@@ -1,4 +1,5 @@
 import 'package:busque_receitas/app/core/utils/image_convert.dart';
+import 'package:busque_receitas/app/core/widgets/stars.dart';
 import 'package:busque_receitas/app/models/recipe/recipe_model.dart';
 import 'package:busque_receitas/app/modules/pageView/home/home_controller.dart';
 import 'package:busque_receitas/app/modules/pageView/home/widgets/app_drawer.dart';
@@ -74,13 +75,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(Icons.star),
-                Icon(Icons.star),
-                Icon(Icons.star),
-                Icon(Icons.star),
-                Icon(Icons.star),
-              ],
+              children: Stars.stars(recipe.rating)
             )
           ],
         ),

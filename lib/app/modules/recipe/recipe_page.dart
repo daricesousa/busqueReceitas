@@ -1,10 +1,8 @@
-import 'package:busque_receitas/app/core/ui/app_theme.dart';
 import 'package:busque_receitas/app/core/utils/image_convert.dart';
-import 'package:busque_receitas/app/models/ingredient_model.dart';
+import 'package:busque_receitas/app/core/widgets/stars.dart';
 import 'package:busque_receitas/app/models/recipe/recipe_ingredient_model.dart';
 import 'package:busque_receitas/app/models/recipe/recipe_model.dart';
 import 'package:busque_receitas/app/modules/recipe/widgets.dart';
-import 'package:busque_receitas/app/modules/splash/splash_controller.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import './recipe_controller.dart';
@@ -95,34 +93,15 @@ class RecipePage extends GetView<RecipeController> {
       children: [
         Row(
           mainAxisSize: MainAxisSize.min,
-          children: const [
-            Icon(
-              Icons.star,
-              color: Colors.white,
-            ),
-            Icon(
-              Icons.star,
-              color: Colors.white,
-            ),
-            Icon(
-              Icons.star,
-              color: Colors.white,
-            ),
-            Icon(
-              Icons.star,
-              color: Colors.white,
-            ),
-            Icon(
-              Icons.star,
-              color: Colors.white,
-            ),
-          ],
+          children: Stars.stars(recipe.rating),
         ),
-        const Text('127 avaliações',
-            style: TextStyle(fontSize: 18, color: Colors.white))
+        Text('${recipe.avaliations.length} avaliações',
+            style: const TextStyle(fontSize: 18, color: Colors.white))
       ],
     ));
   }
+
+  
 
   Widget cardDifficulty(RecipeModel recipe) {
     return Padding(
@@ -170,7 +149,9 @@ class RecipePage extends GetView<RecipeController> {
         child: Column(
           children: [
             const Text("Avalie aqui"),
-            Row(children: [],)
+            Row(
+              children: Stars.stars(0),
+            )
           ],
         ),
       ),
