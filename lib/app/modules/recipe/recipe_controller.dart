@@ -18,6 +18,9 @@ class RecipeController extends GetxController {
     final ingredient = _findIngredient(id);
     return ingredient.name;
   }
+
+
+
   
 
 }

@@ -19,7 +19,8 @@ class RecipeModel {
       required this.difficulty,
       required this.creatorId,
       required this.avaliations,
-      required this.method});
+      required this.method,
+      });
 
   Map<String, dynamic> toMap() {
     return {
@@ -48,4 +49,7 @@ class RecipeModel {
        avaliations: [],
         );
   }
+
+
+
 }

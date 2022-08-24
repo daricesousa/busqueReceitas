@@ -99,14 +99,14 @@ class PantryPage extends GetView<PantryController> {
     );
   }
 
-  Widget listIngredients(List<Widget> lista) {
+  Widget listIngredients(List<Widget> list) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Wrap(
           spacing: 10,
           runSpacing: 10,
           alignment: WrapAlignment.spaceEvenly,
-          children: lista),
+          children: list),
     );
   }
 

@@ -1,6 +1,9 @@
 import 'package:busque_receitas/app/core/ui/app_theme.dart';
 import 'package:busque_receitas/app/core/utils/image_convert.dart';
+import 'package:busque_receitas/app/models/ingredient_model.dart';
+import 'package:busque_receitas/app/models/recipe/recipe_ingredient_model.dart';
 import 'package:busque_receitas/app/models/recipe/recipe_model.dart';
+import 'package:busque_receitas/app/modules/recipe/widgets.dart';
 import 'package:busque_receitas/app/modules/splash/splash_controller.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
@@ -27,16 +30,18 @@ class RecipePage extends GetView<RecipeController> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        ImageConvert.base64fromImage(
-            base64String: recipe.picture,
-            width: Get.width,
-            height: Get.height / 3),
-        cards(recipe),
+        image(recipe),
+        cards(
+          [
+            cardDifficulty(recipe),
+            cardAvaliation(recipe),
+          ],
+        ),
         const Padding(
           padding: EdgeInsets.all(8.0),
           child: Text(
             "Ingredientes:",
-            style: TextStyle(fontSize: 20, color: Colors.black),
+            style: TextStyle(fontSize: 20, color: Colors.green),
             textAlign: TextAlign.start,
           ),
         ),
@@ -45,26 +50,33 @@ class RecipePage extends GetView<RecipeController> {
               itemCount: recipe.listIngredients.length,
               itemBuilder: ((context, index) {
                 final ingredient = recipe.listIngredients[index];
-                final nameIngredient =
-                    controller.nameIngredient(ingredient.ingredientId);
-                return ListTile(
-                  leading: controller.splashController
-                          .havePatry(ingredient.ingredientId)
-                      ? const Icon(
-                          Icons.check_box,
-                          color: Colors.green,
-                        )
-                      : const Icon(
-                          Icons.error,
-                          color: Colors.red,
-                        ),
-                  title: Text(
-                      "${ingredient.quantity} ${ingredient.measurer} $nameIngredient"),
-                );
+                return ingredientWidget(ingredient);
               })),
-        )
+        ),
+        const Padding(
+          padding: EdgeInsets.all(8.0),
+          child: Text(
+            "Modo de preparo:",
+            style: TextStyle(fontSize: 20, color: Colors.green),
+            textAlign: TextAlign.start,
+          ),
+        ),
+        Expanded(
+          child: ListView.builder(
+              itemCount: recipe.method.length,
+              itemBuilder: ((context, index) {
+                final method = recipe.method[index];
+                return methodWidget(index: index, method: method);
+              })),
+        ),
+        avaliation(recipe),
       ],
     );
+  }
+
+  Widget image(RecipeModel recipe) {
+    return ImageConvert.base64fromImage(
+        base64String: recipe.picture, width: Get.width, height: Get.height / 3);
   }
 
   List<Widget> actionsAppBar() {
@@ -77,71 +89,91 @@ class RecipePage extends GetView<RecipeController> {
     ];
   }
 
-  Widget cardInfo(Widget child) {
-    return Container(
-      padding: const EdgeInsets.all(10),
-      decoration: AppTheme.boxDecoration(color: Colors.green),
-      child: child,
+  Widget cardAvaliation(RecipeModel recipe) {
+    return cardInfo(Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Row(
+          mainAxisSize: MainAxisSize.min,
+          children: const [
+            Icon(
+              Icons.star,
+              color: Colors.white,
+            ),
+            Icon(
+              Icons.star,
+              color: Colors.white,
+            ),
+            Icon(
+              Icons.star,
+              color: Colors.white,
+            ),
+            Icon(
+              Icons.star,
+              color: Colors.white,
+            ),
+            Icon(
+              Icons.star,
+              color: Colors.white,
+            ),
+          ],
+        ),
+        const Text('127 avaliações',
+            style: TextStyle(fontSize: 18, color: Colors.white))
+      ],
+    ));
+  }
+
+  Widget cardDifficulty(RecipeModel recipe) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: cardInfo(Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          const Icon(Icons.bar_chart),
+          Text('Dificuldade: ${recipe.difficulty}',
+              style: const TextStyle(fontSize: 18, color: Colors.white))
+        ],
+      )),
     );
   }
 
-  Widget cards(RecipeModel recipe) {
+  Widget methodWidget({required String method, required int index}) {
+    final step = index + 1;
+    return ListTile(
+      leading: Text(step.toString()),
+      title: Text(method),
+    );
+  }
+
+  Widget ingredientWidget(RecipeIngredientModel ingredient) {
+    final nameIngredient = controller.nameIngredient(ingredient.ingredientId);
+    return ListTile(
+      leading: controller.splashController.havePatry(ingredient.ingredientId)
+          ? const Icon(
+              Icons.check_box,
+              color: Colors.green,
+            )
+          : const Icon(
+              Icons.error,
+              color: Colors.red,
+            ),
+      title:
+          Text("${ingredient.quantity} ${ingredient.measurer} $nameIngredient"),
+    );
+  }
+
+  Widget avaliation(RecipeModel recipe) {
     return Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Align(
-          alignment: Alignment.center,
-          child: Wrap(
-            crossAxisAlignment: WrapCrossAlignment.center,
-            spacing: 10,
-            runSpacing: 10,
-            alignment: WrapAlignment.spaceEvenly,
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: cardInfo(Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    const Icon(Icons.bar_chart),
-                    Text('Dificuldade: ${recipe.difficulty}',
-                        style:
-                            const TextStyle(fontSize: 18, color: Colors.white))
-                  ],
-                )),
-              ),
-              cardInfo(Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: const [
-                      Icon(
-                        Icons.star,
-                        color: Colors.white,
-                      ),
-                      Icon(
-                        Icons.star,
-                        color: Colors.white,
-                      ),
-                      Icon(
-                        Icons.star,
-                        color: Colors.white,
-                      ),
-                      Icon(
-                        Icons.star,
-                        color: Colors.white,
-                      ),
-                      Icon(
-                        Icons.star,
-                        color: Colors.white,
-                      ),
-                    ],
-                  ),
-                  const Text('127 avaliações',
-                      style: TextStyle(fontSize: 18, color: Colors.white))
-                ],
-              ))
-            ],
-          ),
-        ));
+      padding: const EdgeInsets.all(10.0),
+      child: Center(
+        child: Column(
+          children: [
+            const Text("Avalie aqui"),
+            Row(children: [],)
+          ],
+        ),
+      ),
+    );
   }
 }
