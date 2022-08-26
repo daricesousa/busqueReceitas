@@ -18,6 +18,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       theme: AppTheme.theme,
+      enableLog: false,
       debugShowCheckedModeBanner: false,
       initialBinding: ConnectBinding(),
       getPages: AppPages.pages,

@@ -6,6 +6,8 @@ import 'package:get/get.dart';
 class RecipeController extends GetxController {
   RecipeModel recipe;
   SplashController splashController;
+  bool userAvaliated = false;
+  final userRating = 0.obs();
 
   RecipeController({required this.recipe, required this.splashController});
 
@@ -18,6 +20,8 @@ class RecipeController extends GetxController {
     final ingredient = _findIngredient(id);
     return ingredient.name;
   }
+
+  
 
 
 

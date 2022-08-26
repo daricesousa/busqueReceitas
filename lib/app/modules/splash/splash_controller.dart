@@ -1,5 +1,6 @@
 import 'package:busque_receitas/app/models/groupIngredients_model.dart';
 import 'package:busque_receitas/app/models/ingredient_model.dart';
+import 'package:busque_receitas/app/models/user_model.dart';
 import 'package:busque_receitas/app/repositories/ingredient_repository.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -8,59 +9,39 @@ class SplashController extends GetxController {
   final listIngredients = <IngredientModel>[].obs;
   List<GroupIngredientsModel> listGroups = [];
   final listPantry = <int>[].obs;
-  final _repository = IngredientRepository();
+  final _repositoryIngredient = IngredientRepository();
   final _storage = GetStorage();
+  late UserModel user;
 
   @override
   void onReady() async {
-    try {
-      await getIngredientsNet();
-      saveIngredients();
-      saveGroups();
-
-    } catch (e) {
-      print("Erro ao obter ingredientes da internet");
-      await _loadIngredientsPhone();
-    }
+    _loadUser();
+    _loadPantry();
+    await getIngredients();
     Get.offNamedUntil('/layout', (route) => false);
     super.onReady();
   }
 
-  Future<void> getIngredientsNet() async {
-    await Future.wait(
-        [_getIngredients(), _getGroupsIngredients(), _loadPantry()]);
-  }
-
-  Future<void> _loadIngredientsPhone() async {
-    await Future.wait([_loadIngredients(), _loadGroups()]);
+  Future<void> getIngredients() async {
+    try {
+      await Future.wait([_getIngredients(), _getGroupsIngredients()]);
+    } catch (e) {
+      print("Erro ao carregar ingredientes da internet");
+      await Future.wait([_loadIngredients(), _loadGroups()]);
+    }
   }
 
   Future<void> _getGroupsIngredients() async {
-    listGroups.assignAll(await _repository.getGroups());
+    listGroups.assignAll(await _repositoryIngredient.getGroups());
   }
 
   Future<void> _getIngredients() async {
-    listIngredients.assignAll(await _repository.getIngredients());
+    listIngredients.assignAll(await _repositoryIngredient.getIngredients());
   }
 
-  void saveIngredients() {
-    print("salvando");
-    final ingredients = listIngredients.map((i) {
-      return i.toMap();
-    }).toList();
-    _storage.write('ingredients', ingredients);
-  }
-
-  void saveGroups() {
-    final groups = listGroups.map((g) {
-      return g.toMap();
-    }).toList();
-    _storage.write('groups', groups);
-  }
-
-  Future<void> _loadPantry() async {
+  void _loadPantry() {
     try {
-      final data = (await _storage.read('pantry') ?? []).cast<int>();
+      final data = (_storage.read('pantry') ?? []).cast<int>();
       listPantry.assignAll(data as List<int>);
     } catch (e) {
       print(e);
@@ -75,6 +56,13 @@ class SplashController extends GetxController {
       return IngredientModel.fromMap(i);
     }).toList();
     listIngredients.assignAll(ingredients);
+  }
+
+  void _loadUser() {
+    final user = _storage.read('user');
+    if (user['token'] != null) {
+      this.user = UserModel.fromMap(_storage.read('user'));
+    }
   }
 
   Future<void> _loadGroups() async {

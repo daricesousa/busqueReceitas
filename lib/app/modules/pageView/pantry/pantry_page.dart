@@ -1,5 +1,5 @@
 import 'package:busque_receitas/app/core/ui/app_theme.dart';
-import 'package:busque_receitas/app/core/widgets/app_button.dart';
+import 'package:busque_receitas/app/core/widgets/erro_page.dart';
 import 'package:busque_receitas/app/models/groupIngredients_model.dart';
 import 'package:busque_receitas/app/models/ingredient_model.dart';
 import 'package:get/get.dart';
@@ -23,7 +23,10 @@ class PantryPage extends GetView<PantryController> {
 
   Widget body() {
     if (controller.splashController.listGroups.isEmpty) {
-      return Obx(() => listGroupsEmpty());
+      return Obx(() => ErroPage(
+            visible: controller.visibleRefrash.value,
+            onPressed: controller.refrashPage,
+          ));
     }
     return ListView.builder(
         itemCount: controller.splashController.listGroups.length,
@@ -110,8 +113,6 @@ class PantryPage extends GetView<PantryController> {
     );
   }
 
-
-
   Widget addButton() {
     return Visibility(
       visible: controller.listIngredients.isEmpty,
@@ -122,21 +123,5 @@ class PantryPage extends GetView<PantryController> {
           child: const Icon(Icons.add)),
       child: Container(),
     );
-  }
-
-  Widget listGroupsEmpty() {
-    return Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          const Text("Conecte-se a internet",
-              textAlign: TextAlign.center, style: TextStyle(fontSize: 20)),
-          Container(height: 10),
-          AppButton(
-            label: "Tentar novamente",
-            visible: controller.visibleRefrash.value,
-            onPressed: controller.refrashPage,
-          ),
-        ]);
   }
 }

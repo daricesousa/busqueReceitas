@@ -1,4 +1,5 @@
 import 'package:busque_receitas/app/core/widgets/app_snack_bar.dart';
+import 'package:busque_receitas/app/modules/splash/splash_controller.dart';
 import 'package:busque_receitas/app/repositories/auth_repository.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -23,13 +24,14 @@ final repository = AuthRepository();
     if (form.currentState!.validate()) {
       try {
         loading.value = true;
-        final res = await repository.sign(
+        final user = await repository.sign(
           email: editEmail.text,
           password: editPass.text,
         );
         loading.value = false;
-        AppSnackBar.success(res["message"]);
-        Get.toNamed('/');
+        AppSnackBar.success("Login efetuado");
+        Get.find<SplashController>().user = user;
+        Get.offNamedUntil('/', (route) => false);
       }
       on DioError catch(e){
         loading.value = false;

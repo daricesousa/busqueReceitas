@@ -41,9 +41,7 @@ class PantryController extends GetxController {
   Future<void> refrashPage() async {
     try {
       visibleRefrash.value = true;
-      await splashController.getIngredientsNet();
-      splashController.saveGroups();
-      splashController.saveIngredients();
+      await splashController.getIngredients();
       Get.offNamedUntil('/layout', (route) => false);
     } catch (e) {
       visibleRefrash.value = false;

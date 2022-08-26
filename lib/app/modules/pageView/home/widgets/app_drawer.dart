@@ -18,7 +18,7 @@ class _AppDrawerState extends State<AppDrawer> {
         children: [
           UserAccountsDrawerHeader(
             
-            accountName: Text("Faça login ou cadastre-se"),
+            accountName: const Text("Faça login ou cadastre-se"),
             accountEmail: Text(""),
             onDetailsPressed: (){
               Get.back();

@@ -1,4 +1,5 @@
 import 'package:busque_receitas/app/core/utils/image_convert.dart';
+import 'package:busque_receitas/app/core/widgets/erro_page.dart';
 import 'package:busque_receitas/app/core/widgets/stars.dart';
 import 'package:busque_receitas/app/models/recipe/recipe_model.dart';
 import 'package:busque_receitas/app/modules/pageView/home/home_controller.dart';
@@ -19,7 +20,6 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
   @override
   void didChangeMetrics() {
     setState(() {});
-    print('hello');
     super.didChangeMetrics();
   }
 
@@ -39,14 +39,21 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('HomePage'),
+        title: const Text('Receitas'),
       ),
-      body: body(),
+      body: Obx(() => body()),
       drawer: AppDrawer(onTap: () {}),
     );
   }
 
   Widget body() {
+    if (!controller.visibleRefrash.value && controller.listRecipes.isEmpty) {
+      return ErroPage(
+          visible: controller.visibleRefrash.value,
+          onPressed: () async{
+            await controller.getRecipes();
+    });
+    }
     return GridView.builder(
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2,
@@ -74,9 +81,8 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
               style: const TextStyle(fontSize: 20),
             ),
             Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: Stars.stars(rating: recipe.rating)
-            )
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: Stars.stars(rating: recipe.rating))
           ],
         ),
       ),

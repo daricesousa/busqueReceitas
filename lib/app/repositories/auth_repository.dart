@@ -1,5 +1,7 @@
+import 'package:busque_receitas/app/models/user_model.dart';
 import 'package:dio/dio.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 
 class AuthRepository {
   final _api = Get.find<Dio>();
@@ -17,7 +19,7 @@ class AuthRepository {
     return res.data;
   }
 
-  Future<Map> sign({
+  Future<UserModel> sign({
     required String email,
     required String password,
   }) async {
@@ -25,6 +27,13 @@ class AuthRepository {
       "email": email,
       "password": password,
     });
-    return res.data;
+    final  user = UserModel.fromMap(res.data);
+    await GetStorage().write('user', res.data);
+    _api.options.headers = {
+      "Authorization": "Bearer ${res.data['token']}"
+    };
+    return user;
   }
+
+
 }
