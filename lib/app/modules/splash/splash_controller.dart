@@ -1,6 +1,8 @@
 import 'package:busque_receitas/app/models/groupIngredients_model.dart';
 import 'package:busque_receitas/app/models/ingredient_model.dart';
 import 'package:busque_receitas/app/models/user_model.dart';
+import 'package:busque_receitas/app/modules/pageView/home/home_controller.dart';
+import 'package:busque_receitas/app/modules/recipe/recipe_controller.dart';
 import 'package:busque_receitas/app/repositories/ingredient_repository.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -84,6 +86,7 @@ class SplashController extends GetxController {
     } else {
       listPantry.add(ingredientId);
     }
+    Get.find<HomeController>().sortRecipes();
     _savePantry();
   }
 
@@ -93,10 +96,7 @@ class SplashController extends GetxController {
 
   bool havePatry(int ingredientId) {
     final findIndex = listPantry.indexWhere((i) => i == ingredientId);
-    if (findIndex < 0) {
-      return false;
-    } else {
-      return true;
-    }
+    return findIndex >= 0;
+    
   }
 }

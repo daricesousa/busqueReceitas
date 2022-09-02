@@ -23,4 +23,8 @@ class RecipeIngredientModel {
       measurer: json['measurer'],
     );
   }
+  @override
+  String toString() {
+    return ingredientId.toString();
+  }
 }
