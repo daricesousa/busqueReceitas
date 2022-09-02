@@ -9,6 +9,7 @@ class AppFormField extends StatefulWidget {
   final bool obscuredText;
   final String? Function(String?)? validator;
   final void Function(String)? onChanged;
+  final void Function()? onSubmit;
 
   const AppFormField({
     Key? key,
@@ -19,6 +20,7 @@ class AppFormField extends StatefulWidget {
     this.validator,
     this.obscuredText = false,
     this.onChanged,
+    this.onSubmit,
   }) : super(key: key);
 
   @override
@@ -39,6 +41,9 @@ class _AppFormFieldState extends State<AppFormField> {
         obscureText: widget.obscuredText,
         validator: widget.validator,
         onChanged: widget.onChanged,
+        onFieldSubmitted: (v){
+           widget.onSubmit?.call();
+        },
         decoration: InputDecoration(
             labelText: widget.label,
             border: OutlineInputBorder(

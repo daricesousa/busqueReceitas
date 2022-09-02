@@ -1,4 +1,5 @@
 import 'package:busque_receitas/app/core/utils/image_convert.dart';
+import 'package:busque_receitas/app/core/widgets/app_rating.dart';
 import 'package:busque_receitas/app/core/widgets/stars.dart';
 import 'package:busque_receitas/app/models/recipe/recipe_ingredient_model.dart';
 import 'package:busque_receitas/app/models/recipe/recipe_model.dart';
@@ -36,7 +37,7 @@ class RecipePage extends GetView<RecipeController> {
         ),
         ...listIngredients(recipe),
         ...listMethods(recipe),
-        avaliation(recipe),
+        Obx(() => avaliation(recipe)),
       ],
     );
   }
@@ -64,8 +65,18 @@ class RecipePage extends GetView<RecipeController> {
           mainAxisSize: MainAxisSize.min,
           children: Stars.stars(rating: recipe.rating),
         ),
-        Text('${recipe.avaliations.length} avaliações',
-            style: const TextStyle(fontSize: 18, color: Colors.white))
+        Text.rich(
+          TextSpan(
+            style: const TextStyle(color: Colors.white, fontSize: 16),
+            text: '${recipe.avaliations.length} ',
+            children: [
+              TextSpan(
+                text:
+                    recipe.avaliations.length != 1 ? 'avaliações' : 'avaliação',
+              ),
+            ],
+          ),
+        ),
       ],
     ));
   }
@@ -141,19 +152,40 @@ class RecipePage extends GetView<RecipeController> {
   }
 
   Widget avaliation(RecipeModel recipe) {
+    if (controller.user.value == null) {
+      return ListTile(
+        title: Center(
+          child: Column(
+            children: [
+              const Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Text("Faça login para avaliar", style: TextStyle(decoration: TextDecoration.underline, fontWeight: FontWeight.normal),),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 20.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: Stars.stars(rating: 0, color: Colors.green),
+                ),
+              ),
+            ],
+          ),
+        ),
+        onTap: () => Get.toNamed('\login'),
+      );
+    }
     return Center(
       child: Column(
         children: [
           const Padding(
             padding: EdgeInsets.all(8.0),
-            child: Text("Avalie aqui"),
+            child: Text("Avalie aqui:"),
           ),
           Padding(
             padding: const EdgeInsets.only(bottom: 20.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: Stars.stars(rating: 0, color: Colors.green),
-            ),
+            child: AppRating(initialValue: controller.userRating, onTap: (star){
+              controller.newAvaliation(star);
+            },)
           ),
         ],
       ),

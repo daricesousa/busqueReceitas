@@ -44,14 +44,15 @@ class LoginPage extends GetView<LoginController> {
                       AppFormField(
                         label: 'Email',
                         controller: controller.editEmail,
-                        validator: (value) => Validations.email(value),
+                        validator: Validations.email ,
                       ),
                       const SizedBox(height: 10),
                       AppFormField(
                         label: 'Senha',
                         controller: controller.editPass,
                         obscuredText: true,
-                        validator: (value) => Validations.password(value),
+                        validator: Validations.password,
+                        onSubmit: controller.login,
                       ),
                       const SizedBox(height: 20),
                       Obx(() => button()),

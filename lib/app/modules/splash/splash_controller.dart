@@ -11,12 +11,9 @@ class SplashController extends GetxController {
   final listPantry = <int>[].obs;
   final _repositoryIngredient = IngredientRepository();
   final _storage = GetStorage();
-  final _user = Rxn<UserModel>();
-
-  UserModel? get user => _user.value;
+  final user = Rxn<UserModel>();
 
 
-  set user(UserModel? user) => _user.value = user;
   
 
   @override
@@ -67,7 +64,7 @@ class SplashController extends GetxController {
   void _loadUser() {
     final user = _storage.read('user');
     if (user!= null) {
-      this.user = UserModel.fromMap(_storage.read('user'));
+      this.user.value = UserModel.fromMap(user);
     }
   }
 
