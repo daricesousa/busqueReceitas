@@ -42,7 +42,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
         title: const Text('Receitas'),
       ),
       body: Obx(() => body()),
-      drawer: AppDrawer(onTap: () {}),
+      drawer: Obx(() => AppDrawer(logoutUser: controller.logoutUser, user: controller.getUser())),
     );
   }
 

@@ -29,9 +29,10 @@ final repository = AuthRepository();
           password: editPass.text,
         );
         loading.value = false;
+        Get.back();
         AppSnackBar.success("Login efetuado");
         Get.find<SplashController>().user = user;
-        Get.offNamedUntil('/', (route) => false);
+        // Get.offNamedUntil('/', (route) => false);
       }
       on DioError catch(e){
         loading.value = false;

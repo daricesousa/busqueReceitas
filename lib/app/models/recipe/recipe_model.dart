@@ -33,6 +33,7 @@ class RecipeModel {
       'creator': creatorId,
       'method': method,
       'ingredients': {"list": listIngredients.map((e) => e.toMap()).toList()},
+      'rating': rating,
       //avaliation
     };
   }
@@ -48,8 +49,8 @@ class RecipeModel {
       listIngredients: json['ingredients']['list']
           .map<RecipeIngredientModel>((e) => RecipeIngredientModel.fromMap(e))
           .toList(),
-      avaliations: [AvaliationModel(rating: 3, userId: 5)],
-      rating: _calculateRatingJson(json),
+      avaliations: json['avaliations']['list'].map<AvaliationModel>((e) => AvaliationModel.fromMap(e)).toList(),
+      rating: _calculateRatingJson(json['avaliations']['list']),
     );
   }
 
@@ -65,10 +66,9 @@ class RecipeModel {
   }
 }
 
-double _calculateRatingJson(Map<String, dynamic> json) {
-  if (json['avaliations']['list'].isEmpty) return 0.0;
-  final sum = json['avaliations']['list']
-      .fold(0.0, (t, e) => e['rating'].toDouble() + t);
-  final rating = sum / json['avaliations']['list'].length;
+double _calculateRatingJson(json) {
+  if (json.isEmpty) return 0.0;
+  final sum = json.fold(0.0, (t,  avaliation) => avaliation['rating'].toDouble() + t);
+  final rating = sum / json.length;
   return rating;
 }

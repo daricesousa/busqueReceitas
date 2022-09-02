@@ -1,6 +1,11 @@
+import 'package:busque_receitas/app/core/widgets/app_snack_bar.dart';
 import 'package:busque_receitas/app/models/recipe/recipe_model.dart';
+import 'package:busque_receitas/app/models/user_model.dart';
+import 'package:busque_receitas/app/modules/splash/splash_controller.dart';
 import 'package:busque_receitas/app/repositories/recipe_repository.dart';
+import 'package:dio/dio.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 
 class HomeController extends GetxController {
 
@@ -12,6 +17,10 @@ class HomeController extends GetxController {
   void onInit() {
     getRecipes();
     super.onInit();
+  }
+
+  UserModel? getUser(){
+    return Get.find<SplashController>().user;
   }
 
   Future<void> getRecipes()async {
@@ -28,6 +37,15 @@ class HomeController extends GetxController {
 
   void goPageRecipe(RecipeModel recipe){
     Get.toNamed('/recipe', arguments: recipe);
+  }
+
+  void logoutUser(){
+  print("sair");
+    Get.back();
+    Get.find<SplashController>().user = null;
+    GetStorage().remove('user');
+    Get.find<Dio>().options.headers = {};
+    AppSnackBar.success("Usuário deslogado");
   }
 
 
