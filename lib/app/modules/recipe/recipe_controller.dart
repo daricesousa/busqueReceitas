@@ -1,8 +1,6 @@
 import 'package:busque_receitas/app/core/widgets/app_snack_bar.dart';
-import 'package:busque_receitas/app/models/ingredient_model.dart';
 import 'package:busque_receitas/app/models/recipe/avaliation_model.dart';
 import 'package:busque_receitas/app/models/recipe/recipe_model.dart';
-import 'package:busque_receitas/app/models/user_model.dart';
 import 'package:busque_receitas/app/modules/splash/splash_controller.dart';
 import 'package:busque_receitas/app/repositories/recipe_repository.dart';
 import 'package:dio/dio.dart';
@@ -10,31 +8,19 @@ import 'package:get/get.dart';
 
 class RecipeController extends GetxController {
   RecipeModel recipe;
-  SplashController splashController;
    final user=Get.find<SplashController>().user;
+   final nameIngredient =Get.find<SplashController>().nameIngredient;
+   final havePatry =Get.find<SplashController>().havePatry;
   bool userAvaliated = false;
   int userRating = 0;
   final _repository = RecipeRepository();
 
-  RecipeController({required this.recipe, required this.splashController});
+  RecipeController({required this.recipe});
 
   @override
   void onInit() {
     _checkUserAvaliated();
     super.onInit();
-  }
-
-  
-
-  IngredientModel _findIngredient(int id) {
-    final index =
-        splashController.listIngredients.indexWhere((i) => i.id == id);
-    return splashController.listIngredients[index];
-  }
-
-  String nameIngredient(int id) {
-    final ingredient = _findIngredient(id);
-    return ingredient.name;
   }
 
   void _checkUserAvaliated() {

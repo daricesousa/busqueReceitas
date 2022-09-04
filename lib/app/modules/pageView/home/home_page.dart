@@ -1,11 +1,14 @@
 import 'package:busque_receitas/app/core/utils/image_convert.dart';
+import 'package:busque_receitas/app/core/widgets/app_form_field.dart';
 import 'package:busque_receitas/app/core/widgets/erro_page.dart';
 import 'package:busque_receitas/app/core/widgets/stars.dart';
 import 'package:busque_receitas/app/models/recipe/recipe_model.dart';
 import 'package:busque_receitas/app/modules/pageView/home/home_controller.dart';
 import 'package:busque_receitas/app/modules/pageView/home/widgets/app_drawer.dart';
+import 'package:busque_receitas/app/modules/pageView/home/widgets/app_filter.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
+import 'package:side_sheet/side_sheet.dart';
 
 class HomePage extends GetView<HomeController> {
   const HomePage({super.key});
@@ -15,6 +18,13 @@ class HomePage extends GetView<HomeController> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Receitas'),
+        actions: [
+          IconButton(
+              onPressed: () {
+                SideSheet.right(body: AppFilter(), context: context);
+              },
+              icon: const Icon(Icons.filter_list_alt))
+        ],
       ),
       body: Obx(() => body()),
       drawer: Obx(() => AppDrawer(
@@ -23,28 +33,56 @@ class HomePage extends GetView<HomeController> {
   }
 
   Widget body() {
-    if (!controller.visibleRefrash.value && controller.listRecipes.isEmpty) {
+    if (!controller.visibleRefrash.value &&
+        controller.listRecipes.isEmpty &&
+        controller.search.value == '') {
       return ErroPage(
           visible: controller.visibleRefrash.value,
           onPressed: () async {
             await controller.getRecipes();
           });
     }
-    return GridView.builder(
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
-            crossAxisSpacing: 10.0,
-            mainAxisSpacing: 10.0,
-            mainAxisExtent: 220),
-        itemCount: controller.listRecipes.length,
-        itemBuilder: ((context, index) {
-          final recipe = controller.listRecipes[index];
-          return widgetRecipe(recipe, context);
-        }));
+    return Column(
+      children: [
+        Container(
+            margin: const EdgeInsets.symmetric(horizontal: 10),
+            height: 60,
+            child: ListView(
+                 scrollDirection: Axis.horizontal,
+              children: [
+                cardFilter(text: "Ingrediente chave", action: (){}),
+                cardFilter(text: "Dificuldade", action: (){}),
+                cardFilter(text: "Avaliação", action: (){}),
+              ],
+            )),
+        Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: AppFormField(
+              label: "Pesquise aqui",
+              onChanged: (word) {
+                controller.search.value = word;
+              },
+            )),
+        const SizedBox(height: 10),
+        GridView.builder(
+            shrinkWrap: true,
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                crossAxisSpacing: 10.0,
+                mainAxisSpacing: 10.0,
+                mainAxisExtent: 220),
+            itemCount: controller.listRecipes.length,
+            itemBuilder: ((context, index) {
+              final recipe = controller.listRecipes[index];
+              return widgetRecipe(recipe, context);
+            })),
+      ],
+    );
   }
 
   Widget widgetRecipe(RecipeModel recipe, BuildContext context) {
-    int missedIngredients = controller.missedIngredients(recipe.listIngredients);
+    int missedIngredients =
+        controller.missedIngredients(recipe.listIngredients);
     return GestureDetector(
       child: Card(
         color: Colors.amber,
@@ -62,7 +100,9 @@ class HomePage extends GetView<HomeController> {
                   style: const TextStyle(fontSize: 20),
                 ),
                 Text(
-                  missedIngredients == 0 ? "" : "${missedIngredients} ingredientes faltando",
+                  missedIngredients == 0
+                      ? ""
+                      : "${missedIngredients} ingredientes faltando",
                   style: const TextStyle(fontSize: 15),
                 ),
                 Row(
@@ -77,5 +117,19 @@ class HomePage extends GetView<HomeController> {
         controller.goPageRecipe(recipe);
       },
     );
+  }
+
+  Widget cardFilter({required String text, required void Function()? action}) {
+    return Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: Container(
+          padding: const EdgeInsets.all(5),
+          
+          child: ElevatedButton(
+            onPressed: action,
+            style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.green)),
+            child: Text(text, style: const TextStyle(fontSize: 18, color: Colors.white,),)
+          ),
+        ));
   }
 }

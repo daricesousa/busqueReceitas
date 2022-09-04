@@ -1,3 +1,4 @@
+import 'package:busque_receitas/app/core/utils/enumDifficulty.dart';
 import 'package:busque_receitas/app/core/utils/image_convert.dart';
 import 'package:busque_receitas/app/core/widgets/app_rating.dart';
 import 'package:busque_receitas/app/core/widgets/stars.dart';
@@ -114,13 +115,14 @@ class RecipePage extends GetView<RecipeController> {
   }
 
   Widget cardDifficulty(RecipeModel recipe) {
+    final difficulty = DifficultyConvert.diffilcultyToString(recipe.difficulty);
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: cardInfo(Row(
         mainAxisSize: MainAxisSize.min,
         children: [
           const Icon(Icons.bar_chart),
-          Text('Dificuldade: ${recipe.difficulty}',
+          Text('Dificuldade: $difficulty',
               style: const TextStyle(fontSize: 18, color: Colors.white))
         ],
       )),
@@ -137,7 +139,7 @@ class RecipePage extends GetView<RecipeController> {
   Widget ingredientWidget(RecipeIngredientModel ingredient) {
     final nameIngredient = controller.nameIngredient(ingredient.ingredientId);
     return ListTile(
-      leading: controller.splashController.havePatry(ingredient.ingredientId)
+      leading: controller.havePatry(ingredient.ingredientId)
           ? const Icon(
               Icons.check_box,
               color: Colors.green,

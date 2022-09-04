@@ -1,3 +1,4 @@
+import 'package:busque_receitas/app/core/utils/enumDifficulty.dart';
 import 'package:busque_receitas/app/core/widgets/app_snack_bar.dart';
 import 'package:busque_receitas/app/models/recipe/recipe_ingredient_model.dart';
 import 'package:busque_receitas/app/models/recipe/recipe_model.dart';
@@ -8,11 +9,27 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
 class HomeController extends GetxController {
-  final listRecipes = <RecipeModel>[].obs;
+  final _listRecipes = <RecipeModel>[].obs;
   final _repository = RecipeRepository();
-  final visibleRefrash = false.obs;
+  final visibleRefrash = false.obs; 
   final user = Get.find<SplashController>().user;
   final havePatry = Get.find<SplashController>().havePatry;
+  final search = ''.obs;
+  final listPantry = Get.find<SplashController>().listPantry;
+
+  List<RecipeModel> get listRecipes {
+    return _listRecipes.where((e) {
+      if (e.title.toLowerCase().contains(search.value.toLowerCase())) {
+        return true;
+      }
+      // for (var pass in e.method) {
+      //   if (pass.toLowerCase().contains(search.value.toLowerCase())) {
+      //     return true;
+      //   }
+      // }
+     return false;
+    }).toList();
+  }
 
   @override
   void onInit() {
@@ -23,7 +40,7 @@ class HomeController extends GetxController {
   Future<void> getRecipes() async {
     try {
       visibleRefrash.value = true;
-      listRecipes.assignAll(await _repository.getRecipes());
+      _listRecipes.assignAll(await _repository.getRecipes());
       visibleRefrash.value = false;
       sortRecipes();
     } catch (e) {
@@ -51,7 +68,7 @@ class HomeController extends GetxController {
   }
 
   void sortRecipes() {
-    listRecipes.sort((RecipeModel a, RecipeModel b) {
+    _listRecipes.sort((RecipeModel a, RecipeModel b) {
       final missedA = missedIngredients(a.listIngredients);
       final missedB = missedIngredients(b.listIngredients);
       if (missedA == missedB) {
@@ -59,6 +76,14 @@ class HomeController extends GetxController {
       }
       return missedA < missedB ? 0 : 1;
     });
-  
   }
+
+  void filterNivel(Difficulty difficulty){
+   
+  }
+
+
+
+
+
 }

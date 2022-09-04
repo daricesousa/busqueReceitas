@@ -37,6 +37,7 @@ dependencies:
   get: ^4.6.5
   get_storage: ^2.0.3
   dio: ^4.0.6
+  side_sheet: ^1.0.3
 
 dev_dependencies:
   flutter_test:

@@ -2,7 +2,6 @@ import 'package:busque_receitas/app/models/groupIngredients_model.dart';
 import 'package:busque_receitas/app/models/ingredient_model.dart';
 import 'package:busque_receitas/app/models/user_model.dart';
 import 'package:busque_receitas/app/modules/pageView/home/home_controller.dart';
-import 'package:busque_receitas/app/modules/recipe/recipe_controller.dart';
 import 'package:busque_receitas/app/repositories/ingredient_repository.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -14,9 +13,6 @@ class SplashController extends GetxController {
   final _repositoryIngredient = IngredientRepository();
   final _storage = GetStorage();
   final user = Rxn<UserModel>();
-
-
-  
 
   @override
   void onReady() async {
@@ -65,7 +61,7 @@ class SplashController extends GetxController {
 
   void _loadUser() {
     final user = _storage.read('user');
-    if (user!= null) {
+    if (user != null) {
       this.user.value = UserModel.fromMap(user);
     }
   }
@@ -97,6 +93,15 @@ class SplashController extends GetxController {
   bool havePatry(int ingredientId) {
     final findIndex = listPantry.indexWhere((i) => i == ingredientId);
     return findIndex >= 0;
-    
+  }
+
+  IngredientModel _findIngredient(int id) {
+    final index = listIngredients.indexWhere((i) => i.id == id);
+    return listIngredients[index];
+  }
+
+  String nameIngredient(int id) {
+    final ingredient = _findIngredient(id);
+    return ingredient.name;
   }
 }
