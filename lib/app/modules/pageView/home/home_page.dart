@@ -3,9 +3,10 @@ import 'package:busque_receitas/app/core/widgets/app_form_field.dart';
 import 'package:busque_receitas/app/core/widgets/erro_page.dart';
 import 'package:busque_receitas/app/core/widgets/stars.dart';
 import 'package:busque_receitas/app/models/recipe/recipe_model.dart';
+import 'package:busque_receitas/app/modules/pageView/home/filter_recipe/filter_recipe_controller.dart';
+import 'package:busque_receitas/app/modules/pageView/home/filter_recipe/filter_recipe_page.dart';
 import 'package:busque_receitas/app/modules/pageView/home/home_controller.dart';
 import 'package:busque_receitas/app/modules/pageView/home/widgets/app_drawer.dart';
-import 'package:busque_receitas/app/modules/pageView/home/widgets/app_filter.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:side_sheet/side_sheet.dart';
@@ -21,7 +22,8 @@ class HomePage extends GetView<HomeController> {
         actions: [
           IconButton(
               onPressed: () {
-                SideSheet.right(body: AppFilter(), context: context);
+                Get.put(FilterRecipeController());
+                SideSheet.right(body: FilterRecipePage(), context: context);
               },
               icon: const Icon(Icons.filter_list_alt))
         ],
@@ -132,4 +134,7 @@ class HomePage extends GetView<HomeController> {
           ),
         ));
   }
+
+  
+
 }

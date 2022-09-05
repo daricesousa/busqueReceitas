@@ -35,4 +35,4 @@ class DifficultyConvert {
 
 }
 
-enum Difficulty { easy, medium, hard}
+enum Difficulty {easy, medium, hard, empty}

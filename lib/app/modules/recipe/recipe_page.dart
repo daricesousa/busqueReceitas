@@ -137,7 +137,7 @@ class RecipePage extends GetView<RecipeController> {
   }
 
   Widget ingredientWidget(RecipeIngredientModel ingredient) {
-    final nameIngredient = controller.nameIngredient(ingredient.ingredientId);
+    final nameIngredient = controller.findIngredient(ingredient.ingredientId).name;
     return ListTile(
       leading: controller.havePatry(ingredient.ingredientId)
           ? const Icon(

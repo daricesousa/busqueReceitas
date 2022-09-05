@@ -95,13 +95,10 @@ class SplashController extends GetxController {
     return findIndex >= 0;
   }
 
-  IngredientModel _findIngredient(int id) {
+  IngredientModel findIngredient(int id) {
     final index = listIngredients.indexWhere((i) => i.id == id);
     return listIngredients[index];
   }
 
-  String nameIngredient(int id) {
-    final ingredient = _findIngredient(id);
-    return ingredient.name;
-  }
+  
 }

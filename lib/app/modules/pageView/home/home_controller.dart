@@ -1,7 +1,9 @@
 import 'package:busque_receitas/app/core/utils/enumDifficulty.dart';
 import 'package:busque_receitas/app/core/widgets/app_snack_bar.dart';
+import 'package:busque_receitas/app/models/recipe/filter_recipe_model.dart';
 import 'package:busque_receitas/app/models/recipe/recipe_ingredient_model.dart';
 import 'package:busque_receitas/app/models/recipe/recipe_model.dart';
+import 'package:busque_receitas/app/modules/pageView/home/app_filter.dart';
 import 'package:busque_receitas/app/modules/splash/splash_controller.dart';
 import 'package:busque_receitas/app/repositories/recipe_repository.dart';
 import 'package:dio/dio.dart';
@@ -15,19 +17,11 @@ class HomeController extends GetxController {
   final user = Get.find<SplashController>().user;
   final havePatry = Get.find<SplashController>().havePatry;
   final search = ''.obs;
-  final listPantry = Get.find<SplashController>().listPantry;
+  List<FilterRecipeModel> listFilters = [];
 
   List<RecipeModel> get listRecipes {
     return _listRecipes.where((e) {
-      if (e.title.toLowerCase().contains(search.value.toLowerCase())) {
-        return true;
-      }
-      // for (var pass in e.method) {
-      //   if (pass.toLowerCase().contains(search.value.toLowerCase())) {
-      //     return true;
-      //   }
-      // }
-     return false;
+      return AppFilter.filter(filters: listFilters, recipe: e);
     }).toList();
   }
 

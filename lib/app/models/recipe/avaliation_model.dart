@@ -9,4 +9,8 @@ class AvaliationModel {
       rating: json['rating'],
     );
   }
+
+  int identify(){
+    return userId;
+  }
 }

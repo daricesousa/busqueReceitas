@@ -17,32 +17,19 @@ class MyApp extends StatefulWidget {
   State<MyApp> createState() => _MyAppState();
 }
 
-class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
-  void initState() {
-    WidgetsBinding.instance.addObserver(this);
-    super.initState();
-  }
+class _MyAppState extends State<MyApp> {
 
-  @override
-  void didChangeMetrics() {
-    setState(() {});
-    super.didChangeMetrics();
-  }
-
-  @override
-  void dispose() {
-    WidgetsBinding.instance.removeObserver(this);
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
+   
     return GetMaterialApp(
       theme: AppTheme.theme,
-      enableLog: false,
+      enableLog: true,
       debugShowCheckedModeBanner: false,
       initialBinding: ConnectBinding(),
       getPages: AppPages.pages,
     );
   }
 }
+
