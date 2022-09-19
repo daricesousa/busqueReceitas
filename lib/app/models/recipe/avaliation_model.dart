@@ -1,16 +1,15 @@
 class AvaliationModel {
-  int userId;
-  int rating;
-  AvaliationModel({required this.userId, required this.rating});
+
+  int userRating;
+  int quantity;
+  double ratingAverage;
+  AvaliationModel({ this.userRating=-1, this.quantity=0, this.ratingAverage=0.0});
 
   factory AvaliationModel.fromMap(Map<String, dynamic> json) {
     return AvaliationModel(
-      userId: json['user'],
-      rating: json['rating'],
+      
     );
   }
 
-  int identify(){
-    return userId;
-  }
+
 }

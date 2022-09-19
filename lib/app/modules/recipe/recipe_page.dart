@@ -64,16 +64,16 @@ class RecipePage extends GetView<RecipeController> {
       children: [
         Row(
           mainAxisSize: MainAxisSize.min,
-          children: Stars.stars(rating: recipe.rating),
+          children: Stars.stars(rating: recipe.avaliation.userRating.toDouble()),
         ),
         Text.rich(
           TextSpan(
             style: const TextStyle(color: Colors.white, fontSize: 16),
-            text: '${recipe.avaliations.length} ',
+            text: '${recipe.avaliation.quantity} ',
             children: [
               TextSpan(
                 text:
-                    recipe.avaliations.length != 1 ? 'avaliações' : 'avaliação',
+                    recipe.avaliation.quantity != 1 ? 'avaliações' : 'avaliação',
               ),
             ],
           ),

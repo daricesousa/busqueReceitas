@@ -10,8 +10,7 @@ class RecipeModel {
   Difficulty difficulty;
   int creatorId;
   List<String> method;
-  List<AvaliationModel> avaliations;
-  late double rating;
+  AvaliationModel avaliation;
 
   RecipeModel({
     required this.id,
@@ -20,9 +19,8 @@ class RecipeModel {
     required this.picture,
     required this.difficulty,
     required this.creatorId,
-    required this.avaliations,
     required this.method,
-    this.rating = 4,
+    required this.avaliation,
   });
 
   Map<String, dynamic> toMap() {
@@ -34,8 +32,6 @@ class RecipeModel {
       'creator': creatorId,
       'method': method,
       'ingredients': {"list": listIngredients.map((e) => e.toMap()).toList()},
-      'rating': rating,
-      //avaliation
     };
   }
 
@@ -50,31 +46,12 @@ class RecipeModel {
       listIngredients: json['ingredients']['list']
           .map<RecipeIngredientModel>((e) => RecipeIngredientModel.fromMap(e))
           .toList(),
-      avaliations: json['avaliations']['list']
-          .map<AvaliationModel>((e) => AvaliationModel.fromMap(e))
-          .toList(),
-      rating: _calculateRatingJson(json['avaliations']['list']),
+      avaliation: AvaliationModel(
+        quantity: json['avaliation']['quantity'] ?? 0,
+        ratingAverage:
+            (json['avaliation']['rating_average'])?.toDouble() ?? 0.0,
+        userRating: json['avaliation']['user_rating'] ?? 0,
+      ),
     );
   }
-
-  double calculateRating() {
-    if (avaliations.isEmpty) {
-      return 0.0;
-    }
-    final sum = avaliations
-        .map((AvaliationModel avaliation) => avaliation.rating)
-        .toList()
-        .reduce((a, b) => a + b);
-    return sum / avaliations.length;
-  }
 }
-
-double _calculateRatingJson(json) {
-  if (json.isEmpty) return 0.0;
-  final sum =
-      json.fold(0.0, (t, avaliation) => avaliation['rating'].toDouble() + t);
-  final rating = sum / json.length;
-  return rating;
-}
-
-

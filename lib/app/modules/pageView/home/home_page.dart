@@ -19,6 +19,18 @@ class HomePage extends GetView<HomeController> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Receitas'),
+        bottom: PreferredSize(
+          preferredSize: Size(context.width, 100),
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: AppFormField(
+              onChanged: (word) {
+                controller.search.value = word;
+              },
+              label: "Pesquise aqui",
+            ),
+          ),
+        ),
         actions: [
           IconButton(
               onPressed: () {
@@ -37,7 +49,8 @@ class HomePage extends GetView<HomeController> {
   Widget body() {
     if (!controller.visibleRefrash.value &&
         controller.listRecipes.isEmpty &&
-        controller.search.value == '') {
+        controller.search.value == '' &&
+        controller.listFilters.isEmpty) {
       return ErroPage(
           visible: controller.visibleRefrash.value,
           onPressed: () async {
@@ -46,38 +59,32 @@ class HomePage extends GetView<HomeController> {
     }
     return Column(
       children: [
-        Container(
-            margin: const EdgeInsets.symmetric(horizontal: 10),
-            height: 60,
-            child: ListView(
-                 scrollDirection: Axis.horizontal,
-              children: [
-                cardFilter(text: "Ingrediente chave", action: (){}),
-                cardFilter(text: "Dificuldade", action: (){}),
-                cardFilter(text: "Avaliação", action: (){}),
-              ],
-            )),
-        Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: AppFormField(
-              label: "Pesquise aqui",
-              onChanged: (word) {
-                controller.search.value = word;
-              },
-            )),
+        // Container(
+        //     margin: const EdgeInsets.symmetric(horizontal: 10),
+        //     height: 60,
+        //     child: ListView(
+        //          scrollDirection: Axis.horizontal,
+        //       children: [
+        //         cardFilter(text: "Ingrediente chave", action: (){}),
+        //         cardFilter(text: "Dificuldade", action: (){}),
+        //         cardFilter(text: "Avaliação", action: (){}),
+        //       ],
+        //     )),
         const SizedBox(height: 10),
-        GridView.builder(
-            shrinkWrap: true,
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                crossAxisSpacing: 10.0,
-                mainAxisSpacing: 10.0,
-                mainAxisExtent: 220),
-            itemCount: controller.listRecipes.length,
-            itemBuilder: ((context, index) {
-              final recipe = controller.listRecipes[index];
-              return widgetRecipe(recipe, context);
-            })),
+        Expanded(
+          child: GridView.builder(
+              shrinkWrap: true,
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  crossAxisSpacing: 10.0,
+                  mainAxisSpacing: 10.0,
+                  mainAxisExtent: 220),
+              itemCount: controller.listRecipes.length,
+              itemBuilder: ((context, index) {
+                final recipe = controller.listRecipes[index];
+                return widgetRecipe(recipe, context);
+              })),
+        ),
       ],
     );
   }
@@ -104,12 +111,13 @@ class HomePage extends GetView<HomeController> {
                 Text(
                   missedIngredients == 0
                       ? ""
-                      : "${missedIngredients} ingredientes faltando",
+                      : "$missedIngredients ingredientes faltando",
                   style: const TextStyle(fontSize: 15),
                 ),
                 Row(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: Stars.stars(rating: recipe.rating))
+                    children:
+                        Stars.stars(rating: recipe.avaliation.ratingAverage))
               ],
             ),
           ],
@@ -126,15 +134,17 @@ class HomePage extends GetView<HomeController> {
         padding: const EdgeInsets.all(10.0),
         child: Container(
           padding: const EdgeInsets.all(5),
-          
           child: ElevatedButton(
-            onPressed: action,
-            style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.green)),
-            child: Text(text, style: const TextStyle(fontSize: 18, color: Colors.white,),)
-          ),
+              onPressed: action,
+              style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all(Colors.green)),
+              child: Text(
+                text,
+                style: const TextStyle(
+                  fontSize: 18,
+                  color: Colors.white,
+                ),
+              )),
         ));
   }
-
-  
-
 }

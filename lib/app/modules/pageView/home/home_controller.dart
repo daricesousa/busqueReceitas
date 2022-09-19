@@ -21,7 +21,7 @@ class HomeController extends GetxController {
 
   List<RecipeModel> get listRecipes {
     return _listRecipes.where((e) {
-      return AppFilter.filter(filters: listFilters, recipe: e);
+      return AppFilter.filter(filters: listFilters, recipe: e, word: search.value);
     }).toList();
   }
 
@@ -39,6 +39,7 @@ class HomeController extends GetxController {
       sortRecipes();
     } catch (e) {
       visibleRefrash.value = false;
+      print(e);
       print("erro ao carregar receitas");
     }
   }
@@ -66,7 +67,7 @@ class HomeController extends GetxController {
       final missedA = missedIngredients(a.listIngredients);
       final missedB = missedIngredients(b.listIngredients);
       if (missedA == missedB) {
-        return a.rating > b.rating ? 0 : 1;
+        return a.avaliation.ratingAverage > b.avaliation.ratingAverage ? 0 : 1;
       }
       return missedA < missedB ? 0 : 1;
     });
