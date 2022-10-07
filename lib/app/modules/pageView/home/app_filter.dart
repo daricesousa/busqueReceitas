@@ -10,33 +10,37 @@ class AppFilter {
       {required List<FilterRecipeModel> filters,
       required RecipeModel recipe,
       required String word}) {
-    if (word != '') {
-      if (recipe.title.toLowerCase().contains(word.toLowerCase())) {
-        return true;
-      } else {
-        return false;
-      }
+    if (word != '' &&
+        !recipe.title.toLowerCase().contains(word.toLowerCase())) {
+      return false;
     }
+    int difficulty = 0;
     for (FilterRecipeModel filter in filters) {
       switch (filter.type) {
-        case TypeFilters.word:
-          return _filterWord(recipe, filter.value);
         case TypeFilters.avaliation:
-          return _filterAvaliation(recipe, filter.value);
+          if (!_filterAvaliation(recipe, filter.value)) {
+            return false;
+          }
+          break;
         case TypeFilters.difficulty:
-          return _filterDifficulty(recipe, filter.value);
+          if (difficulty == 0) {
+            difficulty = -1;
+          }
+          if (_filterDifficulty(recipe, filter.value)) {
+            difficulty = 1;
+          }
+          break;
         case TypeFilters.ingredient:
-          return _filterIngredient(recipe, filter.value);
+          if (!_filterIngredient(recipe, filter.value)) {
+            return false;
+          }
+          break;
       }
     }
-    return true;
-  }
-
-  static bool _filterWord(RecipeModel recipe, String word) {
-    if (recipe.title.toLowerCase().contains(word.toLowerCase())) {
-      return true;
+    if(difficulty == -1){
+      return false;
     }
-    return false;
+    return true;
   }
 
   static bool _filterDifficulty(RecipeModel recipe, Difficulty difficulty) {
@@ -47,9 +51,9 @@ class AppFilter {
   }
 
   static bool _filterAvaliation(RecipeModel recipe, int rating) {
-    // if (recipe.rating >= rating) {
-    //   return true;
-    // }
+    if (recipe.avaliation.ratingAverage >= rating) {
+      return true;
+    }
     return false;
   }
 
@@ -63,10 +67,6 @@ class AppFilter {
         have = true;
       }
     }
-    if (have == false) {
-      return false;
-    }
-
-    return true;
+    return have;
   }
 }

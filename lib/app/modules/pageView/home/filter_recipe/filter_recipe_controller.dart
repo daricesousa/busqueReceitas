@@ -1,3 +1,4 @@
+
 import 'package:busque_receitas/app/models/ingredient_model.dart';
 import 'package:busque_receitas/app/models/recipe/filter_recipe_model.dart';
 import 'package:busque_receitas/app/modules/pageView/home/home_controller.dart';
@@ -9,7 +10,7 @@ class FilterRecipeController extends GetxController {
   final _listPantry = Get.find<SplashController>().listPantry;
   final _findIngredient = Get.find<SplashController>().findIngredient;
   final _listFilters = Get.find<HomeController>().listFilters;
-
+  
   List<IngredientModel> get listIngredientsPantry{
     final list = _listIngredientsPantry();
     list.sort((a, b) {
@@ -39,6 +40,10 @@ class FilterRecipeController extends GetxController {
       }
     _createFilter(type: type, title: title, value: value);
     }
+    for (final filter in _listFilters){
+      print(filter.value);
+    }
+
   }
 
   bool searchFilter({required dynamic value}) {
@@ -62,9 +67,14 @@ class FilterRecipeController extends GetxController {
     _listFilters.removeWhere((e) => e.value == value);
   }
 
+  void clearFilters(){
+     Get.back();
+    _listFilters.clear();
+    Get.find<HomeController>().getRecipes();
+  }
 
   void filter(){
-    print(_listFilters);
+     Get.back();
      Get.find<HomeController>().getRecipes();
   }
 }

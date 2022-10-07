@@ -57,6 +57,7 @@ class HomePage extends GetView<HomeController> {
             await controller.getRecipes();
           });
     }
+   
     return Column(
       children: [
         // Container(

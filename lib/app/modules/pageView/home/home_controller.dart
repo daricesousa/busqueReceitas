@@ -1,4 +1,3 @@
-import 'package:busque_receitas/app/core/utils/enumDifficulty.dart';
 import 'package:busque_receitas/app/core/widgets/app_snack_bar.dart';
 import 'package:busque_receitas/app/models/recipe/filter_recipe_model.dart';
 import 'package:busque_receitas/app/models/recipe/recipe_ingredient_model.dart';
@@ -20,6 +19,7 @@ class HomeController extends GetxController {
   List<FilterRecipeModel> listFilters = [];
 
   List<RecipeModel> get listRecipes {
+
     return _listRecipes.where((e) {
       return AppFilter.filter(filters: listFilters, recipe: e, word: search.value);
     }).toList();
@@ -49,7 +49,6 @@ class HomeController extends GetxController {
   }
 
   void logoutUser() {
-    print("sair");
     Get.back();
     Get.find<SplashController>().user.value = null;
     GetStorage().remove('user');
@@ -72,13 +71,4 @@ class HomeController extends GetxController {
       return missedA < missedB ? 0 : 1;
     });
   }
-
-  void filterNivel(Difficulty difficulty){
-   
-  }
-
-
-
-
-
 }

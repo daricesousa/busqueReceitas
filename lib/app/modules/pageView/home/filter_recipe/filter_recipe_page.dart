@@ -5,7 +5,6 @@ import 'package:busque_receitas/app/core/widgets/app_button.dart';
 import 'package:busque_receitas/app/models/recipe/filter_recipe_model.dart';
 import 'package:busque_receitas/app/modules/pageView/home/filter_recipe/filter_recipe_controller.dart';
 import 'package:flutter/material.dart';
-import 'package:get/route_manager.dart';
 
 class FilterRecipePage extends StatefulWidget {
   const FilterRecipePage({Key? key}) : super(key: key);
@@ -40,15 +39,13 @@ class _FilterRecipePageState
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               AppButton(
-                onPressed: () {},
+                onPressed: controller.clearFilters,
                 label: "Limpar filtros",
+                color: Colors.redAccent,
+                textColor: Colors.white,
               ),
               AppButton(
-                onPressed: (){
-                  Get.back();
-                  controller.filter();
-
-                },
+                onPressed: controller.filter,
                 label: "Filtrar",
               ),
             ],

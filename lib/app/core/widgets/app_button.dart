@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 class AppButton extends StatefulWidget {
   final String label;
   final bool visible;
+  final Color? color;
+  final Color? textColor;
   final Function() onPressed;
 
   const AppButton({
@@ -10,6 +12,8 @@ class AppButton extends StatefulWidget {
     this.label = '',
     required this.onPressed,
     this.visible = false,
+    this.color,
+    this.textColor, 
   }) : super(key: key);
 
   @override
@@ -29,12 +33,13 @@ class _AppButtonState extends State<AppButton> {
                 borderRadius: BorderRadius.circular(18),
               ),
             ),
+            backgroundColor: widget.color !=null ? MaterialStateProperty.all(widget.color): null,
           ),
           child: Visibility(
             visible: widget.visible,
             replacement: Text(
               widget.label,
-              style: const TextStyle(fontSize: 20),
+              style: TextStyle(fontSize: 20, color: widget.textColor),
             ),
             child: const SizedBox(
               height: 15,

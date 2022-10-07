@@ -9,10 +9,10 @@ class FilterRecipeModel {
   final dynamic value;
   final word = '';
   final avaliation = -1;
-  final difficulty = Difficulty.empty;
+  final difficulty = Difficulty.easy;
   List<IngredientModel> ingredient = [];
 
   FilterRecipeModel({required this.type, required this.title, required this.value});
 }
 
-enum TypeFilters { word, avaliation, difficulty, ingredient }
+enum TypeFilters { avaliation, difficulty, ingredient }
