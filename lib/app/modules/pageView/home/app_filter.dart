@@ -7,7 +7,16 @@ class AppFilter {
   AppFilter._();
 
   static bool filter(
-      {required List<FilterRecipeModel> filters, required RecipeModel recipe}) {
+      {required List<FilterRecipeModel> filters,
+      required RecipeModel recipe,
+      required String word}) {
+    if (word != '') {
+      if (recipe.title.toLowerCase().contains(word.toLowerCase())) {
+        return true;
+      } else {
+        return false;
+      }
+    }
     for (FilterRecipeModel filter in filters) {
       switch (filter.type) {
         case TypeFilters.word:
@@ -20,7 +29,6 @@ class AppFilter {
           return _filterIngredient(recipe, filter.value);
       }
     }
-
     return true;
   }
 
@@ -39,25 +47,26 @@ class AppFilter {
   }
 
   static bool _filterAvaliation(RecipeModel recipe, int rating) {
-    if (recipe.rating >= rating) {
-      return true;
-    }
+    // if (recipe.rating >= rating) {
+    //   return true;
+    // }
     return false;
   }
 
   static bool _filterIngredient(
-      RecipeModel recipe, List<IngredientModel> listIngredientsFind) {
-    for (IngredientModel ingredientFind in listIngredientsFind) {
-      bool have = false;
-      for (final ingredient in recipe.listIngredients) {
-        if (ingredient.ingredientId == ingredientFind.id) {
-          have = true;
-        }
-      }
-      if (have == false) {
-        return false;
+    RecipeModel recipe,
+    IngredientModel ingredientFind,
+  ) {
+    bool have = false;
+    for (final ingredient in recipe.listIngredients) {
+      if (ingredient.ingredientId == ingredientFind.id) {
+        have = true;
       }
     }
+    if (have == false) {
+      return false;
+    }
+
     return true;
   }
 }

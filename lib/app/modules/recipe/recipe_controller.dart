@@ -12,23 +12,16 @@ class RecipeController extends GetxController {
   final findIngredient = Get.find<SplashController>().findIngredient;
   final havePatry = Get.find<SplashController>().havePatry;
   final recipes = Get.find<HomeController>().listRecipes;
-  int userRating = -1;
   final _repository = RecipeRepository();
 
   RecipeController({required this.recipe});
 
-  @override
-  void onInit() {
-    userRating = recipe.avaliation.userRating;
-    super.onInit();
-  }
-
-
-  Future<void> newAvaliation(int start) async {
+  Future<void> newAvaliation(int star) async {
     try {
       final res =
-          await _repository.newAvaliation(recipeId: recipe.id, rating: start);
+          await _repository.newAvaliation(recipeId: recipe.id, rating: star);
       final index = recipes.indexWhere((e) => e.id == recipe.id);
+      recipe.avaliation.userRating = star;
       if (index >= 0) {
         recipes[index] = recipe;
       }

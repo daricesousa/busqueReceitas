@@ -15,12 +15,12 @@ class SplashController extends GetxController {
   final user = Rxn<UserModel>();
 
   @override
-  void onReady() async {
+  void onInit() async {
     _loadUser();
     _loadPantry();
     await getIngredients();
     Get.offNamedUntil('/layout', (route) => false);
-    super.onReady();
+    super.onInit();
   }
 
   Future<void> getIngredients() async {
@@ -41,14 +41,9 @@ class SplashController extends GetxController {
   }
 
   void _loadPantry() {
-    try {
       final data = (_storage.read('pantry') ?? []).cast<int>();
       listPantry.assignAll(data as List<int>);
-    } catch (e) {
-      print(e);
-      print("Erro ao carregar despensa");
-    }
-  }
+  } 
 
   Future<void> _loadIngredients() async {
     final data = await _storage.read('ingredients') ?? [];

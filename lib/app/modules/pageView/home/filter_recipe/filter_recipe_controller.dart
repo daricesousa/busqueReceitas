@@ -34,6 +34,9 @@ class FilterRecipeController extends GetxController {
       _removeFilter(value);
     }
     else{
+      if(type == TypeFilters.avaliation){
+        _listFilters.removeWhere((e) => e.type == TypeFilters.avaliation);
+      }
     _createFilter(type: type, title: title, value: value);
     }
   }

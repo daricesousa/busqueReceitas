@@ -64,7 +64,7 @@ class RecipePage extends GetView<RecipeController> {
       children: [
         Row(
           mainAxisSize: MainAxisSize.min,
-          children: Stars.stars(rating: recipe.avaliation.userRating.toDouble()),
+          children: Stars.stars(rating: recipe.avaliation.ratingAverage.toDouble()),
         ),
         Text.rich(
           TextSpan(
@@ -185,7 +185,7 @@ class RecipePage extends GetView<RecipeController> {
           ),
           Padding(
             padding: const EdgeInsets.only(bottom: 20.0),
-            child: AppRating(initialValue: controller.userRating, onTap: (star){
+            child: AppRating(initialValue: recipe.avaliation.userRating, onTap: (star){
               controller.newAvaliation(star);
             },)
           ),
