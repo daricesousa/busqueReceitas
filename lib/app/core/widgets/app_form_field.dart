@@ -5,6 +5,7 @@ class AppFormField extends StatefulWidget {
   final TextEditingController? controller;
   final String label;
   final TextInputType textInputType;
+  final TextInputAction textInputAction;
   final List<TextInputFormatter>? inputFormatters;
   final bool obscuredText;
   final String? Function(String?)? validator;
@@ -16,6 +17,7 @@ class AppFormField extends StatefulWidget {
     this.controller,
     this.label = '',
     this.textInputType = TextInputType.text,
+    this.textInputAction = TextInputAction.next,
     this.inputFormatters,
     this.validator,
     this.obscuredText = false,
@@ -35,7 +37,7 @@ class _AppFormFieldState extends State<AppFormField> {
       child: TextFormField(
         controller: widget.controller,
         keyboardType: widget.textInputType,
-        textInputAction: TextInputAction.next,
+        textInputAction: widget.textInputAction,
         inputFormatters: widget.inputFormatters,
         autovalidateMode: AutovalidateMode.onUserInteraction,
         obscureText: widget.obscuredText,

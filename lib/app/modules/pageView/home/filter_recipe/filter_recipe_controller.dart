@@ -67,10 +67,9 @@ class FilterRecipeController extends GetxController {
     _listFilters.removeWhere((e) => e.value == value);
   }
 
-  void clearFilters(){
-     Get.back();
-    _listFilters.clear();
-    Get.find<HomeController>().getRecipes();
+  void clearFilters(BuildContext context){
+    Get.back();
+    Get.find<HomeController>().clearFilters();
   }
 
   void filter(){

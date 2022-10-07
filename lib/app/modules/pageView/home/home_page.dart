@@ -1,6 +1,7 @@
 import 'package:busque_receitas/app/core/utils/image_convert.dart';
 import 'package:busque_receitas/app/core/widgets/app_form_field.dart';
 import 'package:busque_receitas/app/core/widgets/erro_page.dart';
+import 'package:busque_receitas/app/core/widgets/no_results_page.dart';
 import 'package:busque_receitas/app/core/widgets/stars.dart';
 import 'package:busque_receitas/app/models/recipe/recipe_model.dart';
 import 'package:busque_receitas/app/modules/pageView/home/filter_recipe/filter_recipe_controller.dart';
@@ -24,6 +25,8 @@ class HomePage extends GetView<HomeController> {
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: AppFormField(
+              controller: controller.searchController,
+              textInputAction: TextInputAction.search,
               onChanged: (word) {
                 controller.search.value = word;
               },
@@ -40,13 +43,13 @@ class HomePage extends GetView<HomeController> {
               icon: const Icon(Icons.filter_list_alt))
         ],
       ),
-      body: Obx(() => body()),
+      body: Obx(() => body(context)),
       drawer: Obx(() => AppDrawer(
           logoutUser: controller.logoutUser, user: controller.user.value)),
     );
   }
 
-  Widget body() {
+  Widget body(BuildContext context) {
     if (!controller.visibleRefrash.value &&
         controller.listRecipes.isEmpty &&
         controller.search.value == '' &&
@@ -57,7 +60,14 @@ class HomePage extends GetView<HomeController> {
             await controller.getRecipes();
           });
     }
-   
+    if (!controller.visibleRefrash.value && controller.listRecipes.isEmpty) {
+      return NoResultsPage(
+        visible: controller.visibleRefrash.value,
+        title: "Nenhuma receita encontrada",
+        subtitle: "Limpar filtros",
+        onPressed: ()=> controller.clearFilters(),
+      );
+    }
     return Column(
       children: [
         // Container(

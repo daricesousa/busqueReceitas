@@ -39,7 +39,7 @@ class _FilterRecipePageState
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               AppButton(
-                onPressed: controller.clearFilters,
+                onPressed: () => controller.clearFilters(context),
                 label: "Limpar filtros",
                 color: Colors.redAccent,
                 textColor: Colors.white,

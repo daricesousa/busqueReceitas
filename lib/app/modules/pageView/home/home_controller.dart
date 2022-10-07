@@ -8,6 +8,7 @@ import 'package:busque_receitas/app/repositories/recipe_repository.dart';
 import 'package:dio/dio.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:flutter/material.dart';
 
 class HomeController extends GetxController {
   final _listRecipes = <RecipeModel>[].obs;
@@ -15,11 +16,11 @@ class HomeController extends GetxController {
   final visibleRefrash = false.obs; 
   final user = Get.find<SplashController>().user;
   final havePatry = Get.find<SplashController>().havePatry;
+  final TextEditingController searchController = TextEditingController();
   final search = ''.obs;
   List<FilterRecipeModel> listFilters = [];
 
   List<RecipeModel> get listRecipes {
-
     return _listRecipes.where((e) {
       return AppFilter.filter(filters: listFilters, recipe: e, word: search.value);
     }).toList();
@@ -45,6 +46,7 @@ class HomeController extends GetxController {
   }
 
   void goPageRecipe(RecipeModel recipe) {
+    Get.focusScope?.unfocus();
     Get.toNamed('/recipe', arguments: recipe);
   }
 
@@ -70,5 +72,14 @@ class HomeController extends GetxController {
       }
       return missedA < missedB ? 0 : 1;
     });
+  }
+
+
+  void clearFilters(){
+    searchController.clear();
+    listFilters.clear();
+    search.value = '';
+    Get.focusScope?.unfocus();
+
   }
 }
