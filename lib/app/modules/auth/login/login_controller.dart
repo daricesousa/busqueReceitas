@@ -30,13 +30,13 @@ final repository = AuthRepository();
         );
         loading.value = false;
         Get.back();
-        AppSnackBar.success("Login efetuado");
+        AppSnackBar.success(message: "Login efetuado");
         Get.find<SplashController>().user.value = user;
         // Get.offNamedUntil('/', (route) => false);
       }
       on DioError catch(e){
         loading.value = false;
-        AppSnackBar.error(e.response?.data["message"]);
+        AppSnackBar.error(message: e.response?.data?["message"]);
       }
     }
   }

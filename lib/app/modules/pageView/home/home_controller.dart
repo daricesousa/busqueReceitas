@@ -55,7 +55,7 @@ class HomeController extends GetxController {
     Get.find<SplashController>().user.value = null;
     GetStorage().remove('user');
     Get.find<Dio>().options.headers = {};
-    AppSnackBar.success("Usuário deslogado");
+    AppSnackBar.success(message: "Usuário deslogado");
   }
 
   int missedIngredients(List<RecipeIngredientModel> listIngredients) {

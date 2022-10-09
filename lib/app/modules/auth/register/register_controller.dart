@@ -33,11 +33,11 @@ class RegisterController extends GetxController {
           password: editPass.text,
         );
         loading.value = false;
-        AppSnackBar.success(res["message"]);
+        AppSnackBar.success(message: res["message"]);
         Get.toNamed('/login');
       }  on DioError catch  (e) {
         loading.value = false;
-        AppSnackBar.error(e.response?.data["message"]);
+        AppSnackBar.error(message: e.response?.data["message"]);
       }
     }
   }

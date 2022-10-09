@@ -9,8 +9,7 @@ class SplashPage extends GetView<SplashController> {
     @override
     Widget build(BuildContext context) {
         return Scaffold(
-            appBar: AppBar(title: const Text('SplashPage'),),
-            body: Container(),
+            body: Center(child: Image.asset('assets/images/splash.png'),),
         );
     }
 }

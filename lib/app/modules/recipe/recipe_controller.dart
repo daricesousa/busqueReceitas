@@ -25,10 +25,10 @@ class RecipeController extends GetxController {
       if (index >= 0) {
         recipes[index] = recipe;
       }
-      AppSnackBar.success("Avaliação realizada");
+      AppSnackBar.success(message: "Avaliação realizada");
     } on DioError catch (e) {
       print(e.response?.data["message"]);
-      AppSnackBar.error(
+      AppSnackBar.error(message:
           "Algo deu errado. Verifique sua conexão com a internet");
     }
   }
