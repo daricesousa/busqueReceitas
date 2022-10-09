@@ -164,9 +164,6 @@ class HomePage extends GetView<HomeController> {
                       controller.removeFilter(e.id);
                     }))
                 .toList()
-            // cardFilter(text: "Ingrediente chave", action: (){}),
-            // cardFilter(text: "Dificuldade", action: (){}),
-            // cardFilter(text: "Avaliação", action: (){}),
           ],
         ));
   }

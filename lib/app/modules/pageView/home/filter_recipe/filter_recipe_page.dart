@@ -166,6 +166,13 @@ class _FilterRecipePageState
             type: type,
             value: 4,
           ),
+          card(
+            child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [...star(5)]),
+            type: type,
+            value: 5,
+          ),
         ])
       ],
     );
