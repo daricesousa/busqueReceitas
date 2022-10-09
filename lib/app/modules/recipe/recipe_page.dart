@@ -16,14 +16,14 @@ class RecipePage extends GetView<RecipeController> {
   Widget build(BuildContext context) {
     final recipe = controller.recipe;
 
-    return Scaffold(
+    return Obx(() => Scaffold(
       appBar: AppBar(
         title: Text(recipe.title),
         centerTitle: true,
         actions: actionsAppBar(),
       ),
       body: body(recipe),
-    );
+    ));
   }
 
   Widget body(RecipeModel recipe) {
@@ -49,9 +49,14 @@ class RecipePage extends GetView<RecipeController> {
   }
 
   List<Widget> actionsAppBar() {
-    return const [
-      Icon(Icons.favorite),
-      Padding(
+    return [
+      IconButton(
+        icon: Icon(
+          controller.isFavorite.value ? Icons.favorite : Icons.favorite_border,
+        ),
+        onPressed: controller.changeFavorite,
+      ),
+      const Padding(
         padding: EdgeInsets.all(15.0),
         child: Icon(Icons.timer),
       ),
@@ -64,7 +69,8 @@ class RecipePage extends GetView<RecipeController> {
       children: [
         Row(
           mainAxisSize: MainAxisSize.min,
-          children: Stars.stars(rating: recipe.avaliation.ratingAverage.toDouble()),
+          children:
+              Stars.stars(rating: recipe.avaliation.ratingAverage.toDouble()),
         ),
         Text.rich(
           TextSpan(
@@ -72,8 +78,9 @@ class RecipePage extends GetView<RecipeController> {
             text: '${recipe.avaliation.quantity} ',
             children: [
               TextSpan(
-                text:
-                    recipe.avaliation.quantity != 1 ? 'avaliações' : 'avaliação',
+                text: recipe.avaliation.quantity != 1
+                    ? 'avaliações'
+                    : 'avaliação',
               ),
             ],
           ),
@@ -116,16 +123,18 @@ class RecipePage extends GetView<RecipeController> {
 
   Widget cardDifficulty(RecipeModel recipe) {
     final difficulty = DifficultyConvert.diffilcultyToString(recipe.difficulty);
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: cardInfo(Row(
+    return cardInfo(
+      Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          const Icon(Icons.bar_chart),
-          Text('Dificuldade: $difficulty',
+          const Icon(
+            Icons.bar_chart,
+            color: Colors.white,
+          ),
+          Text(difficulty,
               style: const TextStyle(fontSize: 18, color: Colors.white))
         ],
-      )),
+      ),
     );
   }
 
@@ -137,7 +146,8 @@ class RecipePage extends GetView<RecipeController> {
   }
 
   Widget ingredientWidget(RecipeIngredientModel ingredient) {
-    final nameIngredient = controller.findIngredient(ingredient.ingredientId).name;
+    final nameIngredient =
+        controller.findIngredient(ingredient.ingredientId).name;
     return ListTile(
       leading: controller.havePatry(ingredient.ingredientId)
           ? const Icon(
@@ -161,7 +171,12 @@ class RecipePage extends GetView<RecipeController> {
             children: [
               const Padding(
                 padding: EdgeInsets.all(8.0),
-                child: Text("Faça login para avaliar", style: TextStyle(decoration: TextDecoration.underline, fontWeight: FontWeight.normal),),
+                child: Text(
+                  "Faça login para avaliar",
+                  style: TextStyle(
+                      decoration: TextDecoration.underline,
+                      fontWeight: FontWeight.normal),
+                ),
               ),
               Padding(
                 padding: const EdgeInsets.only(bottom: 20.0),
@@ -184,11 +199,13 @@ class RecipePage extends GetView<RecipeController> {
             child: Text("Avalie aqui:"),
           ),
           Padding(
-            padding: const EdgeInsets.only(bottom: 20.0),
-            child: AppRating(initialValue: recipe.avaliation.userRating, onTap: (star){
-              controller.newAvaliation(star);
-            },)
-          ),
+              padding: const EdgeInsets.only(bottom: 20.0),
+              child: AppRating(
+                initialValue: recipe.avaliation.userRating,
+                onTap: (star) {
+                  controller.newAvaliation(star);
+                },
+              )),
         ],
       ),
     );

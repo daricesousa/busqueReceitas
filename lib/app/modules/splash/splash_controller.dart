@@ -1,5 +1,6 @@
 import 'package:busque_receitas/app/models/groupIngredients_model.dart';
 import 'package:busque_receitas/app/models/ingredient_model.dart';
+import 'package:busque_receitas/app/models/recipe/recipe_model.dart';
 import 'package:busque_receitas/app/models/user_model.dart';
 import 'package:busque_receitas/app/modules/pageView/home/home_controller.dart';
 import 'package:busque_receitas/app/repositories/ingredient_repository.dart';
@@ -10,6 +11,7 @@ class SplashController extends GetxController {
   final listIngredients = <IngredientModel>[].obs;
   List<GroupIngredientsModel> listGroups = [];
   final listPantry = <int>[].obs;
+  final listFavorites = <RecipeModel>[].obs;
   final _repositoryIngredient = IngredientRepository();
   final _storage = GetStorage();
   final user = Rxn<UserModel>();
@@ -18,6 +20,7 @@ class SplashController extends GetxController {
   void onInit() async {
     _loadUser();
     _loadPantry();
+    _loadFavorites();
     await getIngredients();
     Get.offNamedUntil('/layout', (route) => false);
     super.onInit();
@@ -43,6 +46,13 @@ class SplashController extends GetxController {
   void _loadPantry() {
       final data = (_storage.read('pantry') ?? []).cast<int>();
       listPantry.assignAll(data as List<int>);
+  } 
+
+  void _loadFavorites() {
+      final data = (_storage.read('favorites') ?? []) as List;
+      List<RecipeModel> recipes = [];
+      recipes = data.map<RecipeModel>((e)=> RecipeModel.fromMap(e)).toList();
+      listFavorites.assignAll(recipes);
   } 
 
   Future<void> _loadIngredients() async {
@@ -85,6 +95,11 @@ class SplashController extends GetxController {
     _storage.write('pantry', listPantry);
   }
 
+  void saveFavorite() {
+    final data = listFavorites.map((e) => e.toMap()).toList();
+    _storage.write('favorites', data);
+  }
+
   bool havePatry(int ingredientId) {
     final findIndex = listPantry.indexWhere((i) => i == ingredientId);
     return findIndex >= 0;
@@ -94,6 +109,8 @@ class SplashController extends GetxController {
     final index = listIngredients.indexWhere((i) => i.id == id);
     return listIngredients[index];
   }
+
+
 
   
 }

@@ -13,8 +13,15 @@ class RecipeController extends GetxController {
   final havePatry = Get.find<SplashController>().havePatry;
   final recipes = Get.find<HomeController>().listRecipes;
   final _repository = RecipeRepository();
+  final _listFavorites = Get.find<SplashController>().listFavorites;
+  final isFavorite = false.obs;
 
   RecipeController({required this.recipe});
+
+  @override
+  void onInit(){
+    isFavorite.value = _searchFavorite();
+  }
 
   Future<void> newAvaliation(int star) async {
     try {
@@ -32,4 +39,27 @@ class RecipeController extends GetxController {
           "Algo deu errado. Verifique sua conexão com a internet");
     }
   }
+
+  bool _searchFavorite(){
+    final index = _listFavorites.indexWhere((e) => e.id == recipe.id);
+    if (index > -1) {
+      return true;
+    }
+    return false;
+  }
+
+  
+  void changeFavorite(){
+    final find = _searchFavorite();
+    if (find){
+     _listFavorites.removeWhere((e) => e.id == recipe.id);
+    }
+    else{
+      _listFavorites.add(recipe);
+    }
+    isFavorite.value = !isFavorite.value;
+    Get.find<SplashController>().saveFavorite();
+  }
+
+
 }

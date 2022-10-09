@@ -27,11 +27,12 @@ class RecipeModel {
     return {
       'id': id,
       'title': title,
-      'picture': picture,
       'difficulty': DifficultyConvert.toInt(difficulty),
       'creator': creatorId,
       'method': method,
-      'ingredients': {"list": listIngredients.map((e) => e.toMap()).toList()},
+      'ingredients': {"list": listIngredients.map((e) => e.toMap()).toList(),},
+      'avaliation': avaliation.toMap(),
+      'picture': picture,
     };
   }
 
