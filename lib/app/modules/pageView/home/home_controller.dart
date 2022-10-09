@@ -74,12 +74,17 @@ class HomeController extends GetxController {
     });
   }
 
+  void removeFilter(int id){
+     listFilters.removeWhere((e) => e.id == id);
+     getRecipes();
+  }
+
 
   void clearFilters(){
     searchController.clear();
     listFilters.clear();
     search.value = '';
     Get.focusScope?.unfocus();
-
+    getRecipes();
   }
 }

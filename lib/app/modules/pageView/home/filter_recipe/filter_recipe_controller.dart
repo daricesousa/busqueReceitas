@@ -40,9 +40,6 @@ class FilterRecipeController extends GetxController {
       }
     _createFilter(type: type, title: title, value: value);
     }
-    for (final filter in _listFilters){
-      print(filter.value);
-    }
 
   }
 
@@ -65,6 +62,7 @@ class FilterRecipeController extends GetxController {
 
   void _removeFilter(dynamic value) {
     _listFilters.removeWhere((e) => e.value == value);
+
   }
 
   void clearFilters(BuildContext context){

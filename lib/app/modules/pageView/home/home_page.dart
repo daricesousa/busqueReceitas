@@ -61,26 +61,23 @@ class HomePage extends GetView<HomeController> {
           });
     }
     if (!controller.visibleRefrash.value && controller.listRecipes.isEmpty) {
-      return NoResultsPage(
-        visible: controller.visibleRefrash.value,
-        title: "Nenhuma receita encontrada",
-        subtitle: "Limpar filtros",
-        onPressed: ()=> controller.clearFilters(),
+      return Column(
+        children: [
+          listFilters(),
+          const SizedBox(height: 10),
+          Expanded(
+              child: NoResultsPage(
+            visible: controller.visibleRefrash.value,
+            title: "Nenhuma receita encontrada",
+            subtitle: "Limpar filtros",
+            onPressed: () => controller.clearFilters(),
+          ))
+        ],
       );
     }
     return Column(
       children: [
-        // Container(
-        //     margin: const EdgeInsets.symmetric(horizontal: 10),
-        //     height: 60,
-        //     child: ListView(
-        //          scrollDirection: Axis.horizontal,
-        //       children: [
-        //         cardFilter(text: "Ingrediente chave", action: (){}),
-        //         cardFilter(text: "Dificuldade", action: (){}),
-        //         cardFilter(text: "Avaliação", action: (){}),
-        //       ],
-        //     )),
+        listFilters(),
         const SizedBox(height: 10),
         Expanded(
           child: GridView.builder(
@@ -140,22 +137,37 @@ class HomePage extends GetView<HomeController> {
     );
   }
 
-  Widget cardFilter({required String text, required void Function()? action}) {
+  Widget cardFilter({required Widget title, required void Function()? action}) {
     return Padding(
-        padding: const EdgeInsets.all(10.0),
+        padding: const EdgeInsets.symmetric(vertical: 10),
         child: Container(
           padding: const EdgeInsets.all(5),
           child: ElevatedButton(
               onPressed: action,
               style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.all(Colors.green)),
-              child: Text(
-                text,
-                style: const TextStyle(
-                  fontSize: 18,
-                  color: Colors.white,
-                ),
-              )),
+              child: title),
+        ));
+  }
+
+  Widget listFilters() {
+    return Container(
+        margin: const EdgeInsets.symmetric(horizontal: 10),
+        height: 60,
+        child: ListView(
+          scrollDirection: Axis.horizontal,
+          children: [
+            ...controller.listFilters
+                .map((e) => cardFilter(
+                    title: e.title,
+                    action: () {
+                      controller.removeFilter(e.id);
+                    }))
+                .toList()
+            // cardFilter(text: "Ingrediente chave", action: (){}),
+            // cardFilter(text: "Dificuldade", action: (){}),
+            // cardFilter(text: "Avaliação", action: (){}),
+          ],
         ));
   }
 }
