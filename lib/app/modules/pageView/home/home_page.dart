@@ -77,7 +77,7 @@ class HomePage extends GetView<HomeController> {
     }
     return Column(
       children: [
-        listFilters(),
+        if (controller.listFilters.isNotEmpty) listFilters(),
         const SizedBox(height: 10),
         Expanded(
           child: GridView.builder(

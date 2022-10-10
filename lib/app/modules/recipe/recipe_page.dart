@@ -4,7 +4,8 @@ import 'package:busque_receitas/app/core/widgets/app_rating.dart';
 import 'package:busque_receitas/app/core/widgets/stars.dart';
 import 'package:busque_receitas/app/models/recipe/recipe_ingredient_model.dart';
 import 'package:busque_receitas/app/models/recipe/recipe_model.dart';
-import 'package:busque_receitas/app/modules/recipe/widgets.dart';
+import 'package:busque_receitas/app/modules/recipe/widgets/cards.dart';
+import 'package:busque_receitas/app/modules/recipe/widgets/list_item.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import './recipe_controller.dart';
@@ -39,6 +40,24 @@ class RecipePage extends GetView<RecipeController> {
         ...listIngredients(recipe),
         ...listMethods(recipe),
         Obx(() => avaliation(recipe)),
+        Center(
+          child: Text.rich(
+            TextSpan(
+              style: const TextStyle(color: Colors.black, fontSize: 18),
+              text: '${recipe.avaliation.quantity} ',
+              children: [
+                TextSpan(
+                  text: recipe.avaliation.quantity != 1
+                      ? 'avaliações'
+                      : 'avaliação',
+                ),
+              ],
+            ),
+          ),
+        ),
+        const SizedBox(
+          height: 20,
+        )
       ],
     );
   }
@@ -74,19 +93,6 @@ class RecipePage extends GetView<RecipeController> {
           children:
               Stars.stars(rating: recipe.avaliation.ratingAverage.toDouble()),
         ),
-        Text.rich(
-          TextSpan(
-            style: const TextStyle(color: Colors.white, fontSize: 16),
-            text: '${recipe.avaliation.quantity} ',
-            children: [
-              TextSpan(
-                text: recipe.avaliation.quantity != 1
-                    ? 'avaliações'
-                    : 'avaliação',
-              ),
-            ],
-          ),
-        ),
       ],
     ));
   }
@@ -101,12 +107,11 @@ class RecipePage extends GetView<RecipeController> {
           textAlign: TextAlign.start,
         ),
       ),
-      ...recipe.listIngredients.map((e) => ListTile(title: ingredientWidget(e)))
+      ...recipe.listIngredients.map((e) => ingredientWidget(e))
     ];
   }
 
   List<Widget> listMethods(RecipeModel recipe) {
-    int index = 0;
     return [
       const Padding(
         padding: EdgeInsets.all(8.0),
@@ -116,9 +121,8 @@ class RecipePage extends GetView<RecipeController> {
           textAlign: TextAlign.start,
         ),
       ),
-      ...recipe.method.map((e) {
-        index++;
-        return ListTile(title: methodWidget(method: e, index: index));
+      ...List.generate(recipe.method.length, (index) {
+        return methodWidget(method: recipe.method[index], index: index + 1);
       })
     ];
   }
@@ -134,34 +138,37 @@ class RecipePage extends GetView<RecipeController> {
             color: Colors.white,
           ),
           Text(difficulty,
-              style: const TextStyle(fontSize: 18, color: Colors.white))
+              style: const TextStyle(fontSize: 16, color: Colors.white))
         ],
       ),
     );
   }
 
   Widget methodWidget({required String method, required int index}) {
-    return ListTile(
+    return ListItem(
+      // contentPadding: EdgeInsets.zero,
       leading: Text(index.toString()),
-      title: Text(method),
+      text: method,
     );
   }
 
   Widget ingredientWidget(RecipeIngredientModel ingredient) {
     final nameIngredient =
         controller.findIngredient(ingredient.ingredientId).name;
-    return ListTile(
+    return ListItem(
       leading: controller.havePatry(ingredient.ingredientId)
           ? const Icon(
               Icons.check_box,
               color: Colors.green,
             )
-          : const Icon(
-              Icons.error,
-              color: Colors.red,
+          :  const Tooltip(
+            message: "Você não possui esse ingrediente",
+              child: Icon(
+                Icons.error,
+                color: Colors.red,
+              ),
             ),
-      title:
-          Text("${ingredient.quantity} ${ingredient.measurer} $nameIngredient"),
+      text: "${ingredient.quantity} ${ingredient.measurer} $nameIngredient",
     );
   }
 
@@ -181,7 +188,7 @@ class RecipePage extends GetView<RecipeController> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(bottom: 20.0),
+                padding: const EdgeInsets.only(bottom: 5.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: Stars.stars(rating: 0, color: Colors.green),

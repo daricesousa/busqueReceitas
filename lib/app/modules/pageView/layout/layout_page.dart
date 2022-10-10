@@ -14,7 +14,7 @@ class LayoutPage extends GetView<LayoutController> {
         body: PageView(
           onPageChanged: controller.onPageChangedIcon,
           controller: controller.pageController,
-          children: [
+          children: const [
             PantryPage(),
             HomePage(),
           ],

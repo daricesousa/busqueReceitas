@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class LayoutController extends GetxController {
-  final index = 0.obs;
-  final pageController = PageController();
+  final index = 1.obs;
+  final pageController = PageController(initialPage: 1);
 
   @override
 

@@ -19,7 +19,7 @@ class FavoritesPage extends GetView<FavoritesController> {
   }
 
   Widget body() {
-    return GridView.builder(
+    return Obx(()=>GridView.builder(
         shrinkWrap: true,
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 1, mainAxisExtent: 140),
@@ -27,7 +27,7 @@ class FavoritesPage extends GetView<FavoritesController> {
         itemBuilder: ((context, index) {
           final recipe = controller.listFavorites[index];
           return widgetRecipe(recipe, context);
-        }));
+        })));
   }
 
   Widget widgetRecipe(RecipeModel recipe, BuildContext context) {

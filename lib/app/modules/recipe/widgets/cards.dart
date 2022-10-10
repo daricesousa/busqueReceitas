@@ -5,7 +5,7 @@ Widget cardInfo(Widget child) {
   return Theme(
     data: AppTheme.theme,
     child: Container(
-      padding: const EdgeInsets.all(10),
+      padding: const EdgeInsets.all(8),
       decoration: AppTheme.boxDecoration(color: Colors.green),
       child: child,
     ),
