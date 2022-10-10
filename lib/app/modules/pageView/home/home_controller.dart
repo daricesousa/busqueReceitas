@@ -15,10 +15,12 @@ class HomeController extends GetxController {
   final _repository = RecipeRepository();
   final visibleRefrash = false.obs; 
   final user = Get.find<SplashController>().user;
-  final havePatry = Get.find<SplashController>().havePatry;
+  // final havePatry = Get.find<SplashController>().havePatry;
   final TextEditingController searchController = TextEditingController();
   final search = ''.obs;
   List<FilterRecipeModel> listFilters = [];
+
+  missedIngredients(listIngredients) => Get.find<SplashController>().missedIngredients(listIngredients);
 
   List<RecipeModel> get listRecipes {
     return _listRecipes.where((e) {
@@ -58,10 +60,6 @@ class HomeController extends GetxController {
     AppSnackBar.success(message: "Usuário deslogado");
   }
 
-  int missedIngredients(List<RecipeIngredientModel> listIngredients) {
-    return listIngredients.fold<int>(
-        0, (value, e) => havePatry(e.ingredientId) ? value : value + 1);
-  }
 
   void sortRecipes() {
     _listRecipes.sort((RecipeModel a, RecipeModel b) {

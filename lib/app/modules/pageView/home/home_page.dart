@@ -119,7 +119,7 @@ class HomePage extends GetView<HomeController> {
                 Text(
                   missedIngredients == 0
                       ? ""
-                      : "$missedIngredients ingredientes faltando",
+                      : "Faltam $missedIngredients ingredientes",
                   style: const TextStyle(fontSize: 15),
                 ),
                 Row(

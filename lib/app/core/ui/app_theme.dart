@@ -21,4 +21,8 @@ class AppTheme {
           )
         ]);
   }
+  
+  static const textLight = Colors.white;
+  static const colorRed = Colors.redAccent;
+  static const colorSecundary = Colors.green;
 }

@@ -36,17 +36,12 @@ class _AppDrawerState extends State<AppDrawer> {
               ),
             ),
             ListTile(
-              leading: const Icon(Icons.home),
-              title: const Text("Inicio"),
-              subtitle: const Text("tela de inicio"),
-              onTap: () {},
-            ),
-            ListTile(
-              leading: const Icon(Icons.home),
-              title: const Text("Receita"),
-              subtitle: const Text("tela de receita"),
+              leading: const Icon(Icons.favorite),
+              title: const Text("Favoritos"),
+              // subtitle: const Text("tela de inicio"),
               onTap: () {
-                Get.toNamed("/recipe");
+                Get.back();
+                Get.toNamed("/favorites");
               },
             ),
             Visibility(

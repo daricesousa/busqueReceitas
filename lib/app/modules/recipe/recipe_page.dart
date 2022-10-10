@@ -16,14 +16,14 @@ class RecipePage extends GetView<RecipeController> {
   Widget build(BuildContext context) {
     final recipe = controller.recipe;
 
-    return Obx(() => Scaffold(
+    return Scaffold(
       appBar: AppBar(
         title: Text(recipe.title),
         centerTitle: true,
         actions: actionsAppBar(),
       ),
       body: body(recipe),
-    ));
+    );
   }
 
   Widget body(RecipeModel recipe) {
@@ -50,12 +50,14 @@ class RecipePage extends GetView<RecipeController> {
 
   List<Widget> actionsAppBar() {
     return [
-      IconButton(
-        icon: Icon(
-          controller.isFavorite.value ? Icons.favorite : Icons.favorite_border,
-        ),
-        onPressed: controller.changeFavorite,
-      ),
+      Obx(() => IconButton(
+            icon: Icon(
+              controller.isFavorite.value
+                  ? Icons.favorite
+                  : Icons.favorite_border,
+            ),
+            onPressed: controller.changeFavorite,
+          )),
       const Padding(
         padding: EdgeInsets.all(15.0),
         child: Icon(Icons.timer),

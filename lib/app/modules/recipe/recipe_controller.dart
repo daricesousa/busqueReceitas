@@ -55,7 +55,7 @@ class RecipeController extends GetxController {
      _listFavorites.removeWhere((e) => e.id == recipe.id);
     }
     else{
-      _listFavorites.add(recipe);
+      _listFavorites.insert(0, recipe);
     }
     isFavorite.value = !isFavorite.value;
     Get.find<SplashController>().saveFavorite();

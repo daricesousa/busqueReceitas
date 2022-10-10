@@ -1,5 +1,6 @@
 import 'package:busque_receitas/app/models/groupIngredients_model.dart';
 import 'package:busque_receitas/app/models/ingredient_model.dart';
+import 'package:busque_receitas/app/models/recipe/recipe_ingredient_model.dart';
 import 'package:busque_receitas/app/models/recipe/recipe_model.dart';
 import 'package:busque_receitas/app/models/user_model.dart';
 import 'package:busque_receitas/app/modules/pageView/home/home_controller.dart';
@@ -108,6 +109,12 @@ class SplashController extends GetxController {
   IngredientModel findIngredient(int id) {
     final index = listIngredients.indexWhere((i) => i.id == id);
     return listIngredients[index];
+  }
+
+
+  int missedIngredients(List<RecipeIngredientModel> listIngredients) {
+    return listIngredients.fold<int>(
+        0, (value, e) => havePatry(e.ingredientId) ? value : value + 1);
   }
 
 

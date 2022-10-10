@@ -9,10 +9,9 @@ class SplashPage extends GetView<SplashController> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: Padding(
-          padding: EdgeInsets.all(20),
-          child: Image.asset('assets/images/splash.png'),
-        ),
+        child: 
+          Image.asset('assets/images/splash.png', height: context.height/4, width: context.height/4,),
+        
       ),
     );
   }
