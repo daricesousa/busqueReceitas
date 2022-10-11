@@ -28,7 +28,7 @@ class _AppRatingState extends State<AppRating> {
           child: Visibility(
             visible: index <= avaliable,
             replacement: const Icon(Icons.star_border),
-            child: const Icon(Icons.star, color: Colors.green),
+            child: const Icon(Icons.star),
           ),
           onTap: () {
             if (avaliable != index) {

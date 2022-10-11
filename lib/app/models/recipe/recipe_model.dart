@@ -27,7 +27,7 @@ class RecipeModel {
     return {
       'id': id,
       'title': title,
-      'difficulty': DifficultyConvert.toInt(difficulty),
+      'difficulty': difficulty.index,
       'creator': creatorId,
       'method': method,
       'ingredients': {"list": listIngredients.map((e) => e.toMap()).toList(),},
@@ -41,7 +41,7 @@ class RecipeModel {
       id: json['id'],
       title: json['title'],
       picture: json['picture'],
-      difficulty: DifficultyConvert.fromInt(json['difficulty']),
+      difficulty: Difficulty.values[(json['difficulty'] ?? 0)],
       creatorId: json['creator'],
       method: json['method'].map<String>((e) => e.toString()).toList(),
       listIngredients: json['ingredients']['list']

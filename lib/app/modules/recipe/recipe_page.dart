@@ -1,4 +1,4 @@
-import 'package:busque_receitas/app/core/utils/enumDifficulty.dart';
+import 'package:busque_receitas/app/core/ui/app_color.dart';
 import 'package:busque_receitas/app/core/utils/image_convert.dart';
 import 'package:busque_receitas/app/core/widgets/app_rating.dart';
 import 'package:busque_receitas/app/core/widgets/stars.dart';
@@ -43,7 +43,7 @@ class RecipePage extends GetView<RecipeController> {
         Center(
           child: Text.rich(
             TextSpan(
-              style: const TextStyle(color: Colors.black, fontSize: 18),
+              style: const TextStyle(color: AppColor.dark, fontSize: 18),
               text: '${recipe.avaliation.quantity} ',
               children: [
                 TextSpan(
@@ -74,12 +74,13 @@ class RecipePage extends GetView<RecipeController> {
               controller.isFavorite.value
                   ? Icons.favorite
                   : Icons.favorite_border,
+                  color: AppColor.dark1,
             ),
             onPressed: controller.changeFavorite,
           )),
       const Padding(
         padding: EdgeInsets.all(15.0),
-        child: Icon(Icons.timer),
+        child: Icon(Icons.timer, color: AppColor.dark1,),
       ),
     ];
   }
@@ -103,7 +104,7 @@ class RecipePage extends GetView<RecipeController> {
         padding: EdgeInsets.all(8.0),
         child: Text(
           "Ingredientes:",
-          style: TextStyle(fontSize: 20, color: Colors.green),
+          style: TextStyle(fontSize: 20, color: AppColor.dark1),
           textAlign: TextAlign.start,
         ),
       ),
@@ -117,7 +118,7 @@ class RecipePage extends GetView<RecipeController> {
         padding: EdgeInsets.all(8.0),
         child: Text(
           "Modo de preparo:",
-          style: TextStyle(fontSize: 20, color: Colors.green),
+          style: TextStyle(fontSize: 20, color: AppColor.dark1),
           textAlign: TextAlign.start,
         ),
       ),
@@ -128,17 +129,17 @@ class RecipePage extends GetView<RecipeController> {
   }
 
   Widget cardDifficulty(RecipeModel recipe) {
-    final difficulty = DifficultyConvert.diffilcultyToString(recipe.difficulty);
+    final difficulty = recipe.difficulty.name;
     return cardInfo(
       Row(
         mainAxisSize: MainAxisSize.min,
         children: [
           const Icon(
             Icons.bar_chart,
-            color: Colors.white,
+            color: AppColor.dark1,
           ),
           Text(difficulty,
-              style: const TextStyle(fontSize: 16, color: Colors.white))
+              style: const TextStyle(fontSize: 16, color: AppColor.dark1))
         ],
       ),
     );
@@ -159,13 +160,13 @@ class RecipePage extends GetView<RecipeController> {
       leading: controller.havePatry(ingredient.ingredientId)
           ? const Icon(
               Icons.check_box,
-              color: Colors.green,
+              color: AppColor.primary,
             )
           :  const Tooltip(
             message: "Você não possui esse ingrediente",
               child: Icon(
                 Icons.error,
-                color: Colors.red,
+                color: AppColor.dark3,
               ),
             ),
       text: "${ingredient.quantity} ${ingredient.measurer} $nameIngredient",
@@ -191,7 +192,7 @@ class RecipePage extends GetView<RecipeController> {
                 padding: const EdgeInsets.only(bottom: 5.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: Stars.stars(rating: 0, color: Colors.green),
+                  children: Stars.stars(rating: 0),
                 ),
               ),
             ],

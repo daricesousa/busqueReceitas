@@ -11,4 +11,6 @@ class FilterRecipeModel {
   FilterRecipeModel({required this.type, required this.title, required this.value});
 }
 
-enum TypeFilters { avaliation, difficulty, ingredient }
+enum TypeFilters { avaliation, difficulty, ingredient;
+  
+}

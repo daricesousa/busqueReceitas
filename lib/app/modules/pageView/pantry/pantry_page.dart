@@ -1,3 +1,4 @@
+import 'package:busque_receitas/app/core/ui/app_color.dart';
 import 'package:busque_receitas/app/core/ui/app_theme.dart';
 import 'package:busque_receitas/app/core/widgets/erro_page.dart';
 import 'package:busque_receitas/app/models/groupIngredients_model.dart';
@@ -39,7 +40,7 @@ class PantryPage extends GetView<PantryController> {
   }
 
   Widget ingredientCard(
-      {required IngredientModel ingredient, Color color = Colors.green}) {
+      {required IngredientModel ingredient, Color color = AppColor.dark1}) {
     return GestureDetector(
       child: Container(
         padding: const EdgeInsets.all(10),
@@ -117,10 +118,11 @@ class PantryPage extends GetView<PantryController> {
     return Visibility(
       visible: controller.listIngredients.isEmpty,
       replacement: FloatingActionButton(
+        backgroundColor: AppColor.dark2,
           onPressed: () {
             Get.toNamed('/ingredients');
           },
-          child: const Icon(Icons.add)),
+          child: const Icon(Icons.add, color: AppColor.light,)),
       child: Container(),
     );
   }

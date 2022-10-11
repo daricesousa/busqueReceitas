@@ -1,6 +1,5 @@
-class DifficultyConvert {
-  DifficultyConvert
-._();
+class DiffidcultyConvert {
+  DiffidcultyConvert._();
   static Difficulty fromInt(int i) {
     if (i == 1) {
       return Difficulty.easy;
@@ -22,17 +21,14 @@ class DifficultyConvert {
   }
 
 
-@override
-  static diffilcultyToString(Difficulty difficulty){
-    if (difficulty == Difficulty.easy) {
-      return "Fácil";
-    }
-    if (difficulty == Difficulty.hard) {
-      return "Difícil";
-    }
-    return "Médio";
-  }
+  
 
 }
 
-enum Difficulty {easy, medium, hard}
+enum Difficulty {easy, medium, hard; 
+  String get name{
+    if (index == 0) return "Fácil";
+    if (index == 1) return "Médio";
+    return "Dificíl";
+  }
+}

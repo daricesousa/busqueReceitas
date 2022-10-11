@@ -1,3 +1,4 @@
+import 'package:busque_receitas/app/core/ui/app_color.dart';
 import 'package:busque_receitas/app/core/utils/image_convert.dart';
 import 'package:busque_receitas/app/core/widgets/app_form_field.dart';
 import 'package:busque_receitas/app/core/widgets/erro_page.dart';
@@ -100,9 +101,14 @@ class HomePage extends GetView<HomeController> {
   Widget widgetRecipe(RecipeModel recipe, BuildContext context) {
     int missedIngredients =
         controller.missedIngredients(recipe.listIngredients);
+    String textMissed = '';
+    if (missedIngredients == 1) {
+      textMissed = "Falta 1 ingrediente";
+    } else if (missedIngredients > 1) {
+      textMissed = "Faltam $missedIngredients ingredientes";
+    }
     return GestureDetector(
       child: Card(
-        color: Colors.amber,
         child: Column(
           children: [
             ImageConvert.base64fromImage(
@@ -116,16 +122,17 @@ class HomePage extends GetView<HomeController> {
                   recipe.title,
                   style: const TextStyle(fontSize: 20),
                 ),
-                Text(
-                  missedIngredients == 0
-                      ? ""
-                      : "Faltam $missedIngredients ingredientes",
-                  style: const TextStyle(fontSize: 15),
-                ),
+                missedIngredients != 0
+                    ? Text(
+                        textMissed,
+                        style: const TextStyle(fontSize: 15),
+                      )
+                    : Container(),
                 Row(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children:
-                        Stars.stars(rating: recipe.avaliation.ratingAverage))
+                    children: Stars.stars(
+                        rating: recipe.avaliation.ratingAverage,
+                      ))
               ],
             ),
           ],
@@ -145,7 +152,7 @@ class HomePage extends GetView<HomeController> {
           child: ElevatedButton(
               onPressed: action,
               style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all(Colors.green)),
+                  backgroundColor: MaterialStateProperty.all(AppColor.light4)),
               child: title),
         ));
   }

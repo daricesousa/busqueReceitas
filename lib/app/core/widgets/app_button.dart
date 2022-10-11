@@ -1,3 +1,4 @@
+import 'package:busque_receitas/app/core/ui/app_color.dart';
 import 'package:flutter/material.dart';
 
 class AppButton extends StatefulWidget {
@@ -5,6 +6,7 @@ class AppButton extends StatefulWidget {
   final bool visible;
   final Color? color;
   final Color? textColor;
+  final Color? borderColor;
   final Function() onPressed;
 
   const AppButton({
@@ -13,7 +15,8 @@ class AppButton extends StatefulWidget {
     required this.onPressed,
     this.visible = false,
     this.color,
-    this.textColor, 
+    this.textColor,
+    this.borderColor,
   }) : super(key: key);
 
   @override
@@ -28,12 +31,17 @@ class _AppButtonState extends State<AppButton> {
       child: ElevatedButton(
           onPressed: widget.onPressed,
           style: ButtonStyle(
-            shape: MaterialStateProperty.all(
+            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
               RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(18),
+                side: widget.borderColor != null
+                    ? BorderSide(color: widget.borderColor!)
+                    : BorderSide.none,
               ),
             ),
-            backgroundColor: widget.color !=null ? MaterialStateProperty.all(widget.color): null,
+            backgroundColor: widget.color != null
+                ? MaterialStateProperty.all(widget.color)
+                : null,
           ),
           child: Visibility(
             visible: widget.visible,
@@ -45,7 +53,7 @@ class _AppButtonState extends State<AppButton> {
               height: 15,
               width: 15,
               child: CircularProgressIndicator(
-                color: Colors.white,
+                color: AppColor.light5,
               ),
             ),
           )),

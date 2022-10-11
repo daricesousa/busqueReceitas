@@ -1,3 +1,4 @@
+import 'package:busque_receitas/app/core/ui/app_color.dart';
 import 'package:busque_receitas/app/core/ui/app_theme.dart';
 import 'package:flutter/material.dart';
 
@@ -6,7 +7,7 @@ Widget cardInfo(Widget child) {
     data: AppTheme.theme,
     child: Container(
       padding: const EdgeInsets.all(8),
-      decoration: AppTheme.boxDecoration(color: Colors.green),
+      decoration: AppTheme.boxDecoration(color: AppColor.light2),
       child: child,
     ),
   );

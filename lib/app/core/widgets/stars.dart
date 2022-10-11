@@ -1,10 +1,11 @@
+import 'package:busque_receitas/app/core/ui/app_color.dart';
 import 'package:flutter/material.dart';
 
 class Stars {
   Stars._();
 
   static List<Widget> stars(
-      {required double rating, Color? color = Colors.white}) {
+      {required double rating, Color? color = AppColor.dark1}) {
     List<Widget> list = [];
     for (int i = 1; i <= 5; i++) {
       if (i <= rating) {

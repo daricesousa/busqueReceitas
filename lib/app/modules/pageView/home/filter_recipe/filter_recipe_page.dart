@@ -1,3 +1,4 @@
+import 'package:busque_receitas/app/core/ui/app_color.dart';
 import 'package:busque_receitas/app/core/ui/app_theme.dart';
 import 'package:busque_receitas/app/core/ui/app_view.dart';
 import 'package:busque_receitas/app/core/utils/enumDifficulty.dart';
@@ -41,12 +42,15 @@ class _FilterRecipePageState
               AppButton(
                 onPressed: () => controller.clearFilters(context),
                 label: "Limpar filtros",
-                color: Colors.redAccent,
-                textColor: Colors.white,
+                color: AppColor.light,
+                textColor: AppColor.dark2,
+                borderColor: AppColor.dark2,
               ),
               AppButton(
                 onPressed: controller.filter,
                 label: "Filtrar",
+                color: AppColor.dark1,
+                textColor: AppColor.light5,
               ),
             ],
           )
@@ -55,7 +59,8 @@ class _FilterRecipePageState
     );
   }
 
-  Widget card({required child, required dynamic value, required type}) {
+  Widget card(
+      {required child, required dynamic value, required type, Color? color}) {
     return Padding(
         padding: const EdgeInsets.all(10.0),
         child: GestureDetector(
@@ -65,22 +70,19 @@ class _FilterRecipePageState
             });
           },
           child: Container(
-            padding: const EdgeInsets.all(5),
-            decoration: AppTheme.boxDecoration(
-              color: controller.searchFilter(value: value)
-                  ? Colors.green
-                  : Colors.grey,
-            ),
-            child: child,
-          ),
+              padding: const EdgeInsets.all(5),
+              decoration: AppTheme.boxDecoration(
+                color: color,
+              ),
+              child: child),
         ));
   }
 
-  Widget apptext(String title) {
+  Widget apptext({required String title, Color? color}) {
     return Text(
       title,
       textAlign: TextAlign.center,
-      style: const TextStyle(fontSize: 15, color: Colors.white),
+      style: TextStyle(fontSize: 15, color: color),
     );
   }
 
@@ -95,38 +97,30 @@ class _FilterRecipePageState
     );
   }
 
-  List<Widget> star(int quantity) {
-    List<Widget> list = [];
-    for (int i = 0; i < quantity; i++) {
-      list.add(const Icon(Icons.star, color: Colors.white, size: 15));
-    }
-    return list;
+  List<Widget> star({required int quantity, required Color color}) {
+    return List.generate(
+        quantity,
+        (index) => Icon(
+              Icons.star,
+              color: color,
+              size: 15,
+            ));
   }
 
   Widget filterDifficulty() {
-    const type = TypeFilters.difficulty;
     return ExpansionTile(
       title: const Text("Dificuldade"),
       children: [
-        wrap(
-          [
-            card(
-              child: apptext("Fácil"),
-              type: type,
-              value: Difficulty.easy,
-            ),
-            card(
-              child: apptext("Médio"),
-              type: type,
-              value: Difficulty.medium,
-            ),
-            card(
-              child: apptext("Difícil"),
-              type: type,
-              value: Difficulty.hard,
-            )
-          ],
-        )
+        wrap(Difficulty.values.map((e) {
+          final isSelected = controller.searchFilter(value: e);
+          final textColor = isSelected ? AppColor.light : Colors.grey;
+          final cardColor = isSelected ? AppColor.dark1 : AppColor.light5;
+          return card(
+              child: apptext(title: e.name, color: textColor),
+              type: TypeFilters.difficulty,
+              value: e,
+              color: cardColor);
+        }).toList())
       ],
     );
   }
@@ -136,44 +130,27 @@ class _FilterRecipePageState
     return ExpansionTile(
       title: const Text("Avaliação"),
       children: [
-        wrap([
-          card(
+        wrap(List.generate(5, (index) {
+          final isSelected = controller.searchFilter(value: index);
+          final textColor = isSelected ? AppColor.light : Colors.grey;
+          final cardColor = isSelected ? AppColor.dark1 : AppColor.light5;
+          return card(
+            color: cardColor,
             child: Row(
               mainAxisSize: MainAxisSize.min,
-              children: [...star(1), apptext(" e acima")],
+              children: [
+                ...star(quantity: index + 1, color: textColor),
+                if (index <= 3)
+                  apptext(
+                    color: textColor,
+                    title: " e acima",
+                  )
+              ],
             ),
             type: type,
-            value: 1,
-          ),
-          card(
-            child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [...star(2), apptext(" e acima")]),
-            type: type,
-            value: 2,
-          ),
-          card(
-            child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [...star(3), apptext(" e acima")]),
-            type: type,
-            value: 3,
-          ),
-          card(
-            child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [...star(4), apptext(" e acima")]),
-            type: type,
-            value: 4,
-          ),
-          card(
-            child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [...star(5)]),
-            type: type,
-            value: 5,
-          ),
-        ])
+            value: index,
+          );
+        }))
       ],
     );
   }
@@ -192,8 +169,15 @@ class _FilterRecipePageState
                 controller: scrollController,
                 child: wrap(
                   controller.listIngredientsPantry.map((ingredient) {
+                    final isSelected =
+                        controller.searchFilter(value: ingredient);
+                    final textColor = isSelected ? AppColor.light : Colors.grey;
+                    final cardColor =
+                        isSelected ? AppColor.dark1 : AppColor.light5;
+
                     return card(
-                      child: apptext(ingredient.name),
+                      color: cardColor,
+                      child: apptext(title: ingredient.name, color: textColor),
                       type: type,
                       value: ingredient,
                     );

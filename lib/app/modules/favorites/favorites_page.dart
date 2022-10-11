@@ -1,4 +1,4 @@
-import 'package:busque_receitas/app/core/ui/app_theme.dart';
+import 'package:busque_receitas/app/core/ui/app_color.dart';
 import 'package:busque_receitas/app/core/utils/image_convert.dart';
 import 'package:busque_receitas/app/models/recipe/recipe_model.dart';
 import 'package:get/get.dart';
@@ -62,7 +62,7 @@ class FavoritesPage extends GetView<FavoritesController> {
                     Text(
                       textMissed,
                       style: const TextStyle(
-                          fontSize: 15, color: AppTheme.colorRed),
+                          fontSize: 15, color: AppColor.dark3,),
                     ),
                     // Align(
                     //   alignment: Alignment.bottomRight,

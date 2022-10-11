@@ -1,3 +1,4 @@
+import 'package:busque_receitas/app/core/ui/app_color.dart';
 import 'package:flutter/material.dart';
 
 class AppTheme {
@@ -5,11 +6,11 @@ class AppTheme {
 
   static final theme = ThemeData(
     useMaterial3: true,
-    colorScheme: ColorScheme.fromSeed(seedColor: Colors.purple),
-    primaryColor: Colors.purpleAccent,
+    colorScheme: ColorScheme.fromSeed(seedColor: AppColor.primary),
+    primaryColor: AppColor.primary,
   );
 
-    static BoxDecoration boxDecoration({Color color = Colors.green}) {
+    static BoxDecoration boxDecoration({Color? color = AppColor.dark1}) {
     return BoxDecoration(
         borderRadius: BorderRadius.circular(5),
         color: color,
@@ -21,8 +22,4 @@ class AppTheme {
           )
         ]);
   }
-  
-  static const textLight = Colors.white;
-  static const colorRed = Colors.redAccent;
-  static const colorSecundary = Colors.green;
 }
