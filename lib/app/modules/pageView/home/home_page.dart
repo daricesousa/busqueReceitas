@@ -39,7 +39,7 @@ class HomePage extends GetView<HomeController> {
           IconButton(
               onPressed: () {
                 Get.put(FilterRecipeController());
-                SideSheet.right(body: const FilterRecipePage(), context: context);
+                SideSheet.right(body: const FilterRecipePage(), context: context, width: context.width*4/5);
               },
               icon: const Icon(Icons.filter_list_alt))
         ],

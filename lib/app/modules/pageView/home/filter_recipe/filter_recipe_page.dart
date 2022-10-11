@@ -6,6 +6,7 @@ import 'package:busque_receitas/app/core/widgets/app_button.dart';
 import 'package:busque_receitas/app/models/recipe/filter_recipe_model.dart';
 import 'package:busque_receitas/app/modules/pageView/home/filter_recipe/filter_recipe_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class FilterRecipePage extends StatefulWidget {
   const FilterRecipePage({Key? key}) : super(key: key);
@@ -46,11 +47,13 @@ class _FilterRecipePageState
                 textColor: AppColor.dark2,
                 borderColor: AppColor.dark2,
               ),
+              Container(width: 10),
               AppButton(
                 onPressed: controller.filter,
                 label: "Filtrar",
                 color: AppColor.dark1,
                 textColor: AppColor.light5,
+                width: context.width /5*1.5,
               ),
             ],
           )

@@ -7,6 +7,7 @@ class AppButton extends StatefulWidget {
   final Color? color;
   final Color? textColor;
   final Color? borderColor;
+  final double? width;
   final Function() onPressed;
 
   const AppButton({
@@ -17,6 +18,7 @@ class AppButton extends StatefulWidget {
     this.color,
     this.textColor,
     this.borderColor,
+    this.width,
   }) : super(key: key);
 
   @override
@@ -28,6 +30,7 @@ class _AppButtonState extends State<AppButton> {
   Widget build(BuildContext context) {
     return SizedBox(
       height: 50,
+      width: widget.width,
       child: ElevatedButton(
           onPressed: widget.onPressed,
           style: ButtonStyle(
