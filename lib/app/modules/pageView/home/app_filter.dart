@@ -1,4 +1,4 @@
-import 'package:busque_receitas/app/core/utils/enumDifficulty.dart';
+import 'package:busque_receitas/app/core/utils/enum_difficulty.dart';
 import 'package:busque_receitas/app/models/ingredient_model.dart';
 import 'package:busque_receitas/app/models/recipe/filter_recipe_model.dart';
 import 'package:busque_receitas/app/models/recipe/recipe_model.dart';

@@ -1,7 +1,7 @@
 import 'package:busque_receitas/app/core/ui/app_color.dart';
 import 'package:busque_receitas/app/core/ui/app_theme.dart';
 import 'package:busque_receitas/app/core/ui/app_view.dart';
-import 'package:busque_receitas/app/core/utils/enumDifficulty.dart';
+import 'package:busque_receitas/app/core/utils/enum_difficulty.dart';
 import 'package:busque_receitas/app/core/widgets/app_button.dart';
 import 'package:busque_receitas/app/models/recipe/filter_recipe_model.dart';
 import 'package:busque_receitas/app/modules/pageView/home/filter_recipe/filter_recipe_controller.dart';
