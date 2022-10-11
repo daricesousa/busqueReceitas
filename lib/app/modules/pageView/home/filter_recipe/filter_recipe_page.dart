@@ -60,13 +60,13 @@ class _FilterRecipePageState
   }
 
   Widget card(
-      {required child, required dynamic value, required type, Color? color}) {
+      {required child, required FilterRecipeModel filter, Color? color}) {
     return Padding(
         padding: const EdgeInsets.all(10.0),
         child: GestureDetector(
           onTap: () {
             setState(() {
-              controller.changeCard(type: type, title: child, value: value);
+              controller.changeCard(filter: filter);
             });
           },
           child: Container(
@@ -97,16 +97,6 @@ class _FilterRecipePageState
     );
   }
 
-  List<Widget> star({required int quantity, required Color color}) {
-    return List.generate(
-        quantity,
-        (index) => Icon(
-              Icons.star,
-              color: color,
-              size: 15,
-            ));
-  }
-
   Widget filterDifficulty() {
     return ExpansionTile(
       title: const Text("Dificuldade"),
@@ -115,10 +105,11 @@ class _FilterRecipePageState
           final isSelected = controller.searchFilter(value: e);
           final textColor = isSelected ? AppColor.light : Colors.grey;
           final cardColor = isSelected ? AppColor.dark1 : AppColor.light5;
+          final filter =
+              FilterRecipeModel(type: TypeFilters.difficulty, value: e);
           return card(
-              child: apptext(title: e.name, color: textColor),
-              type: TypeFilters.difficulty,
-              value: e,
+              child: filter.widget(textColor),
+              filter: filter,
               color: cardColor);
         }).toList())
       ],
@@ -126,7 +117,6 @@ class _FilterRecipePageState
   }
 
   Widget filterAvaliation() {
-    const type = TypeFilters.avaliation;
     return ExpansionTile(
       title: const Text("Avaliação"),
       children: [
@@ -134,29 +124,18 @@ class _FilterRecipePageState
           final isSelected = controller.searchFilter(value: index);
           final textColor = isSelected ? AppColor.light : Colors.grey;
           final cardColor = isSelected ? AppColor.dark1 : AppColor.light5;
+          final filter =
+              FilterRecipeModel(type: TypeFilters.avaliation, value: index);
           return card(
-            color: cardColor,
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                ...star(quantity: index + 1, color: textColor),
-                if (index <= 3)
-                  apptext(
-                    color: textColor,
-                    title: " e acima",
-                  )
-              ],
-            ),
-            type: type,
-            value: index,
-          );
+              color: cardColor,
+              child: filter.widget(textColor),
+              filter: filter);
         }))
       ],
     );
   }
 
   Widget filterIngredient() {
-    const type = TypeFilters.ingredient;
     return ExpansionTile(
       title: const Text("Ingrediente chave"),
       children: [
@@ -174,12 +153,12 @@ class _FilterRecipePageState
                     final textColor = isSelected ? AppColor.light : Colors.grey;
                     final cardColor =
                         isSelected ? AppColor.dark1 : AppColor.light5;
-
+                    final filter = FilterRecipeModel(
+                        type: TypeFilters.ingredient, value: ingredient);
                     return card(
                       color: cardColor,
                       child: apptext(title: ingredient.name, color: textColor),
-                      type: type,
-                      value: ingredient,
+                      filter: filter,
                     );
                   }).toList(),
                 ),

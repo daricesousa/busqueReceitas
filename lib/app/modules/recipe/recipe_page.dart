@@ -92,7 +92,7 @@ class RecipePage extends GetView<RecipeController> {
         Row(
           mainAxisSize: MainAxisSize.min,
           children:
-              Stars.stars(rating: recipe.avaliation.ratingAverage.toDouble()),
+              Stars.avaliation(rating: recipe.avaliation.ratingAverage.toDouble()),
         ),
       ],
     ));
@@ -192,7 +192,7 @@ class RecipePage extends GetView<RecipeController> {
                 padding: const EdgeInsets.only(bottom: 5.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: Stars.stars(rating: 0),
+                  children: Stars.avaliation(rating: 0),
                 ),
               ),
             ],

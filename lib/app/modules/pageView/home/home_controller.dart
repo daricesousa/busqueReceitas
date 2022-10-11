@@ -1,6 +1,5 @@
 import 'package:busque_receitas/app/core/widgets/app_snack_bar.dart';
 import 'package:busque_receitas/app/models/recipe/filter_recipe_model.dart';
-import 'package:busque_receitas/app/models/recipe/recipe_ingredient_model.dart';
 import 'package:busque_receitas/app/models/recipe/recipe_model.dart';
 import 'package:busque_receitas/app/modules/pageView/home/app_filter.dart';
 import 'package:busque_receitas/app/modules/splash/splash_controller.dart';

@@ -39,7 +39,7 @@ class HomePage extends GetView<HomeController> {
           IconButton(
               onPressed: () {
                 Get.put(FilterRecipeController());
-                SideSheet.right(body: FilterRecipePage(), context: context);
+                SideSheet.right(body: const FilterRecipePage(), context: context);
               },
               icon: const Icon(Icons.filter_list_alt))
         ],
@@ -130,9 +130,9 @@ class HomePage extends GetView<HomeController> {
                     : Container(),
                 Row(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: Stars.stars(
-                        rating: recipe.avaliation.ratingAverage,
-                      ))
+                    children: Stars.avaliation(
+                      rating: recipe.avaliation.ratingAverage,
+                    ))
               ],
             ),
           ],
@@ -144,7 +144,7 @@ class HomePage extends GetView<HomeController> {
     );
   }
 
-  Widget cardFilter({required Widget title, required void Function()? action}) {
+  Widget cardFilter({required Widget child, required void Function()? action}) {
     return Padding(
         padding: const EdgeInsets.symmetric(vertical: 10),
         child: Container(
@@ -152,8 +152,8 @@ class HomePage extends GetView<HomeController> {
           child: ElevatedButton(
               onPressed: action,
               style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all(AppColor.light4)),
-              child: title),
+                  backgroundColor: MaterialStateProperty.all(AppColor.dark1)),
+              child: child),
         ));
   }
 
@@ -164,13 +164,11 @@ class HomePage extends GetView<HomeController> {
         child: ListView(
           scrollDirection: Axis.horizontal,
           children: [
-            ...controller.listFilters
-                .map((e) => cardFilter(
-                    title: e.title,
-                    action: () {
-                      controller.removeFilter(e.id);
-                    }))
-                .toList()
+            ...controller.listFilters.map((e) {
+              return cardFilter(
+                  child: e.widget(AppColor.light),
+                  action: () => controller.removeFilter(e.id));
+            }).toList()
           ],
         ));
   }

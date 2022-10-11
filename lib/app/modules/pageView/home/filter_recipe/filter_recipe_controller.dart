@@ -28,17 +28,15 @@ class FilterRecipeController extends GetxController {
   }
 
   void changeCard(
-      {required TypeFilters type,
-      required Widget title,
-      required dynamic value}) {
-    if (searchFilter(value: value)){
-      _removeFilter(value);
+      {required FilterRecipeModel filter}) {
+    if (searchFilter(value: filter.value)){
+      _removeFilter(filter.value);
     }
     else{
-      if(type == TypeFilters.avaliation){
+      if(filter.type == TypeFilters.avaliation){
         _listFilters.removeWhere((e) => e.type == TypeFilters.avaliation);
       }
-    _createFilter(type: type, title: title, value: value);
+    _listFilters.add(filter);
     }
 
   }
@@ -49,15 +47,6 @@ class FilterRecipeController extends GetxController {
       return true;
     }
     return false;
-  }
-
-  void _createFilter({
-    required TypeFilters type,
-    required Widget title,
-    required dynamic value,
-  }) {
-    final filter = FilterRecipeModel(title: title, type: type, value: value);
-    _listFilters.add(filter);
   }
 
   void _removeFilter(dynamic value) {

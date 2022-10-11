@@ -36,7 +36,7 @@ class _NoResultsPageState extends State<NoResultsPage> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Text(widget.title,
-              textAlign: TextAlign.center, style: TextStyle(fontSize: 20)),
+              textAlign: TextAlign.center, style: const TextStyle(fontSize: 20)),
           Container(height: 10),
           AppButton(
             label: widget.subtitle,

@@ -25,8 +25,7 @@ class RecipeController extends GetxController {
 
   Future<void> newAvaliation(int star) async {
     try {
-      final res =
-          await _repository.newAvaliation(recipeId: recipe.id, rating: star);
+      await _repository.newAvaliation(recipeId: recipe.id, rating: star);
       final index = recipes.indexWhere((e) => e.id == recipe.id);
       recipe.avaliation.userRating = star;
       if (index >= 0) {
