@@ -61,6 +61,6 @@ class FilterRecipeController extends GetxController {
 
   void filter(){
      Get.back();
-     Get.find<HomeController>().getRecipes();
+     Get.find<HomeController>().filter();
   }
 }

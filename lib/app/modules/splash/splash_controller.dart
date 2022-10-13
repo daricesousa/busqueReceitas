@@ -93,7 +93,7 @@ class SplashController extends GetxController {
   }
 
   void _savePantry() {
-    _storage.write('pantry', [listPantry]);
+    _storage.write('pantry', listPantry);
   }
 
   void saveFavorite() {

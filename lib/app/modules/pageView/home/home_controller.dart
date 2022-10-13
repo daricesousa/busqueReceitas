@@ -17,13 +17,19 @@ class HomeController extends GetxController {
   final TextEditingController searchController = TextEditingController();
   final search = ''.obs;
   List<FilterRecipeModel> listFilters = [];
+  final _listFiltersObs = <FilterRecipeModel>[].obs;
+
 
   missedIngredients(listIngredients) => Get.find<SplashController>().missedIngredients(listIngredients);
 
   List<RecipeModel> get listRecipes {
     return _listRecipes.where((e) {
-      return AppFilter.filter(filters: listFilters, recipe: e, word: search.value);
+      return AppFilter.filter(filters: _listFiltersObs, recipe: e, word: search.value);
     }).toList();
+  }
+
+  void filter(){
+    _listFiltersObs.assignAll(listFilters);
   }
 
   @override
@@ -72,7 +78,7 @@ class HomeController extends GetxController {
 
   void removeFilter(int id){
      listFilters.removeWhere((e) => e.id == id);
-     getRecipes();
+     filter();
   }
 
 
@@ -81,6 +87,6 @@ class HomeController extends GetxController {
     listFilters.clear();
     search.value = '';
     Get.focusScope?.unfocus();
-    getRecipes();
+    filter();
   }
 }

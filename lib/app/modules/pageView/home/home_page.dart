@@ -70,8 +70,8 @@ class HomePage extends GetView<HomeController> {
         controller.listFilters.isEmpty) {
       return ErroPage(
           visible: controller.visibleRefrash.value,
-          onPressed: () async {
-            await controller.getRecipes();
+          onPressed: () {
+            controller.filter();
           });
     }
     if (!controller.visibleRefrash.value && controller.listRecipes.isEmpty) {
