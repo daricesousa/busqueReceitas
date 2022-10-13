@@ -23,6 +23,7 @@ class SplashController extends GetxController {
     _loadUser();
     _loadPantry();
     _loadFavorites();
+    _loadDoLater();
     await getIngredients();
     Get.offNamedUntil('/layout', (route) => false);
     super.onInit();
