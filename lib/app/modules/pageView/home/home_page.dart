@@ -39,13 +39,13 @@ class HomePage extends GetView<HomeController> {
           IconButton(
               onPressed: () {
                 Get.put(FilterRecipeController());
-                SideSheet.right(body: const FilterRecipePage(), context: context, width: context.width*4/5);
+                SideSheet.right(body: const FilterRecipePage(), context: context,);
               },
-              icon: const Icon(Icons.filter_list_alt))
+              icon: const Icon(Icons.filter_list_alt), color: AppColor.dark1,)
         ],
       ),
       body: Obx(() => body(context)),
-      drawer: Obx(() => AppDrawer(
+      drawer: Obx(() => AppDrawer( 
           logoutUser: controller.logoutUser, user: controller.user.value)),
     );
   }
@@ -166,7 +166,7 @@ class HomePage extends GetView<HomeController> {
           children: [
             ...controller.listFilters.map((e) {
               return cardFilter(
-                  child: e.widget(AppColor.light),
+                  child: e.widget(color: AppColor.light),
                   action: () => controller.removeFilter(e.id));
             }).toList()
           ],

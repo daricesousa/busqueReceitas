@@ -47,7 +47,7 @@ class PantryPage extends GetView<PantryController> {
         decoration: AppTheme.boxDecoration(color: color),
         child: Text(
           ingredient.name,
-          style: const TextStyle(fontSize: 18, color: Colors.white),
+          style: const TextStyle(fontSize: 15, color: Colors.white),
         ),
       ),
       onTap: () {
@@ -68,7 +68,7 @@ class PantryPage extends GetView<PantryController> {
               child: Text(nome,
                   textAlign: TextAlign.center,
                   style: const TextStyle(
-                    fontSize: 23,
+                    fontSize: 18,
                   )),
             ),
           ),

@@ -53,50 +53,12 @@ class _FilterRecipePageState
                 label: "Filtrar",
                 color: AppColor.dark1,
                 textColor: AppColor.light5,
-                width: context.width /5*1.5,
+                width: context.width / 5 * 1.5,
               ),
             ],
           )
         ],
       ),
-    );
-  }
-
-  Widget card(
-      {required child, required FilterRecipeModel filter, Color? color}) {
-    return Padding(
-        padding: const EdgeInsets.all(10.0),
-        child: GestureDetector(
-          onTap: () {
-            setState(() {
-              controller.changeCard(filter: filter);
-            });
-          },
-          child: Container(
-              padding: const EdgeInsets.all(5),
-              decoration: AppTheme.boxDecoration(
-                color: color,
-              ),
-              child: child),
-        ));
-  }
-
-  Widget apptext({required String title, Color? color}) {
-    return Text(
-      title,
-      textAlign: TextAlign.center,
-      style: TextStyle(fontSize: 15, color: color),
-    );
-  }
-
-  Widget wrap(List<Widget> list) {
-    return Padding(
-      padding: const EdgeInsets.all(3.0),
-      child: Wrap(
-          spacing: 2,
-          runSpacing: 2,
-          alignment: WrapAlignment.spaceEvenly,
-          children: list),
     );
   }
 
@@ -111,7 +73,7 @@ class _FilterRecipePageState
           final filter =
               FilterRecipeModel(type: TypeFilters.difficulty, value: e);
           return card(
-              child: filter.widget(textColor),
+              child: filter.widget(color: textColor),
               filter: filter,
               color: cardColor);
         }).toList())
@@ -131,7 +93,7 @@ class _FilterRecipePageState
               FilterRecipeModel(type: TypeFilters.avaliation, value: index);
           return card(
               color: cardColor,
-              child: filter.widget(textColor),
+              child: filter.widget(color: textColor),
               filter: filter);
         }))
       ],
@@ -160,7 +122,7 @@ class _FilterRecipePageState
                         type: TypeFilters.ingredient, value: ingredient);
                     return card(
                       color: cardColor,
-                      child: apptext(title: ingredient.name, color: textColor),
+                      child: filter.widget(color: textColor),
                       filter: filter,
                     );
                   }).toList(),
@@ -168,6 +130,38 @@ class _FilterRecipePageState
               ),
             ))
       ],
+    );
+  }
+
+//Widgets
+
+  Widget card(
+      {required child, required FilterRecipeModel filter, Color? color}) {
+    return Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: GestureDetector(
+          onTap: () {
+            setState(() {
+              controller.changeCard(filter: filter);
+            });
+          },
+          child: Container(
+              padding: const EdgeInsets.all(5),
+              decoration: AppTheme.boxDecoration(
+                color: color,
+              ),
+              child: child),
+        ));
+  }
+
+  Widget wrap(List<Widget> list) {
+    return Padding(
+      padding: const EdgeInsets.all(3.0),
+      child: Wrap(
+          spacing: 2,
+          runSpacing: 2,
+          alignment: WrapAlignment.spaceEvenly,
+          children: list),
     );
   }
 }

@@ -10,7 +10,7 @@ class FilterRecipeModel {
 
   FilterRecipeModel({required this.type, required this.value});
 
-  Widget widget(Color? color){
+  Widget widget({Color? color}){
     if(type == TypeFilters.avaliation){
       return Row(mainAxisSize: MainAxisSize.min,
         children: Stars.filter(quantity: value+1, color: color));

@@ -14,7 +14,6 @@ class HomeController extends GetxController {
   final _repository = RecipeRepository();
   final visibleRefrash = false.obs; 
   final user = Get.find<SplashController>().user;
-  // final havePatry = Get.find<SplashController>().havePatry;
   final TextEditingController searchController = TextEditingController();
   final search = ''.obs;
   List<FilterRecipeModel> listFilters = [];
