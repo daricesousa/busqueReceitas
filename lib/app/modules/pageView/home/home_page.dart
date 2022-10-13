@@ -37,20 +37,33 @@ class HomePage extends GetView<HomeController> {
         ),
         actions: [
           IconButton(
-              onPressed: () {
-                Get.put(FilterRecipeController());
-                SideSheet.right(body: const FilterRecipePage(), context: context,);
-              },
-              icon: const Icon(Icons.filter_list_alt), color: AppColor.dark1,)
+            onPressed: () {
+              Get.put(FilterRecipeController());
+              SideSheet.right(
+                width: context.width / 5 * 4,
+                body: const FilterRecipePage(),
+                context: context,
+              );
+            },
+            icon: const Icon(Icons.filter_list_alt),
+            color: AppColor.dark1,
+          )
         ],
       ),
       body: Obx(() => body(context)),
-      drawer: Obx(() => AppDrawer( 
+      drawer: Obx(() => AppDrawer(
           logoutUser: controller.logoutUser, user: controller.user.value)),
     );
   }
 
   Widget body(BuildContext context) {
+    if (controller.visibleRefrash.value) {
+      return const Center(
+        child: CircularProgressIndicator(
+          color: AppColor.dark2,
+        ),
+      );
+    }
     if (!controller.visibleRefrash.value &&
         controller.listRecipes.isEmpty &&
         controller.search.value == '' &&
@@ -87,7 +100,7 @@ class HomePage extends GetView<HomeController> {
                   crossAxisCount: 2,
                   crossAxisSpacing: 10.0,
                   mainAxisSpacing: 10.0,
-                  mainAxisExtent: 220),
+                  mainAxisExtent: 250),
               itemCount: controller.listRecipes.length,
               itemBuilder: ((context, index) {
                 final recipe = controller.listRecipes[index];
@@ -119,6 +132,7 @@ class HomePage extends GetView<HomeController> {
               mainAxisSize: MainAxisSize.max,
               children: [
                 Text(
+                  textAlign: TextAlign.center,
                   recipe.title,
                   style: const TextStyle(fontSize: 20),
                 ),

@@ -93,7 +93,7 @@ class SplashController extends GetxController {
   }
 
   void _savePantry() {
-    _storage.write('pantry', listPantry);
+    _storage.write('pantry', [listPantry]);
   }
 
   void saveFavorite() {
@@ -108,16 +108,15 @@ class SplashController extends GetxController {
 
   IngredientModel findIngredient(int id) {
     final index = listIngredients.indexWhere((i) => i.id == id);
-    return listIngredients[index];
+    if(index > 0){
+      return listIngredients[index];
+    }
+    return IngredientModel(id: id, name: "erro", groupId: 1, associates: []);
   }
 
 
   int missedIngredients(List<RecipeIngredientModel> listIngredients) {
     return listIngredients.fold<int>(
         0, (value, e) => havePatry(e.ingredientId) ? value : value + 1);
-  }
-
-
-
-  
+  }  
 }

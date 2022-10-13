@@ -169,7 +169,7 @@ class RecipePage extends GetView<RecipeController> {
                 color: AppColor.dark3,
               ),
             ),
-      text: "${ingredient.quantity} ${ingredient.measurer} $nameIngredient",
+      text: "${controller.personalizeQuantity(ingredient.quantity)} ${ingredient.measurer} $nameIngredient",
     );
   }
 

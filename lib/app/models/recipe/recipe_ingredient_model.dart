@@ -1,6 +1,6 @@
 class RecipeIngredientModel {
   int ingredientId;
-  int quantity;
+  double quantity;
   String measurer;
 
   RecipeIngredientModel(
@@ -19,7 +19,7 @@ class RecipeIngredientModel {
   factory RecipeIngredientModel.fromMap(Map<String, dynamic> json) {
     return RecipeIngredientModel(
       ingredientId: json['id'],
-      quantity: json['quantity'],
+      quantity: json['quantity'].toDouble(),
       measurer: json['measurer'],
     );
   }

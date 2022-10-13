@@ -22,12 +22,7 @@ class NoResultsPage extends StatefulWidget {
 class _NoResultsPageState extends State<NoResultsPage> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text(''),
-      ),
-      body: body(),
-    );
+    return body();
   }
 
   Widget body() {

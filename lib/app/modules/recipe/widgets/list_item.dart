@@ -1,5 +1,6 @@
 import 'package:busque_receitas/app/core/ui/app_color.dart';
 import 'package:flutter/material.dart';
+
 class ListItem extends StatelessWidget {
   final Widget? leading;
   final void Function()? onTap;
@@ -21,7 +22,11 @@ class ListItem extends StatelessWidget {
           children: [
             if (leading != null) leading!,
             const SizedBox(width: 10),
-            if (text != null) Text(text!, style: const TextStyle(color: AppColor.dark),),
+            if (text != null)
+              Expanded(
+                child:
+                    Text(text!, style: const TextStyle(color: AppColor.dark)),
+              ),
           ],
         ),
       ),

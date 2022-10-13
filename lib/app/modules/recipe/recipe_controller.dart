@@ -1,6 +1,7 @@
 import 'package:busque_receitas/app/core/widgets/app_snack_bar.dart';
 import 'package:busque_receitas/app/models/recipe/recipe_model.dart';
 import 'package:busque_receitas/app/modules/pageView/home/home_controller.dart';
+import 'package:busque_receitas/app/modules/recipe/decimal.dart';
 import 'package:busque_receitas/app/modules/splash/splash_controller.dart';
 import 'package:busque_receitas/app/repositories/recipe_repository.dart';
 import 'package:dio/dio.dart';
@@ -60,5 +61,12 @@ class RecipeController extends GetxController {
     Get.find<SplashController>().saveFavorite();
   }
 
-
+  String personalizeQuantity(double quantity){
+    String quantityString = quantity.toStringAsFixed(0);
+    final decimal = Decimal.getDecimal(quantity);
+    if(decimal != 0){
+      quantityString += Decimal.forFraction(decimal);
+    }
+    return quantityString;
+  }
 }
