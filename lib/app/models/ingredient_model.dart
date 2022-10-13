@@ -3,14 +3,12 @@ class IngredientModel {
   String name;
   int groupId;
   List<int> associates;
-  bool pantry = false;
 
   IngredientModel({
     required this.id,
     required this.name,
     required this.groupId,
     required this.associates,
-    // this.pantry = false,
   });
 
   Map<String, dynamic> toMap() {
@@ -19,7 +17,6 @@ class IngredientModel {
       'name': name,
       'group': groupId,
       'associates': associates,
-      // 'pantry': pantry,
     };
   }
 
@@ -29,7 +26,6 @@ class IngredientModel {
       name: json['name'],
       groupId: json['group'],
       associates: json['associates'].cast<int>(),
-      // pantry: json['pantry'] ?? false,
     );
   }
   

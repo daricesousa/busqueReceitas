@@ -31,7 +31,7 @@ class AddIngredientsPage extends GetView<AddIngredientsController> {
                 return Card(
                   child: ListTile(
                     leading: Visibility(
-                        visible: ingredient.pantry,
+                        visible: controller.havePantry(ingredient.id),
                         replacement:
                             const Icon(Icons.check_box_outline_blank_outlined),
                         child: const Icon(Icons.check_box)),

@@ -78,7 +78,7 @@ class PantryPage extends GetView<PantryController> {
   }
 
   Widget groupCard(GroupIngredientsModel group) {
-    final listIngredientsInGroup = controller.ingredientsInGroup(group);
+    final ingredientInGroup = controller.ingredientsInGroup(group);
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Card(
@@ -89,13 +89,16 @@ class PantryPage extends GetView<PantryController> {
             title: title(group.name),
             children: [
               listIngredients(
-                  listIngredientsInGroup.map((IngredientModel ingredient) {
-                if (controller.havePatry(ingredient.id)) {
-                  return ingredientCard(ingredient: ingredient);
-                }
-                return ingredientCard(
-                    ingredient: ingredient, color: Colors.grey);
-              }).toList())
+                ingredientInGroup.map(
+                  (IngredientModel ingredient) {
+                    if (controller.havePatry(ingredient.id)) {
+                      return ingredientCard(ingredient: ingredient);
+                    }
+                    return ingredientCard(
+                        ingredient: ingredient, color: Colors.grey);
+                  },
+                ).toList(),
+              )
             ],
           ),
         ),
@@ -116,13 +119,16 @@ class PantryPage extends GetView<PantryController> {
 
   Widget addButton() {
     return Visibility(
-      visible: controller.listIngredients.isEmpty,
+      visible: controller.splashController.listIngredients.isEmpty,
       replacement: FloatingActionButton(
-        backgroundColor: AppColor.dark2,
+          backgroundColor: AppColor.dark2,
           onPressed: () {
             Get.toNamed('/ingredients');
           },
-          child: const Icon(Icons.add, color: AppColor.light,)),
+          child: const Icon(
+            Icons.add,
+            color: AppColor.light,
+          )),
       child: Container(),
     );
   }

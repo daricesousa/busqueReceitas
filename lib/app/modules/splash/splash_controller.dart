@@ -12,6 +12,7 @@ class SplashController extends GetxController {
   final listIngredients = <IngredientModel>[].obs;
   List<GroupIngredientsModel> listGroups = [];
   final listPantry = <int>[].obs;
+  List<int> shoppingListUser = [];
   final listFavorites = <RecipeModel>[].obs;
   final listDoLater = <RecipeModel>[].obs;
   final _repositoryIngredient = IngredientRepository();
@@ -24,6 +25,7 @@ class SplashController extends GetxController {
     _loadPantry();
     _loadFavorites();
     _loadDoLater();
+    _loadShoppingList();
     await getIngredients();
     Get.offNamedUntil('/layout', (route) => false);
     super.onInit();
@@ -47,7 +49,6 @@ class SplashController extends GetxController {
   }
 
   void _loadPantry() {
-
       final data = (_storage.read('pantry') ?? []).cast<int>();
       listPantry.assignAll(data as List<int>);
   } 
@@ -64,6 +65,11 @@ class SplashController extends GetxController {
       List<RecipeModel> recipes = [];
       recipes = data.map<RecipeModel>((e)=> RecipeModel.fromMap(e)).toList();
       listDoLater.assignAll(recipes);
+  } 
+
+  void _loadShoppingList() {
+      final data = (_storage.read('shopping_list') ?? []).cast<int>();
+      shoppingListUser.assignAll(data as List<int>);
   } 
 
   Future<void> _loadIngredients() async {
@@ -123,10 +129,10 @@ class SplashController extends GetxController {
 
   IngredientModel findIngredient(int id) {
     final index = listIngredients.indexWhere((i) => i.id == id);
-    if(index > 0){
+    if(index > -1){
       return listIngredients[index];
     }
-    return IngredientModel(id: id, name: "erro", groupId: 1, associates: []);
+    return IngredientModel(id: id, name: "", groupId: 1, associates: []);
   }
 
 
