@@ -15,13 +15,16 @@ class RecipeController extends GetxController {
   final recipes = Get.find<HomeController>().listRecipes;
   final _repository = RecipeRepository();
   final _listFavorites = Get.find<SplashController>().listFavorites;
+  final _listDoLater = Get.find<SplashController>().listDoLater;
   final isFavorite = false.obs;
+  final isDoLater = false.obs;
 
   RecipeController({required this.recipe});
 
   @override
   void onInit(){
     isFavorite.value = _searchFavorite();
+    isDoLater.value = _searchDoLater();
   }
 
   Future<void> newAvaliation(int star) async {
@@ -48,6 +51,14 @@ class RecipeController extends GetxController {
     return false;
   }
 
+    bool _searchDoLater(){
+    final index = _listDoLater.indexWhere((e) => e.id == recipe.id);
+    if (index > -1) {
+      return true;
+    }
+    return false;
+  }
+
   
   void changeFavorite(){
     final find = _searchFavorite();
@@ -59,6 +70,18 @@ class RecipeController extends GetxController {
     }
     isFavorite.value = !isFavorite.value;
     Get.find<SplashController>().saveFavorite();
+  }
+
+  void changeDoLater(){
+    final find = _searchDoLater();
+    if (find){
+     _listDoLater.removeWhere((e) => e.id == recipe.id);
+    }
+    else{
+      _listDoLater.insert(0, recipe);
+    }
+    isDoLater.value = !isDoLater.value;
+    Get.find<SplashController>().saveDoLater();
   }
 
   String personalizeQuantity(double quantity){

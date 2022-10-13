@@ -13,6 +13,7 @@ class SplashController extends GetxController {
   List<GroupIngredientsModel> listGroups = [];
   final listPantry = <int>[].obs;
   final listFavorites = <RecipeModel>[].obs;
+  final listDoLater = <RecipeModel>[].obs;
   final _repositoryIngredient = IngredientRepository();
   final _storage = GetStorage();
   final user = Rxn<UserModel>();
@@ -45,6 +46,7 @@ class SplashController extends GetxController {
   }
 
   void _loadPantry() {
+
       final data = (_storage.read('pantry') ?? []).cast<int>();
       listPantry.assignAll(data as List<int>);
   } 
@@ -54,6 +56,13 @@ class SplashController extends GetxController {
       List<RecipeModel> recipes = [];
       recipes = data.map<RecipeModel>((e)=> RecipeModel.fromMap(e)).toList();
       listFavorites.assignAll(recipes);
+  } 
+
+  void _loadDoLater() {
+      final data = (_storage.read('do_later') ?? []) as List;
+      List<RecipeModel> recipes = [];
+      recipes = data.map<RecipeModel>((e)=> RecipeModel.fromMap(e)).toList();
+      listDoLater.assignAll(recipes);
   } 
 
   Future<void> _loadIngredients() async {
@@ -99,6 +108,11 @@ class SplashController extends GetxController {
   void saveFavorite() {
     final data = listFavorites.map((e) => e.toMap()).toList();
     _storage.write('favorites', data);
+  }
+
+  void saveDoLater() {
+    final data = listDoLater.map((e) => e.toMap()).toList();
+    _storage.write('do_later', data);
   }
 
   bool havePatry(int ingredientId) {

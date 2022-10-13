@@ -74,14 +74,17 @@ class RecipePage extends GetView<RecipeController> {
               controller.isFavorite.value
                   ? Icons.favorite
                   : Icons.favorite_border,
-                  color: AppColor.dark1,
+              color: AppColor.dark1,
             ),
             onPressed: controller.changeFavorite,
           )),
-      const Padding(
-        padding: EdgeInsets.all(15.0),
-        child: Icon(Icons.timer, color: AppColor.dark1,),
-      ),
+      Obx(() => IconButton(
+        icon: Icon(
+          controller.isDoLater.value ? Icons.timer : Icons.timer_outlined,
+          color: AppColor.dark1,
+        ),
+        onPressed: controller.changeDoLater,
+      ),)
     ];
   }
 
@@ -91,8 +94,8 @@ class RecipePage extends GetView<RecipeController> {
       children: [
         Row(
           mainAxisSize: MainAxisSize.min,
-          children:
-              Stars.avaliation(rating: recipe.avaliation.ratingAverage.toDouble()),
+          children: Stars.avaliation(
+              rating: recipe.avaliation.ratingAverage.toDouble()),
         ),
       ],
     ));
@@ -162,14 +165,15 @@ class RecipePage extends GetView<RecipeController> {
               Icons.check_box,
               color: AppColor.primary,
             )
-          :  const Tooltip(
-            message: "Você não possui esse ingrediente",
+          : const Tooltip(
+              message: "Você não possui esse ingrediente",
               child: Icon(
                 Icons.error,
                 color: AppColor.dark3,
               ),
             ),
-      text: "${controller.personalizeQuantity(ingredient.quantity)} ${ingredient.measurer} $nameIngredient",
+      text:
+          "${controller.personalizeQuantity(ingredient.quantity)} ${ingredient.measurer} $nameIngredient",
     );
   }
 

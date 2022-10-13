@@ -53,6 +53,28 @@ class _AppDrawerState extends State<AppDrawer> {
               Get.toNamed("/favorites");
             },
           ),
+          ListTile(
+            leading: const Icon(
+              Icons.timer,
+              color: AppColor.dark1,
+            ),
+            title: const Text("Fazer depois"),
+            onTap: () {
+              Get.back();
+              Get.toNamed("/do_later");
+            },
+          ),
+          ListTile(
+            leading: const Icon(
+              Icons.list,
+              color: AppColor.dark1,
+            ),
+            title: const Text("Lista de compras"),
+            onTap: () {
+              Get.back();
+              Get.toNamed("/shopping_list");
+            },
+          ),
           Visibility(
             visible: widget.user != null,
             child: ListTile(

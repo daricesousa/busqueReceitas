@@ -4,27 +4,26 @@ import 'package:busque_receitas/app/core/widgets/no_results_page.dart';
 import 'package:busque_receitas/app/models/recipe/recipe_model.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
-import './favorites_controller.dart';
+import './do_later_controller.dart';
 
-class FavoritesPage extends GetView<FavoritesController> {
-  const FavoritesPage({Key? key}) : super(key: key);
+class DoLaterPage extends GetView<DoLaterController> {
+    
+    const DoLaterPage({Key? key}) : super(key: key);
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Favoritos'),
-      ),
-      body: body(),
-    );
-  }
+    @override
+    Widget build(BuildContext context) {
+        return Scaffold(
+            appBar: AppBar(title: const Text('Fazer depois'),),
+            body: body(),
+        );
+    }
 
-  Widget body() {
-    return Obx(() {
-      if (controller.listFavorites.isEmpty) {
+Widget body(){
+   return Obx(() {
+      if (controller.listDoLater.isEmpty) {
         return NoResultsPage(
             visible: false,
-            title: "Nenhum favorito para mostrar",
+            title: "Nenhuma receita para fazer depois",
             subtitle: "Ver receitas",
             onPressed: Get.back);
       }
@@ -32,13 +31,13 @@ class FavoritesPage extends GetView<FavoritesController> {
           shrinkWrap: true,
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 1, mainAxisExtent: 140),
-          itemCount: controller.listFavorites.length,
+          itemCount: controller.listDoLater.length,
           itemBuilder: ((context, index) {
-            final recipe = controller.listFavorites[index];
+            final recipe = controller.listDoLater[index];
             return widgetRecipe(recipe, context);
           }));
     });
-  }
+}
 
   Widget widgetRecipe(RecipeModel recipe, BuildContext context) {
     int missedIngredients =
@@ -77,11 +76,7 @@ class FavoritesPage extends GetView<FavoritesController> {
                         color: AppColor.dark3,
                       ),
                     ),
-                    // Align(
-                    //   alignment: Alignment.bottomRight,
-                    //   child: IconButton(
-                    //       onPressed: () {}, icon: Icon(Icons.delete)),
-                    // )
+                    
                   ],
                 ),
               )
@@ -95,3 +90,4 @@ class FavoritesPage extends GetView<FavoritesController> {
     );
   }
 }
+
