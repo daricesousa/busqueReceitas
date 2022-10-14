@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 
 
 class AppSnackBar {
+  AppSnackBar._();
    static success({String? message}) {
     Get.snackbar("Sucesso", message ?? "",
         colorText: Get.theme.secondaryHeaderColor,

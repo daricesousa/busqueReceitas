@@ -112,13 +112,13 @@ class HomePage extends GetView<HomeController> {
   }
 
   Widget widgetRecipe(RecipeModel recipe, BuildContext context) {
-    int missedIngredients =
-        controller.missedIngredients(recipe.listIngredients);
+    int missedIngredientsQuant =
+        controller.missedIngredientsQuant(recipe.listIngredients);
     String textMissed = '';
-    if (missedIngredients == 1) {
+    if (missedIngredientsQuant == 1) {
       textMissed = "Falta 1 ingrediente";
-    } else if (missedIngredients > 1) {
-      textMissed = "Faltam $missedIngredients ingredientes";
+    } else if (missedIngredientsQuant > 1) {
+      textMissed = "Faltam $missedIngredientsQuant ingredientes";
     }
     return GestureDetector(
       child: Card(
@@ -136,7 +136,7 @@ class HomePage extends GetView<HomeController> {
                   recipe.title,
                   style: const TextStyle(fontSize: 20),
                 ),
-                missedIngredients != 0
+                missedIngredientsQuant != 0
                     ? Text(
                         textMissed,
                         style: const TextStyle(fontSize: 15),

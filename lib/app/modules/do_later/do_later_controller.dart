@@ -4,8 +4,8 @@ import 'package:get/get.dart';
 
 class DoLaterController extends GetxController {
 final listDoLater = Get.find<SplashController>().listDoLater;
-  missedIngredients(listIngredients) =>
-      Get.find<SplashController>().missedIngredients(listIngredients);
+  missedIngredientsQuant(listIngredients) =>
+      Get.find<SplashController>().missedIngredientsQuant(listIngredients);
 
   void goPageRecipe(RecipeModel recipe) {
     Get.toNamed('/recipe', arguments: recipe);

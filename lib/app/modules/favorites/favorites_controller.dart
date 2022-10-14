@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 
 class FavoritesController extends GetxController {
   final listFavorites = Get.find<SplashController>().listFavorites;
-  missedIngredients(listIngredients) => Get.find<SplashController>().missedIngredients(listIngredients);
+  missedIngredientsQuant(listIngredients) => Get.find<SplashController>().missedIngredientsQuant(listIngredients);
 
 
  void goPageRecipe(RecipeModel recipe) {

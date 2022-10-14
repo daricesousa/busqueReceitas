@@ -20,7 +20,7 @@ class HomeController extends GetxController {
   final _listFiltersObs = <FilterRecipeModel>[].obs;
 
 
-  missedIngredients(listIngredients) => Get.find<SplashController>().missedIngredients(listIngredients);
+  missedIngredientsQuant(listIngredients) => Get.find<SplashController>().missedIngredientsQuant(listIngredients);
 
   List<RecipeModel> get listRecipes {
     return _listRecipes.where((e) {
@@ -67,8 +67,8 @@ class HomeController extends GetxController {
 
   void sortRecipes() {
     _listRecipes.sort((RecipeModel a, RecipeModel b) {
-      final missedA = missedIngredients(a.listIngredients);
-      final missedB = missedIngredients(b.listIngredients);
+      final missedA = missedIngredientsQuant(a.listIngredients);
+      final missedB = missedIngredientsQuant(b.listIngredients);
       if (missedA == missedB) {
         return a.avaliation.ratingAverage > b.avaliation.ratingAverage ? 0 : 1;
       }

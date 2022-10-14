@@ -136,7 +136,7 @@ class SplashController extends GetxController {
   }
 
 
-  int missedIngredients(List<RecipeIngredientModel> listIngredients) {
+  int missedIngredientsQuant(List<RecipeIngredientModel> listIngredients) {
     return listIngredients.fold<int>(
         0, (value, e) => havePatry(e.ingredientId) ? value : value + 1);
   }  
