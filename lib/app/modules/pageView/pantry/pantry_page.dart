@@ -123,7 +123,7 @@ class PantryPage extends GetView<PantryController> {
       replacement: FloatingActionButton(
           backgroundColor: AppColor.dark2,
           onPressed: () {
-            Get.toNamed('/ingredients');
+            Get.toNamed('/add_pantry');
           },
           child: const Icon(
             Icons.add,

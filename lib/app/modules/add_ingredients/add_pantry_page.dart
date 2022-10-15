@@ -2,10 +2,10 @@ import 'package:busque_receitas/app/core/widgets/app_form_field.dart';
 import 'package:busque_receitas/app/models/ingredient_model.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
-import 'add_ingredients_controller.dart';
+import 'add_pantry_controller.dart';
 
-class AddIngredientsPage extends GetView<AddIngredientsController> {
-  const AddIngredientsPage({Key? key}) : super(key: key);
+class AddPantryPage extends GetView<AddPantryController> {
+  const AddPantryPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

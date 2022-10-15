@@ -2,12 +2,12 @@ import 'package:busque_receitas/app/models/ingredient_model.dart';
 import 'package:busque_receitas/app/modules/splash/splash_controller.dart';
 import 'package:get/get.dart';
 
-class AddIngredientsController extends GetxController {
+class AddPantryController extends GetxController {
   final _listIngredients = Get.find<SplashController>().listIngredients;
   final search = ''.obs;
   havePantry(id) => Get.find<SplashController>().havePatry(id);
 
-  AddIngredientsController();
+  AddPantryController();
 
   List<IngredientModel> get listIngredients {
     final ingredients = _listIngredients
