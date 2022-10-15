@@ -28,7 +28,6 @@ class IngredientRepository {
   }
 
   Future<void> _saveIngredients(List data) async {
-    print("salvando");
     await GetStorage().write('ingredients', data);
   }
 

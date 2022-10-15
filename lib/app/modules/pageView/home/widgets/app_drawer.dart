@@ -34,8 +34,8 @@ class _AppDrawerState extends State<AppDrawer> {
             ),
             child: UserAccountsDrawerHeader(
               accountName: const Text("Faça login ou cadastre-se",
-                  style: const TextStyle(color: AppColor.light)),
-              accountEmail: Text(""),
+                  style:  TextStyle(color: AppColor.light)),
+              accountEmail: const Text(""),
               onDetailsPressed: () {
                 Get.back();
                 Get.toNamed('/login');

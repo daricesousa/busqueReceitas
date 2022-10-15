@@ -19,14 +19,19 @@ class AddPantryController extends GetxController {
     return ingredients;
   }
 
-  @override
-  void onInit() {
-    super.onInit();
-  }
-
   void changeIngredient(int ingredientId) {
     final index = _listIngredients.indexWhere((e) => e.id == ingredientId);
     _listIngredients[index] = _listIngredients[index];
-    Get.find<SplashController>().changeIngredient(ingredientId: _listIngredients[index].id);
+    Get.find<SplashController>()
+        .ingredientPantry(ingredientId: _listIngredients[index].id);
+
+    if (havePantry(ingredientId)) {
+      final shoppingListUser = Get.find<SplashController>().shoppingListUser;
+      final index = shoppingListUser.indexWhere((e) => e == ingredientId);
+      if (index != -1) {
+        shoppingListUser.removeAt(index);
+      }
+      Get.find<SplashController>().saveShoppingList();
+    }
   }
 }

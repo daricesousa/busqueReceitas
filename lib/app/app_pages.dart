@@ -9,8 +9,10 @@ import 'package:busque_receitas/app/modules/do_later/do_later_bindings.dart';
 import 'package:busque_receitas/app/modules/pageView/layout/layout_bindings.dart';
 import 'package:busque_receitas/app/modules/pageView/layout/layout_page.dart';
 import 'package:busque_receitas/app/modules/recipe/recipe_page.dart';
-import 'package:busque_receitas/app/modules/shopping_list/shopping_list_page.dart';
-import 'package:busque_receitas/app/modules/shopping_list/shopping_list_bindings.dart';
+import 'package:busque_receitas/app/modules/shopping_list/add_shopping_list/add_shopping_list_page.dart';
+import 'package:busque_receitas/app/modules/shopping_list/add_shopping_list/add_shopping_list_bindings.dart';
+import 'package:busque_receitas/app/modules/shopping_list/shopping_list/shopping_list_page.dart';
+import 'package:busque_receitas/app/modules/shopping_list/shopping_list/shopping_list_bindings.dart';
 import 'package:busque_receitas/app/modules/splash/splash_bindings.dart';
 import 'package:busque_receitas/app/modules/recipe/recipe_bindings.dart';
 import 'package:busque_receitas/app/modules/favorites/favorites_bindings.dart';
@@ -66,6 +68,11 @@ class AppPages {
       name: '/do_later',
       page: () => const DoLaterPage(),
       binding: DoLaterBindings(),
+    ),
+    GetPage(
+      name: '/add_shopping',
+      page: () => const AddShoppingListPage(),
+      binding: AddShoppingListBindings(),
     ),
   ];
 }

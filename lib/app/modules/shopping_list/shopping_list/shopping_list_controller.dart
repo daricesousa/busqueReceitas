@@ -3,16 +3,16 @@ import 'package:busque_receitas/app/models/recipe/recipe_model.dart';
 import 'package:busque_receitas/app/models/shopping_list_model.dart';
 import 'package:busque_receitas/app/modules/splash/splash_controller.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 
 class ShoppingListController extends GetxController {
   final _shoppingList = <ShoppingListModel>[].obs;
   final _shoppingListUser = Get.find<SplashController>().shoppingListUser;
   final _listDoLater = Get.find<SplashController>().listDoLater;
-  _havePantry(ingredientId) =>
+  havePantry(ingredientId) =>
       Get.find<SplashController>().havePatry(ingredientId);
   _findIngredient(ingredientId) =>
       Get.find<SplashController>().findIngredient(ingredientId);
+  _saveShoppingList() => Get.find<SplashController>().saveShoppingList();
   final search = ''.obs;
 
   @override
@@ -40,34 +40,28 @@ class ShoppingListController extends GetxController {
     for (final recipe in _listDoLater) {
       final ingredientsId = _missedIngredients(recipe);
       for (final ingredientId in ingredientsId) {
-        addShoppingList(ingredientId: ingredientId, recipe: recipe);
+        _addShoppingList(ingredientId: ingredientId, recipe: recipe);
       }
     }
   }
 
   void _getItensInListUser() {
     for (final ingredientId in _shoppingListUser) {
-      if (_havePantry(ingredientId)) {
-        _removeShoppingListUser(ingredientId);
-      } else {
-        addShoppingList(ingredientId: ingredientId);
-      }
+      _addShoppingList(ingredientId: ingredientId);
     }
   }
 
-  void _removeShoppingListUser(ingredientId) {
+  void removeShoppingListUser(ingredientId) {
     _shoppingListUser.removeWhere((e) => e == ingredientId);
+    _shoppingList.removeWhere((e) => e.ingredient.id == ingredientId);
     _saveShoppingList();
   }
 
-  void _saveShoppingList() {
-    GetStorage().write('shopping_list', _shoppingListUser);
-  }
 
   List<int> _missedIngredients(RecipeModel recipe) {
     List<int> list = [];
     for (final ingredient in recipe.listIngredients) {
-      if (!_havePantry(ingredient.ingredientId)) {
+      if (!havePantry(ingredient.ingredientId)) {
         list.add(ingredient.ingredientId);
       }
     }
@@ -84,22 +78,33 @@ class ShoppingListController extends GetxController {
   }
 
   void addPantry(ShoppingListModel item) {
-    Get.find<SplashController>()
-        .changeIngredient(ingredientId: item.ingredient.id);
-    if (item.recipe == null) {
-      _removeShoppingListUser(item.ingredient.id);
+    if (!havePantry(item.ingredient.id)) {
+      Get.find<SplashController>()
+          .ingredientPantry(ingredientId: item.ingredient.id);
     }
+    if (item.recipe == null) {
+      removeShoppingListUser(item.ingredient.id);
+    }
+    else{
     _shoppingList.removeWhere((e) => e == item);
+    }
     AppSnackBar.success(
         message: "${item.ingredient.name} adicionado à despensa");
   }
 
-  void addShoppingList({required int ingredientId, RecipeModel? recipe}) {
+  void _addShoppingList({required int ingredientId, RecipeModel? recipe}) {
     if (!_searchInShoppingList(ingredientId)) {
       final ingredient = _findIngredient(ingredientId);
       final itemShopping =
           ShoppingListModel(ingredient: ingredient, recipe: recipe);
       _shoppingList.add(itemShopping);
     }
+  }
+
+  void addShopping() async {
+    final ingredient = await Get.toNamed('/add_shopping');
+    _shoppingListUser.add(ingredient.id);
+    _saveShoppingList();
+    _shoppingList.assignAll([]);
   }
 }

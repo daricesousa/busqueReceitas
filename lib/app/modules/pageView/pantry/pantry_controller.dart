@@ -10,13 +10,9 @@ class PantryController extends GetxController {
 
   PantryController({required this.splashController});
 
-  @override
-  void onInit() async {
-    super.onInit();
-  }
 
   void changeIngredient({required IngredientModel ingredient}) {
-    splashController.changeIngredient(ingredientId: ingredient.id);
+    splashController.ingredientPantry(ingredientId: ingredient.id);
   }
 
   bool havePatry(int ingredientId) {

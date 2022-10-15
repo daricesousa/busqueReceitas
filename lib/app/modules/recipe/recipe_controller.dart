@@ -6,6 +6,7 @@ import 'package:busque_receitas/app/modules/splash/splash_controller.dart';
 import 'package:busque_receitas/app/repositories/recipe_repository.dart';
 import 'package:dio/dio.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 
 class RecipeController extends GetxController {
   RecipeModel recipe;
@@ -69,7 +70,7 @@ class RecipeController extends GetxController {
       _listFavorites.insert(0, recipe);
     }
     isFavorite.value = !isFavorite.value;
-    Get.find<SplashController>().saveFavorite();
+    _saveFavorite();
   }
 
   void changeDoLater(){
@@ -81,7 +82,7 @@ class RecipeController extends GetxController {
       _listDoLater.insert(0, recipe);
     }
     isDoLater.value = !isDoLater.value;
-    Get.find<SplashController>().saveDoLater();
+   _saveDoLater();
   }
 
   String personalizeQuantity(double quantity){
@@ -91,5 +92,15 @@ class RecipeController extends GetxController {
       quantityString += Decimal.forFraction(decimal);
     }
     return quantityString;
+  }
+
+   void _saveFavorite() {
+    final data = _listFavorites.map((e) => e.toMap()).toList();
+    GetStorage().write('favorites', data);
+  }
+
+  void _saveDoLater() {
+    final data = _listDoLater.map((e) => e.toMap()).toList();
+    GetStorage().write('do_later', data);
   }
 }

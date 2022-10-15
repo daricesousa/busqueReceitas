@@ -33,7 +33,7 @@ class SplashController extends GetxController {
 
   Future<void> getIngredients() async {
     try {
-      await Future.wait([_getIngredients(), _getGroupsIngredients()]);
+      await Future.wait([_getIngredientsInternet(), _getGroupsIngredients()]);
     } catch (e) {
       print("Erro ao carregar ingredientes da internet");
       await Future.wait([_loadIngredients(), _loadGroups()]);
@@ -44,7 +44,7 @@ class SplashController extends GetxController {
     listGroups.assignAll(await _repositoryIngredient.getGroups());
   }
 
-  Future<void> _getIngredients() async {
+  Future<void> _getIngredientsInternet() async {
     listIngredients.assignAll(await _repositoryIngredient.getIngredients());
   }
 
@@ -97,7 +97,7 @@ class SplashController extends GetxController {
     listGroups.assignAll(groups);
   }
 
-  void changeIngredient({required int ingredientId}) {
+  void ingredientPantry({required int ingredientId}) {
     final have = havePatry(ingredientId);
     if (have) {
       listPantry.removeWhere((i) => i == ingredientId);
@@ -112,15 +112,7 @@ class SplashController extends GetxController {
     _storage.write('pantry', listPantry);
   }
 
-  void saveFavorite() {
-    final data = listFavorites.map((e) => e.toMap()).toList();
-    _storage.write('favorites', data);
-  }
-
-  void saveDoLater() {
-    final data = listDoLater.map((e) => e.toMap()).toList();
-    _storage.write('do_later', data);
-  }
+ 
 
   bool havePatry(int ingredientId) {
     final findIndex = listPantry.indexWhere((i) => i == ingredientId);
@@ -140,4 +132,9 @@ class SplashController extends GetxController {
     return listIngredients.fold<int>(
         0, (value, e) => havePatry(e.ingredientId) ? value : value + 1);
   }  
+
+ void saveShoppingList() {
+    GetStorage().write('shopping_list', shoppingListUser);
+  }
+
 }
