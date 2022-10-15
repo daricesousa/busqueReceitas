@@ -160,7 +160,7 @@ class RecipePage extends GetView<RecipeController> {
     final nameIngredient =
         controller.findIngredient(ingredient.ingredientId).name;
     return ListItem(
-      leading: controller.havePatry(ingredient.ingredientId)
+      leading: controller.havePantry(ingredient.ingredientId)
           ? const Icon(
               Icons.check_box,
               color: AppColor.primary,

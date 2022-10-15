@@ -91,7 +91,7 @@ class PantryPage extends GetView<PantryController> {
               listIngredients(
                 ingredientInGroup.map(
                   (IngredientModel ingredient) {
-                    if (controller.havePatry(ingredient.id)) {
+                    if (controller.havePantry(ingredient.id)) {
                       return ingredientCard(ingredient: ingredient);
                     }
                     return ingredientCard(

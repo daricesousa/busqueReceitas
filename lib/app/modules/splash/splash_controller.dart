@@ -98,7 +98,7 @@ class SplashController extends GetxController {
   }
 
   void ingredientPantry({required int ingredientId}) {
-    final have = havePatry(ingredientId);
+    final have = havePantry(ingredientId);
     if (have) {
       listPantry.removeWhere((i) => i == ingredientId);
     } else {
@@ -114,7 +114,7 @@ class SplashController extends GetxController {
 
  
 
-  bool havePatry(int ingredientId) {
+  bool havePantry(int ingredientId) {
     final findIndex = listPantry.indexWhere((i) => i == ingredientId);
     return findIndex >= 0;
   }
@@ -130,7 +130,7 @@ class SplashController extends GetxController {
 
   int missedIngredientsQuant(List<RecipeIngredientModel> listIngredients) {
     return listIngredients.fold<int>(
-        0, (value, e) => havePatry(e.ingredientId) ? value : value + 1);
+        0, (value, e) => havePantry(e.ingredientId) ? value : value + 1);
   }  
 
  void saveShoppingList() {

@@ -12,7 +12,7 @@ class RecipeController extends GetxController {
   RecipeModel recipe;
   final user = Get.find<SplashController>().user;
   final findIngredient = Get.find<SplashController>().findIngredient;
-  final havePatry = Get.find<SplashController>().havePatry;
+  final havePantry = Get.find<SplashController>().havePantry;
   final recipes = Get.find<HomeController>().listRecipes;
   final _repository = RecipeRepository();
   final _listFavorites = Get.find<SplashController>().listFavorites;

@@ -12,11 +12,21 @@ class PantryController extends GetxController {
 
 
   void changeIngredient({required IngredientModel ingredient}) {
+    final index = splashController.listIngredients.indexWhere((e) => e.id == ingredient.id);
+    splashController.listIngredients[index] = splashController.listIngredients[index];
     splashController.ingredientPantry(ingredientId: ingredient.id);
+    if (splashController.havePantry(ingredient.id)) {
+      final shoppingListUser = Get.find<SplashController>().shoppingListUser;
+      final index = shoppingListUser.indexWhere((e) => e == ingredient.id);
+      if (index != -1) {
+        shoppingListUser.removeAt(index);
+        Get.find<SplashController>().saveShoppingList();
+      }
+    }
   }
 
-  bool havePatry(int ingredientId) {
-    return splashController.havePatry(ingredientId);
+  bool havePantry(int ingredientId) {
+    return splashController.havePantry(ingredientId);
   }
 
   Future<void> refrashPage() async {

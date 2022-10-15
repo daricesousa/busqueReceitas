@@ -9,7 +9,7 @@ class ShoppingListController extends GetxController {
   final _shoppingListUser = Get.find<SplashController>().shoppingListUser;
   final _listDoLater = Get.find<SplashController>().listDoLater;
   havePantry(ingredientId) =>
-      Get.find<SplashController>().havePatry(ingredientId);
+      Get.find<SplashController>().havePantry(ingredientId);
   _findIngredient(ingredientId) =>
       Get.find<SplashController>().findIngredient(ingredientId);
   _saveShoppingList() => Get.find<SplashController>().saveShoppingList();

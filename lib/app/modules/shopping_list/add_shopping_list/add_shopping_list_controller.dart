@@ -7,7 +7,7 @@ class AddShoppingListController extends GetxController {
   final _listIngredients = Get.find<SplashController>().listIngredients;
   final _shoppingList = Get.find<ShoppingListController>().shoppingList;
   havePantry(ingredientId) =>
-      Get.find<SplashController>().havePatry(ingredientId);
+      Get.find<SplashController>().havePantry(ingredientId);
   final search = ''.obs;
 
   RxList<IngredientModel> get listNotShopping {

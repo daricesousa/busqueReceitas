@@ -36,7 +36,7 @@ class AddPantryPage extends GetView<AddPantryController> {
                             const Icon(Icons.check_box_outline_blank_outlined),
                         child: const Icon(Icons.check_box)),
                     title: Text(ingredient.name),
-                    onTap: () => controller.changeIngredient(ingredient.id),
+                    onTap: () => controller.changeIngredient(ingredient),
                   ),
                 );
               }),
