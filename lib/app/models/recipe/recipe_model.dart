@@ -8,7 +8,7 @@ class RecipeModel {
   List<RecipeIngredientModel> listIngredients;
   String picture;
   Difficulty difficulty;
-  int creatorId;
+  String creator;
   List<String> method;
   AvaliationModel avaliation;
 
@@ -18,7 +18,7 @@ class RecipeModel {
     required this.listIngredients,
     required this.picture,
     required this.difficulty,
-    required this.creatorId,
+    required this.creator,
     required this.method,
     required this.avaliation,
   });
@@ -28,7 +28,7 @@ class RecipeModel {
       'id': id,
       'title': title,
       'difficulty': difficulty.index,
-      'creator': creatorId,
+      'name_creator': creator,
       'method': method,
       'ingredients': {"list": listIngredients.map((e) => e.toMap()).toList(),},
       'avaliation': avaliation.toMap(),
@@ -42,7 +42,7 @@ class RecipeModel {
       title: json['title'],
       picture: json['picture'],
       difficulty: Difficulty.values[(json['difficulty'] ?? 0)],
-      creatorId: json['creator'],
+      creator: json['name_creator'] ?? '',
       method: json['method'].map<String>((e) => e.toString()).toList(),
       listIngredients: json['ingredients']['list']
           .map<RecipeIngredientModel>((e) => RecipeIngredientModel.fromMap(e))

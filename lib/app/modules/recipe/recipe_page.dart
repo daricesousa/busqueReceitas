@@ -55,6 +55,7 @@ class RecipePage extends GetView<RecipeController> {
             ),
           ),
         ),
+        Center(child: Text("criado por ${recipe.creator}")),
         const SizedBox(
           height: 20,
         )

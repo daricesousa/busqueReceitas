@@ -100,7 +100,7 @@ class HomePage extends GetView<HomeController> {
                   crossAxisCount: 2,
                   crossAxisSpacing: 10.0,
                   mainAxisSpacing: 10.0,
-                  mainAxisExtent: 250),
+                  mainAxisExtent: 245),
               itemCount: controller.listRecipes.length,
               itemBuilder: ((context, index) {
                 final recipe = controller.listRecipes[index];
@@ -134,12 +134,12 @@ class HomePage extends GetView<HomeController> {
                 Text(
                   textAlign: TextAlign.center,
                   recipe.title,
-                  style: const TextStyle(fontSize: 20),
+                  style: const TextStyle(fontSize: 18),
                 ),
                 missedIngredientsQuant != 0
                     ? Text(
                         textMissed,
-                        style: const TextStyle(fontSize: 15),
+                        style: const TextStyle(fontSize: 15, color: AppColor.dark5),
                       )
                     : Container(),
                 Row(

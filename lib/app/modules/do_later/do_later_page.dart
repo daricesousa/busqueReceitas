@@ -57,7 +57,7 @@ Widget body(){
             children: [
               Container(
                 child: ImageConvert.base64fromImage(
-                    base64String: recipe.picture, height: context.height),
+                    base64String: recipe.picture, width: context.width/5*2),
               ),
               Expanded(
                 child: Column(
@@ -71,6 +71,7 @@ Widget body(){
                     ),
                     Text(
                       textMissed,
+                      textAlign: TextAlign.center,
                       style: const TextStyle(
                         fontSize: 15,
                         color: AppColor.dark3,

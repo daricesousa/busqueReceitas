@@ -24,8 +24,8 @@ class LayoutPage extends GetView<LayoutController> {
             currentIndex: controller.index.value,
             onTap: controller.onPageChanged,
             items: const [
-              BottomNavigationBarItem(icon: Icon(MdiIcons.fridge), label: ""),
-              BottomNavigationBarItem(icon: Icon(Icons.dining), label: ""),
+              BottomNavigationBarItem(icon: Icon(MdiIcons.fridge), label: "Despensa"),
+              BottomNavigationBarItem(icon: Icon(Icons.dining), label: "Receitas"),
             ]),
       ),
     );

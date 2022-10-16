@@ -42,9 +42,12 @@ class AddShoppingListPage extends GetView<AddShoppingListController> {
                     // ? const Text("Você possui este item na despensa")
                     // : null,
                     trailing: controller.havePantry(ingredient.id)
-                        ? const Icon(
-                            MdiIcons.fridge,
-                            color: AppColor.dark1,
+                        ? const Tooltip(
+                            message: "Você já possui este item na despensa",
+                            child: Icon(
+                              MdiIcons.fridge,
+                              color: AppColor.dark1,
+                            ),
                           )
                         : null,
                     onTap: () {
