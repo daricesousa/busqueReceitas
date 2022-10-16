@@ -15,6 +15,8 @@ import 'package:busque_receitas/app/modules/shopping_list/shopping_list/shopping
 import 'package:busque_receitas/app/modules/shopping_list/shopping_list/shopping_list_bindings.dart';
 import 'package:busque_receitas/app/modules/splash/splash_bindings.dart';
 import 'package:busque_receitas/app/modules/recipe/recipe_bindings.dart';
+import 'package:busque_receitas/app/modules/profile/profile_page.dart';
+import 'package:busque_receitas/app/modules/profile/profile_bindings.dart';
 import 'package:busque_receitas/app/modules/favorites/favorites_bindings.dart';
 import 'package:busque_receitas/app/modules/favorites/favorites_page.dart';
 import 'package:busque_receitas/app/modules/splash/splash_page.dart';
@@ -73,6 +75,11 @@ class AppPages {
       name: '/add_shopping',
       page: () => const AddShoppingListPage(),
       binding: AddShoppingListBindings(),
+    ),
+    GetPage(
+      name: '/profile',
+      page: () => const ProfilePage(),
+      binding: ProfileBindings(),
     ),
   ];
 }

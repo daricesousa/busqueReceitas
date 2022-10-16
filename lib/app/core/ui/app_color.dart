@@ -1,4 +1,5 @@
 import 'package:flutter/animation.dart';
+import 'package:flutter/material.dart';
 
 class AppColor {
   AppColor._();
@@ -15,4 +16,5 @@ class AppColor {
   static const Color dark4 =  Color(0xFF2f1e2e);
   static const Color dark5 =  Color(0xFF170f17);
   static const Color dark = Color(0xFF000000);
+  static const Color red = Colors.redAccent;
 }

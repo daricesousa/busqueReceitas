@@ -31,6 +31,10 @@ class _AppDrawerState extends State<AppDrawer> {
                 widget.user?.email ?? "",
                 style: const TextStyle(color: AppColor.light),
               ),
+              onDetailsPressed: (){
+                Get.back();
+                Get.toNamed('/profile');
+              },
             ),
             child: UserAccountsDrawerHeader(
               accountName: const Text("Faça login ou cadastre-se",

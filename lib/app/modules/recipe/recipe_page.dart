@@ -203,7 +203,7 @@ class RecipePage extends GetView<RecipeController> {
             ],
           ),
         ),
-        onTap: () => Get.toNamed('\login'),
+        onTap: () => Get.toNamed('/login'),
       );
     }
     return Center(
