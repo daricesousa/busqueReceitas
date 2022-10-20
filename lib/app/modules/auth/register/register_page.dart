@@ -101,8 +101,8 @@ class RegisterPage extends GetView<RegisterController> {
   Widget button() {
     return AppButton(
       onPressed: controller.createUser,
-      label: "Cadastrar",
       visible: controller.loading.value,
+      child: const Text("Cadastrar", style: TextStyle(fontSize: 20)),
     );
   }
 }

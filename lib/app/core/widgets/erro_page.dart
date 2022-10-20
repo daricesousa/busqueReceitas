@@ -35,9 +35,9 @@ class _ErroPageState extends State<ErroPage> {
               textAlign: TextAlign.center, style: TextStyle(fontSize: 20)),
           Container(height: 10),
           AppButton(
-            label: "Tentar novamente",
             visible: widget.visible,
             onPressed: widget.onPressed,
+            child: const Text("Tentar novamente", style: TextStyle(fontSize: 20)),
           ),
         ]);
   }

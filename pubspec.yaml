@@ -40,6 +40,8 @@ dependencies:
   side_sheet: ^1.0.3
   flutter_native_splash: ^2.2.11
   material_design_icons_flutter: ^5.0.6996
+  select_dialog: ^2.0.0
+  drag_and_drop_lists: ^0.3.3
   
 
 dev_dependencies:

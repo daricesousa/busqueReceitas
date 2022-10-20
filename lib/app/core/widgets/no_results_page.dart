@@ -34,9 +34,9 @@ class _NoResultsPageState extends State<NoResultsPage> {
               textAlign: TextAlign.center, style: const TextStyle(fontSize: 20)),
           Container(height: 10),
           AppButton(
-            label: widget.subtitle,
             visible: widget.visible,
             onPressed: widget.onPressed,
+            child: Text (widget.subtitle, style: const TextStyle(fontSize: 20)),
           ),
         ]);
   }

@@ -20,6 +20,8 @@ import 'package:busque_receitas/app/modules/profile/profile_bindings.dart';
 import 'package:busque_receitas/app/modules/favorites/favorites_bindings.dart';
 import 'package:busque_receitas/app/modules/favorites/favorites_page.dart';
 import 'package:busque_receitas/app/modules/splash/splash_page.dart';
+import 'package:busque_receitas/app/modules/create_recipe/create_recipe_page.dart';
+import 'package:busque_receitas/app/modules/create_recipe/create_recipe_bindings.dart';
 import 'package:get/get_navigation/src/routes/get_route.dart';
 
 class AppPages {
@@ -80,6 +82,11 @@ class AppPages {
       name: '/profile',
       page: () => const ProfilePage(),
       binding: ProfileBindings(),
+    ),
+    GetPage(
+      name: '/create_recipe',
+      page: () => const CreateRecipePage(),
+      binding: CreateRecipeBindings(),
     ),
   ];
 }

@@ -29,4 +29,10 @@ class IngredientModel {
     );
   }
   
+ @override
+  String toString() {
+    return name;
+  }
+
+
 }

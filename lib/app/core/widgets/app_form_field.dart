@@ -11,6 +11,8 @@ class AppFormField extends StatefulWidget {
   final String? Function(String?)? validator;
   final void Function(String)? onChanged;
   final void Function()? onSubmit;
+  final int maxLines;
+  final int minLines;
 
   const AppFormField({
     Key? key,
@@ -23,6 +25,8 @@ class AppFormField extends StatefulWidget {
     this.obscuredText = false,
     this.onChanged,
     this.onSubmit,
+    this.maxLines = 1,
+    this.minLines = 1,
   }) : super(key: key);
 
   @override
@@ -36,6 +40,8 @@ class _AppFormFieldState extends State<AppFormField> {
       padding: const EdgeInsets.symmetric(vertical: 5),
       child: TextFormField(
         controller: widget.controller,
+        maxLines: widget.maxLines,
+        minLines: widget.minLines,
         keyboardType: widget.textInputType,
         textInputAction: widget.textInputAction,
         inputFormatters: widget.inputFormatters,

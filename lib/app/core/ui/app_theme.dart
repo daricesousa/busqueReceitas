@@ -17,8 +17,8 @@ class AppTheme {
         boxShadow: const [
           BoxShadow(
             color: Colors.grey,
-            blurRadius: 2,
-            offset: Offset(1, 1),
+            blurRadius: 1.5,
+            offset: Offset(0.5, 0.5),
           )
         ]);
   }

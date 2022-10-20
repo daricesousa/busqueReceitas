@@ -32,24 +32,25 @@ class ProfilePage extends GetView<ProfileController> {
     return ListView(
       children: [
         ListTile(
-          title: Text("Adicionar uma receita"),
-          leading: Icon(MdiIcons.receiptTextPlus, color: AppColor.dark1,),
-          
+          title: const Text("Adicionar uma receita"),
+          leading: const Icon(MdiIcons.receiptTextPlus, color: AppColor.dark1,),
+          onTap: () {
+            Get.toNamed('/create_recipe');
+          },
+        ),
+        ListTile(
+          title: const Text("Restrições alimentares"),
+          leading: const Icon(MdiIcons.foodDrumstickOff, color: AppColor.dark1,),
           onTap: () {},
         ),
         ListTile(
-          title: Text("Restrições alimentares"),
-          leading: Icon(MdiIcons.foodDrumstickOff, color: AppColor.dark1,),
-          onTap: () {},
-        ),
-        ListTile(
-          title: Text("Alterar a senha"),
-          leading: Icon(Icons.lock, color: AppColor.dark1,),
+          title: const Text("Alterar a senha"),
+          leading: const Icon(Icons.lock, color: AppColor.dark1,),
           onTap: () {},
         ),
         ListTile(
           title: const Text("sair"),
-          leading: Icon(Icons.exit_to_app, color: AppColor.dark1,),
+          leading: const Icon(Icons.exit_to_app, color: AppColor.dark1,),
           onTap: () {},
         ),
       ],

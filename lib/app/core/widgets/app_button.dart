@@ -2,21 +2,19 @@ import 'package:busque_receitas/app/core/ui/app_color.dart';
 import 'package:flutter/material.dart';
 
 class AppButton extends StatefulWidget {
-  final String label;
+  final Widget child;
   final bool visible;
   final Color? color;
-  final Color? textColor;
   final Color? borderColor;
   final double? width;
   final Function() onPressed;
 
   const AppButton({
     Key? key,
-    this.label = '',
     required this.onPressed,
+    required this.child,
     this.visible = false,
     this.color,
-    this.textColor,
     this.borderColor,
     this.width,
   }) : super(key: key);
@@ -48,10 +46,7 @@ class _AppButtonState extends State<AppButton> {
           ),
           child: Visibility(
             visible: widget.visible,
-            replacement: Text(
-              widget.label,
-              style: TextStyle(fontSize: 20, color: widget.textColor),
-            ),
+            replacement: widget.child,
             child: const SizedBox(
               height: 15,
               width: 15,

@@ -26,6 +26,7 @@ class RecipeController extends GetxController {
   void onInit(){
     isFavorite.value = _searchFavorite();
     isDoLater.value = _searchDoLater();
+    super.onInit();
   }
 
   Future<void> newAvaliation(int star) async {

@@ -83,8 +83,8 @@ class LoginPage extends GetView<LoginController> {
   Widget button() {
     return AppButton(
       onPressed: controller.login,
-      label: "Entrar",
       visible: controller.loading.value,
+      child: const Text("Entrar", style: TextStyle(fontSize: 20)),
     );
   }
 }

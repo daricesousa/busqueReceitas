@@ -42,18 +42,16 @@ class _FilterRecipePageState
             children: [
               AppButton(
                 onPressed: () => controller.clearFilters(context),
-                label: "Limpar filtros",
                 color: AppColor.light,
-                textColor: AppColor.dark2,
                 borderColor: AppColor.dark2,
+                child: const Text("Limpar filtros", style: TextStyle(fontSize: 20, color: AppColor.dark2,)),
               ),
               Container(width: 10),
               AppButton(
                 onPressed: controller.filter,
-                label: "Filtrar",
                 color: AppColor.dark1,
-                textColor: AppColor.light5,
                 width: context.width / 5 * 1.5,
+                child: const Text("Filtrar", style: TextStyle(fontSize: 20, color: AppColor.light1)),
               ),
             ],
           )
