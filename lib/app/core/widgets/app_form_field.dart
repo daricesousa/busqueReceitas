@@ -13,6 +13,8 @@ class AppFormField extends StatefulWidget {
   final void Function()? onSubmit;
   final int maxLines;
   final int minLines;
+  final double? labelFontSize;
+  final String? initialValue;
 
   const AppFormField({
     Key? key,
@@ -27,6 +29,8 @@ class AppFormField extends StatefulWidget {
     this.onSubmit,
     this.maxLines = 1,
     this.minLines = 1,
+    this.labelFontSize,
+    this.initialValue,
   }) : super(key: key);
 
   @override
@@ -39,6 +43,7 @@ class _AppFormFieldState extends State<AppFormField> {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 5),
       child: TextFormField(
+        initialValue: widget.initialValue,
         controller: widget.controller,
         maxLines: widget.maxLines,
         minLines: widget.minLines,
@@ -53,6 +58,8 @@ class _AppFormFieldState extends State<AppFormField> {
            widget.onSubmit?.call();
         },
         decoration: InputDecoration(
+            contentPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+            labelStyle: TextStyle(fontSize: widget.labelFontSize),
             labelText: widget.label,
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(10),

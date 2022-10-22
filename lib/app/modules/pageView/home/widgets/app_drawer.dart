@@ -33,7 +33,8 @@ class _AppDrawerState extends State<AppDrawer> {
               ),
               onDetailsPressed: (){
                 Get.back();
-                Get.toNamed('/profile');
+                // Get.toNamed('/profile');
+                Get.toNamed('/create_recipe');
               },
             ),
             child: UserAccountsDrawerHeader(
@@ -42,7 +43,8 @@ class _AppDrawerState extends State<AppDrawer> {
               accountEmail: const Text(""),
               onDetailsPressed: () {
                 Get.back();
-                Get.toNamed('/login');
+                // Get.toNamed('/login');
+                Get.toNamed('/create_recipe');
               },
             ),
           ),

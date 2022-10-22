@@ -46,17 +46,17 @@ class _AppSelectState<T> extends State<AppSelect<T>> {
             child: Column(
               children: [
                 Container(
-                  height: 63,
+                   height: 47,
                   margin: const EdgeInsets.only(top: 2),
                   alignment: Alignment.centerLeft,
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(15),
+                    borderRadius: BorderRadius.circular(10),
                     border: Border.all(
                       color: Colors.grey,
                     ),
                   ),
-                  padding: const EdgeInsets.only(left: 10),
-                  child: Text(widget.label),
+                  padding: const EdgeInsets.all(10),
+                  child: Text(widget.label, style: const TextStyle(fontSize: 14),),
                 ),
               ],
             ),

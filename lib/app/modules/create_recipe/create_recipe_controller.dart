@@ -1,6 +1,8 @@
+import 'dart:io';
 import 'package:busque_receitas/app/core/utils/enum_difficulty.dart';
 import 'package:busque_receitas/app/models/ingredient_model.dart';
 import 'package:busque_receitas/app/modules/splash/splash_controller.dart';
+import 'package:camera_with_files/camera_with_files.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -10,10 +12,11 @@ class CreateRecipeController extends GetxController {
   List<DropdownMenuItem<Difficulty>> listDropDifficulty = [];
   final listIngredient = <IngredientModel?>[].obs;
   final listMeasurer = <String?>[].obs;
-  final List<double?> listQuantity = [];
-  final listMethod = <String?>[].obs;
+  final listQuantity = <TextEditingController>[].obs;
+  final listMethod = <TextEditingController>[].obs;
   final difficulty = Rxn<Difficulty?>();
   final title = TextEditingController();
+  final image = Rxn<File?>();
 
   @override
   void onInit() {
@@ -31,16 +34,6 @@ class CreateRecipeController extends GetxController {
 
   void onChangeMeasurer({required String? measurer, required int index}) {
     listMeasurer[index] = measurer;
-  }
-
-  void onChangeQuantity({required String? quantity, required int index}) {
-    if (quantity != null) {
-      listQuantity[index] = double.tryParse(quantity);
-    }
-  }
-
-  void onChangeMethod({required String? text, required int index}) {
-    listMethod[index] = text;
   }
 
   void onChangeDifficulty(Difficulty? difficulty) {
@@ -81,40 +74,48 @@ class CreateRecipeController extends GetxController {
   void newIngredient() {
     listIngredient.add(null);
     listMeasurer.add(null);
-    listQuantity.add(null);
+    listQuantity.add(TextEditingController());
   }
 
-  void removeIngredient() {
-    if (listIngredient.isNotEmpty) {
-      listIngredient.removeLast();
-      listMeasurer.removeLast();
-      listQuantity.removeLast();
-    }
+  void removeIngredient(int index) {
+    listQuantity.removeAt(index);
+    listMeasurer.removeAt(index);
+    listIngredient.removeAt(index);
   }
 
   void newMethod() {
-    listMethod.add(null);
+    listMethod.add(TextEditingController());
   }
 
-  void removeMethod() {
-    if (listMethod.isNotEmpty) {
-      listMethod.removeLast();
+  void removeMethod(int index) {
+    listMethod.removeAt(index);
+  }
+
+  Future<void> getImage(BuildContext context) async {
+    final res = await Get.to<List<File>>(CameraApp(isMultiple: true));
+    if (res != null && res.isNotEmpty) {
+      image.value = res[0];
     }
   }
 
-  String? confirmar() {
+  String? confirm() {
     if (title.text == '') {
       return "Preencha o título";
     }
     if (listIngredient.isEmpty) {
       return "Preencha os ingredientes";
     }
+
+    if (listMethod.isEmpty) {
+      return "Preencha o modo de preparo";
+    }
+
     if (difficulty.value == null) {
       return "Preencha a dificuldade";
     }
-    // if(sem foto){
-    //   return "adicione uma imagem";
-    // }
+    if (image.value == null) {
+      return "Adicione uma imagem";
+    }
 
     for (var index = 0; index < listIngredient.length; index += 1) {
       final ingredient = listIngredient[index];
@@ -126,19 +127,16 @@ class CreateRecipeController extends GetxController {
       if (measurer == null) {
         return "Medida do ingrediente ${ingredient.name} não preechida";
       }
-      if (quantity == null || quantity <= 0) {
+      final quantityDouble = double.tryParse(quantity.text);
+      if (quantityDouble == null || quantityDouble <= 0) {
         return "Quantidade do ingrediente ${ingredient.name} inválida";
       }
     }
 
-    // for (var index = 0; index < listMethod.length; index += 1) {
-    //   if (listMethod[index] == null) {
-    //     listMethod.removeAt(index);
-    //   }
-    // }
-
-    if (listMethod.isEmpty) {
-      return "Preencha o modo de preparo";
+    for (var index = 0; index < listMethod.length; index += 1) {
+      if (listMethod[index].text == '') {
+        return "Passo não preenchido";
+      }
     }
   }
 }

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:busque_receitas/app/core/ui/app_color.dart';
 import 'package:busque_receitas/app/core/ui/app_theme.dart';
 import 'package:busque_receitas/app/core/utils/enum_difficulty.dart';
@@ -36,45 +38,51 @@ class CreateRecipePage extends GetView<CreateRecipeController> {
           context: context,
           title: "Ingredientes",
           addFunction: controller.newIngredient,
-          removeFunction: controller.removeIngredient,
         ),
         ...List.generate(controller.listIngredient.length, (index) {
-          return ingredientWidget(index);
+          return ingredientWidget(
+            index: index,
+            remove: () => controller.removeIngredient(index),
+          );
         }),
         const SizedBox(height: 30),
         titleWidget(
           context: context,
           title: "Modo de preparo",
           addFunction: controller.newMethod,
-          removeFunction: controller.removeMethod,
         ),
         ...List.generate(
             controller.listMethod.length,
             (index) => methodWidget(
                   index: index,
-                  onChange: (e) =>
-                      controller.onChangeMethod(index: index, text: e),
+                  remove: ()=> controller.removeMethod(index),
                 )).toList(),
         const SizedBox(height: 30),
         const Text("Imagem", style: TextStyle(fontSize: 20)),
         const SizedBox(height: 5),
         GestureDetector(
-            child: Container(
-              decoration: AppTheme.boxDecoration(color: AppColor.light),
-              height: context.width / 2,
-              child: const Icon(
-                Icons.hide_image,
-                size: 50,
-                color: AppColor.dark1,
-              ),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: Container(
+                  decoration: AppTheme.boxDecoration(color: AppColor.light),
+                  height: context.width / 2,
+                  child: controller.image.value != null
+                      ? Image.file(
+                          File(controller.image.value!.path),
+                          fit: BoxFit.cover,
+                        )
+                      : const Icon(Icons.hide_image,
+                          size: 50, color: AppColor.dark1)),
             ),
-            onTap: () {}),
+            onTap: () async {
+              await controller.getImage(context);
+            }),
         const SizedBox(height: 30),
         difficultyWidget(context),
         const SizedBox(height: 30),
         AppButton(
             onPressed: () {
-              final res = controller.confirmar();
+              final res = controller.confirm();
               print(res);
             },
             child: const Text("Confirmar")),
@@ -86,7 +94,6 @@ class CreateRecipePage extends GetView<CreateRecipeController> {
     required BuildContext context,
     required String title,
     required Function() addFunction,
-    required Function() removeFunction,
   }) {
     return Row(
       mainAxisSize: MainAxisSize.max,
@@ -107,67 +114,89 @@ class CreateRecipePage extends GetView<CreateRecipeController> {
             ),
           ),
         ),
-        const SizedBox(width: 10),
-        Expanded(
-          child: Container(
-            alignment: Alignment.centerRight,
-            child: AppButton(
-              onPressed: removeFunction,
-              child: const Icon(
-                Icons.remove,
-                color: AppColor.dark2,
-              ),
-            ),
-          ),
-        ),
       ],
     );
   }
 
-  Widget ingredientWidget(int index) {
-    return Row(
+  Widget ingredientWidget({required int index, void Function()? remove}) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Expanded(
-          flex: 5,
-          child: AppSelect<IngredientModel>(
-              label: controller.listIngredient[index]?.name ?? "Ingrediente",
-              items: controller.listAllIngredients,
-              titleItem: (e) => e.name,
-              onChange: (i) =>
-                  controller.onChangeIngredient(ingredient: i, index: index)),
+        const SizedBox(
+          height: 10,
         ),
-        const SizedBox(width: 5),
-        Expanded(
-            flex: 3,
-            child: AppFormField(
-              label: "Quantidade",
-              textInputType: TextInputType.number,
-              onChanged: (e) =>
-                  controller.onChangeQuantity(quantity: e, index: index),
-            )),
-        const SizedBox(width: 5),
-        Expanded(
-            flex: 3,
-            child: AppDrop<String>(
-              label: controller.listMeasurer[index] ?? "Medida",
-              list: controller.listDropMeasurer,
-              onChange: (i) {
-                controller.onChangeMeasurer(measurer: i, index: index);
-              },
-            )),
-        const SizedBox(width: 5),
+        Row(
+          children: [
+            Expanded(
+              flex: 5,
+              child: AppSelect<IngredientModel>(
+                  label:
+                      controller.listIngredient[index]?.name ?? "Ingrediente",
+                  items: controller.listAllIngredients,
+                  titleItem: (e) => e.name,
+                  onChange: (i) => controller.onChangeIngredient(
+                      ingredient: i, index: index)),
+            ),
+            const SizedBox(width: 5),
+            Expanded(
+                flex: 3,
+                child: AppFormField(
+                  controller: controller.listQuantity[index],
+                  labelFontSize: 14,
+                  label: "Quantidade",
+                  textInputType: TextInputType.number,
+                )),
+            const SizedBox(width: 5),
+            Expanded(
+                flex: 3,
+                child: AppDrop<String>(
+                  label: controller.listMeasurer[index] ?? "Medida",
+                  list: controller.listDropMeasurer,
+                  onChange: (i) {
+                    controller.onChangeMeasurer(measurer: i, index: index);
+                  },
+                )),
+            const SizedBox(width: 5),
+          ],
+        ),
+        GestureDetector(
+          onTap: remove,
+          child: const Padding(
+            padding: EdgeInsets.only(left: 10),
+            child: Text(
+              "Remover",
+              style: TextStyle(color: AppColor.light1),
+            ),
+          ),
+        )
       ],
     );
   }
 
   Widget methodWidget({
     required int index,
-    required void Function(String) onChange,
+    void Function()? remove,
   }) {
-    return AppFormField(
-      maxLines: 3,
-      label: "Passo ${index + 1}",
-      onChanged: onChange,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const SizedBox(height: 10),
+        AppFormField(
+          controller: controller.listMethod[index],
+          maxLines: 3,
+          label: "Passo ${index + 1}",
+        ),
+        GestureDetector(
+          onTap: remove,
+          child: const Padding(
+            padding: EdgeInsets.only(left: 10),
+            child: Text(
+              "Remover",
+              style: TextStyle(color: AppColor.light1),
+            ),
+          ),
+        )
+      ],
     );
   }
 

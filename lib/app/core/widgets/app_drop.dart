@@ -1,4 +1,3 @@
-import 'package:busque_receitas/app/core/ui/app_color.dart';
 import 'package:flutter/material.dart';
 
 class AppDrop<T> extends StatelessWidget {
@@ -33,11 +32,11 @@ class AppDrop<T> extends StatelessWidget {
           ),
         ),
         Container(
-          padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 5),
-          margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 0),
+          padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 5),
+          // margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 0),
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
-              border: Border.all(color: AppColor.dark1)),
+              border: Border.all(color:Colors.grey)),
           child: DropdownButton<T>(
             onTap: FocusScope.of(context).unfocus,
             disabledHint: const SizedBox(width: 100, height: 50),
@@ -49,6 +48,7 @@ class AppDrop<T> extends StatelessWidget {
             hint: childSelectedBuilder ??
                 Text(
                   label,
+                  style: const TextStyle(fontSize: 15),
                   maxLines: maxLines,
                   overflow: TextOverflow.ellipsis,
                 ),
