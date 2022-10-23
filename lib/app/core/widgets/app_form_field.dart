@@ -15,6 +15,7 @@ class AppFormField extends StatefulWidget {
   final int minLines;
   final double? labelFontSize;
   final String? initialValue;
+  final EdgeInsetsGeometry? padding;
 
   const AppFormField({
     Key? key,
@@ -31,6 +32,7 @@ class AppFormField extends StatefulWidget {
     this.minLines = 1,
     this.labelFontSize,
     this.initialValue,
+    this.padding,
   }) : super(key: key);
 
   @override
@@ -58,7 +60,7 @@ class _AppFormFieldState extends State<AppFormField> {
            widget.onSubmit?.call();
         },
         decoration: InputDecoration(
-            contentPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+            contentPadding: widget.padding,
             labelStyle: TextStyle(fontSize: widget.labelFontSize),
             labelText: widget.label,
             border: OutlineInputBorder(

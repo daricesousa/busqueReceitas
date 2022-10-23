@@ -52,7 +52,7 @@ class HomePage extends GetView<HomeController> {
       ),
       body: Obx(() => body(context)),
       drawer: Obx(() => AppDrawer(
-          logoutUser: controller.logoutUser, user: controller.user.value)),
+          user: controller.user.value)),
     );
   }
 

@@ -170,7 +170,7 @@ class RecipePage extends GetView<RecipeController> {
               message: "Você não possui esse ingrediente",
               child: Icon(
                 Icons.error,
-                color: AppColor.dark3,
+                color: AppColor.red,
               ),
             ),
       text:

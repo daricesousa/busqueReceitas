@@ -51,7 +51,7 @@ class _FilterRecipePageState
                 onPressed: controller.filter,
                 color: AppColor.dark1,
                 width: context.width / 5 * 1.5,
-                child: const Text("Filtrar", style: TextStyle(fontSize: 20, color: AppColor.light1)),
+                child: const Text("Filtrar", style: TextStyle(fontSize: 20, color: AppColor.light)),
               ),
             ],
           )

@@ -16,12 +16,19 @@ class ProfilePage extends GetView<ProfileController> {
         bottom: PreferredSize(
           preferredSize: Size(context.width, 100),
           child: Padding(
-            padding: const EdgeInsets.all(10),
-            child: Text(
-              "Olá, ${controller.userName}",
-              style: const TextStyle(fontSize: 20),
-            ),
-          ),
+              padding: const EdgeInsets.all(10),
+              child: Column(
+                children: [
+                  Text(
+                    controller.userName,
+                    style: const TextStyle(fontSize: 20),
+                  ),
+                   Text(
+                    controller.userEmail,
+                    style: const TextStyle(fontSize: 15),
+                  ),
+                ],
+              )),
         ),
       ),
       body: body(),
@@ -33,25 +40,37 @@ class ProfilePage extends GetView<ProfileController> {
       children: [
         ListTile(
           title: const Text("Adicionar uma receita"),
-          leading: const Icon(MdiIcons.receiptTextPlus, color: AppColor.dark1,),
+          leading: const Icon(
+            MdiIcons.receiptTextPlus,
+            color: AppColor.dark1,
+          ),
           onTap: () {
             Get.toNamed('/create_recipe');
           },
         ),
         ListTile(
           title: const Text("Restrições alimentares"),
-          leading: const Icon(MdiIcons.foodDrumstickOff, color: AppColor.dark1,),
+          leading: const Icon(
+            MdiIcons.foodDrumstickOff,
+            color: AppColor.dark1,
+          ),
           onTap: () {},
         ),
         ListTile(
           title: const Text("Alterar a senha"),
-          leading: const Icon(Icons.lock, color: AppColor.dark1,),
+          leading: const Icon(
+            Icons.lock,
+            color: AppColor.dark1,
+          ),
           onTap: () {},
         ),
         ListTile(
           title: const Text("sair"),
-          leading: const Icon(Icons.exit_to_app, color: AppColor.dark1,),
-          onTap: () {},
+          leading: const Icon(
+            Icons.exit_to_app,
+            color: AppColor.dark1,
+          ),
+          onTap: controller.logoutUser,
         ),
       ],
     );

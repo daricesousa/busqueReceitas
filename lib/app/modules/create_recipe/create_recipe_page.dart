@@ -142,6 +142,7 @@ class CreateRecipePage extends GetView<CreateRecipeController> {
             Expanded(
                 flex: 3,
                 child: AppFormField(
+                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                   controller: controller.listQuantity[index],
                   labelFontSize: 14,
                   label: "Quantidade",

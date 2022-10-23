@@ -74,7 +74,7 @@ class CreateRecipeController extends GetxController {
   }
 
   void newIngredient() {
-    listIngredient.add(IngredientModel(id: 1, name: 'name', groupId: 2, associates: []));
+    listIngredient.add(null);
     listMeasurer.add(null);
     listQuantity.add(TextEditingController());
   }
@@ -100,7 +100,7 @@ class CreateRecipeController extends GetxController {
     }
   }
 
-  String? validations() {
+  void validations() {
     errors.assignAll([
       ValidationCreateRecipe.title(title.text),
       ValidationCreateRecipe.difficulty(difficulty.value),
@@ -114,7 +114,6 @@ class CreateRecipeController extends GetxController {
         index < listIngredient.length && ingredientErro == null;
         index += 1) {
       ingredientErro = ValidationCreateRecipe.ingredient(listIngredient[index]);
-      print(ingredientErro);
       ingredientErro = ingredientErro ??
           ValidationCreateRecipe.quantity(
             quantity: listQuantity[index].text,
@@ -130,7 +129,6 @@ class CreateRecipeController extends GetxController {
     }
     errors.add(ingredientErro);
     errors.removeWhere((e) => e == null);
-    print(errors);
 
   }
 }
