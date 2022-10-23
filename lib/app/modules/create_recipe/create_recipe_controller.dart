@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:busque_receitas/app/core/utils/enum_difficulty.dart';
 import 'package:busque_receitas/app/models/ingredient_model.dart';
+import 'package:busque_receitas/app/modules/create_recipe/validationCreateRecipe.dart';
 import 'package:busque_receitas/app/modules/splash/splash_controller.dart';
 import 'package:camera_with_files/camera_with_files.dart';
 import 'package:flutter/material.dart';
@@ -17,6 +18,7 @@ class CreateRecipeController extends GetxController {
   final difficulty = Rxn<Difficulty?>();
   final title = TextEditingController();
   final image = Rxn<File?>();
+  final errors = <String?>[].obs;
 
   @override
   void onInit() {
@@ -72,7 +74,7 @@ class CreateRecipeController extends GetxController {
   }
 
   void newIngredient() {
-    listIngredient.add(null);
+    listIngredient.add(IngredientModel(id: 1, name: 'name', groupId: 2, associates: []));
     listMeasurer.add(null);
     listQuantity.add(TextEditingController());
   }
@@ -98,45 +100,37 @@ class CreateRecipeController extends GetxController {
     }
   }
 
-  String? confirm() {
-    if (title.text == '') {
-      return "Preencha o título";
-    }
-    if (listIngredient.isEmpty) {
-      return "Preencha os ingredientes";
-    }
+  String? validations() {
+    errors.assignAll([
+      ValidationCreateRecipe.title(title.text),
+      ValidationCreateRecipe.difficulty(difficulty.value),
+      ValidationCreateRecipe.image(image.value),
+      ValidationCreateRecipe.listIngredient(listIngredient),
+      ValidationCreateRecipe.method(listMethod),
+    ]);
 
-    if (listMethod.isEmpty) {
-      return "Preencha o modo de preparo";
-    }
+    String? ingredientErro;
+    for (var index = 0;
+        index < listIngredient.length && ingredientErro == null;
+        index += 1) {
+      ingredientErro = ValidationCreateRecipe.ingredient(listIngredient[index]);
+      print(ingredientErro);
+      ingredientErro = ingredientErro ??
+          ValidationCreateRecipe.quantity(
+            quantity: listQuantity[index].text,
+            nameIngredient: listIngredient[index]!.name,
+          );
+          
+      ingredientErro = ingredientErro ??
+          ValidationCreateRecipe.measurer(
+            measurer: listMeasurer[index],
+            nameIngredient: listIngredient[index]!.name,
+          );
 
-    if (difficulty.value == null) {
-      return "Preencha a dificuldade";
     }
-    if (image.value == null) {
-      return "Adicione uma imagem";
-    }
+    errors.add(ingredientErro);
+    errors.removeWhere((e) => e == null);
+    print(errors);
 
-    for (var index = 0; index < listIngredient.length; index += 1) {
-      final ingredient = listIngredient[index];
-      final measurer = listMeasurer[index];
-      final quantity = listQuantity[index];
-      if (ingredient == null) {
-        return "Ingrediente não preenchido";
-      }
-      if (measurer == null) {
-        return "Medida do ingrediente ${ingredient.name} não preechida";
-      }
-      final quantityDouble = double.tryParse(quantity.text);
-      if (quantityDouble == null || quantityDouble <= 0) {
-        return "Quantidade do ingrediente ${ingredient.name} inválida";
-      }
-    }
-
-    for (var index = 0; index < listMethod.length; index += 1) {
-      if (listMethod[index].text == '') {
-        return "Passo não preenchido";
-      }
-    }
   }
 }

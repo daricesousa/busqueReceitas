@@ -55,7 +55,7 @@ class CreateRecipePage extends GetView<CreateRecipeController> {
             controller.listMethod.length,
             (index) => methodWidget(
                   index: index,
-                  remove: ()=> controller.removeMethod(index),
+                  remove: () => controller.removeMethod(index),
                 )).toList(),
         const SizedBox(height: 30),
         const Text("Imagem", style: TextStyle(fontSize: 20)),
@@ -80,10 +80,11 @@ class CreateRecipePage extends GetView<CreateRecipeController> {
         const SizedBox(height: 30),
         difficultyWidget(context),
         const SizedBox(height: 30),
+        ...controller.errors.map((e) => error(e ?? '')).toList(),
+         const SizedBox(height: 10),
         AppButton(
             onPressed: () {
-              final res = controller.confirm();
-              print(res);
+              controller.validations();
             },
             child: const Text("Confirmar")),
       ],
@@ -213,6 +214,24 @@ class CreateRecipePage extends GetView<CreateRecipeController> {
           list: controller.listDropDifficulty,
           onChange: controller.onChangeDifficulty,
         ))
+      ],
+    );
+  }
+
+  Widget error(String text) {
+    return Row(
+      children: [
+        Container(
+          height: 5,
+          width: 5, 
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(20),
+            color: AppColor.red,
+          ),
+        ),
+        const SizedBox(width: 10),
+        // const Icon(Icons.warning_amber_sharp),
+        Text(text, style: const TextStyle(color: AppColor.red)),
       ],
     );
   }
