@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:busque_receitas/app/core/utils/enum_difficulty.dart';
 import 'package:busque_receitas/app/models/ingredient_model.dart';
+import 'package:busque_receitas/app/modules/create_recipe/ingredient_create_recipe_model.dart';
 import 'package:flutter/material.dart';
 
 class ValidationCreateRecipe {
@@ -59,7 +60,7 @@ class ValidationCreateRecipe {
       }
   } 
 
-  static listIngredient(List<IngredientModel?> listIngredient){
+  static listIngredient(List<IngredientCreateRecipeModel?> listIngredient){
     if (listIngredient.isEmpty) {
       return "Preencha os ingredientes";
     }

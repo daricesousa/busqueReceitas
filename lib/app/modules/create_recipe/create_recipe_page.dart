@@ -39,7 +39,7 @@ class CreateRecipePage extends GetView<CreateRecipeController> {
           title: "Ingredientes",
           addFunction: controller.newIngredient,
         ),
-        ...List.generate(controller.listIngredient.length, (index) {
+        ...List.generate(controller.listIngredientCreate.length, (index) {
           return ingredientWidget(
             index: index,
             remove: () => controller.removeIngredient(index),
@@ -132,7 +132,7 @@ class CreateRecipePage extends GetView<CreateRecipeController> {
               flex: 5,
               child: AppSelect<IngredientModel>(
                   label:
-                      controller.listIngredient[index]?.name ?? "Ingrediente",
+                      controller.listIngredientCreate[index].ingredient?.name ?? "Ingrediente",
                   items: controller.listAllIngredients,
                   titleItem: (e) => e.name,
                   onChange: (i) => controller.onChangeIngredient(
@@ -143,7 +143,7 @@ class CreateRecipePage extends GetView<CreateRecipeController> {
                 flex: 3,
                 child: AppFormField(
                   padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                  controller: controller.listQuantity[index],
+                  controller: controller.listIngredientCreate[index].quantity,
                   labelFontSize: 14,
                   label: "Quantidade",
                   textInputType: TextInputType.number,
@@ -152,7 +152,7 @@ class CreateRecipePage extends GetView<CreateRecipeController> {
             Expanded(
                 flex: 3,
                 child: AppDrop<String>(
-                  label: controller.listMeasurer[index] ?? "Medida",
+                  label: controller.listIngredientCreate[index].measurer ?? "Medida",
                   list: controller.listDropMeasurer,
                   onChange: (i) {
                     controller.onChangeMeasurer(measurer: i, index: index);

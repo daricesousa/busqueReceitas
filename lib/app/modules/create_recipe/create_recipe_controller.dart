@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:busque_receitas/app/core/utils/enum_difficulty.dart';
 import 'package:busque_receitas/app/models/ingredient_model.dart';
+import 'package:busque_receitas/app/modules/create_recipe/ingredient_create_recipe_model.dart';
 import 'package:busque_receitas/app/modules/create_recipe/validationCreateRecipe.dart';
 import 'package:busque_receitas/app/modules/splash/splash_controller.dart';
 import 'package:camera_with_files/camera_with_files.dart';
@@ -11,9 +12,7 @@ class CreateRecipeController extends GetxController {
   final listAllIngredients = Get.find<SplashController>().listIngredients;
   List<DropdownMenuItem<String>> listDropMeasurer = [];
   List<DropdownMenuItem<Difficulty>> listDropDifficulty = [];
-  final listIngredient = <IngredientModel?>[].obs;
-  final listMeasurer = <String?>[].obs;
-  final listQuantity = <TextEditingController>[].obs;
+  final listIngredientCreate = <IngredientCreateRecipeModel>[].obs;
   final listMethod = <TextEditingController>[].obs;
   final difficulty = Rxn<Difficulty?>();
   final title = TextEditingController();
@@ -31,11 +30,13 @@ class CreateRecipeController extends GetxController {
 
   void onChangeIngredient(
       {required IngredientModel ingredient, required int index}) {
-    listIngredient[index] = ingredient;
+    listIngredientCreate[index].ingredient = ingredient;
+    listIngredientCreate[index] = listIngredientCreate[index];
   }
 
   void onChangeMeasurer({required String? measurer, required int index}) {
-    listMeasurer[index] = measurer;
+    listIngredientCreate[index].measurer = measurer;
+    listIngredientCreate[index] = listIngredientCreate[index];
   }
 
   void onChangeDifficulty(Difficulty? difficulty) {
@@ -51,9 +52,11 @@ class CreateRecipeController extends GetxController {
       "unidade",
       "colher de sopa",
       "xícara de chá (240ml)",
-      "copo (200 ml)"
+      "copo (200 ml)",
+      "caixa",
+      "lata"
     ];
-    final listDisplay = ["g", "kg", "ml", "L", "uni", "col", "xíc", "cp"];
+    final listDisplay = ["g", "kg", "ml", "L", "uni", "col", "xíc", "cp", "cx", "lata"];
     List.generate(listMeasurer.length, (index) {
       final item = DropdownMenuItem<String>(
         value: listDisplay[index],
@@ -74,15 +77,11 @@ class CreateRecipeController extends GetxController {
   }
 
   void newIngredient() {
-    listIngredient.add(null);
-    listMeasurer.add(null);
-    listQuantity.add(TextEditingController());
+    listIngredientCreate.add(IngredientCreateRecipeModel());
   }
 
   void removeIngredient(int index) {
-    listQuantity.removeAt(index);
-    listMeasurer.removeAt(index);
-    listIngredient.removeAt(index);
+    listIngredientCreate.removeAt(index);
   }
 
   void newMethod() {
@@ -105,30 +104,43 @@ class CreateRecipeController extends GetxController {
       ValidationCreateRecipe.title(title.text),
       ValidationCreateRecipe.difficulty(difficulty.value),
       ValidationCreateRecipe.image(image.value),
-      ValidationCreateRecipe.listIngredient(listIngredient),
+      ValidationCreateRecipe.listIngredient(listIngredientCreate),
       ValidationCreateRecipe.method(listMethod),
     ]);
 
     String? ingredientErro;
     for (var index = 0;
-        index < listIngredient.length && ingredientErro == null;
+        index < listIngredientCreate.length && ingredientErro == null;
         index += 1) {
-      ingredientErro = ValidationCreateRecipe.ingredient(listIngredient[index]);
-      ingredientErro = ingredientErro ??
-          ValidationCreateRecipe.quantity(
-            quantity: listQuantity[index].text,
-            nameIngredient: listIngredient[index]!.name,
-          );
-          
-      ingredientErro = ingredientErro ??
-          ValidationCreateRecipe.measurer(
-            measurer: listMeasurer[index],
-            nameIngredient: listIngredient[index]!.name,
-          );
+      ingredientErro = ValidationCreateRecipe.ingredient(
+          listIngredientCreate[index].ingredient);
 
+      if (ingredientErro == null) {
+        final nameIngredient = listIngredientCreate[index].ingredient!.name;
+        ingredientErro =
+            ValidationCreateRecipe.quantity(
+              quantity: listIngredientCreate[index].quantity.text,
+              nameIngredient: nameIngredient,
+            );
+
+        ingredientErro = ingredientErro ??
+            ValidationCreateRecipe.measurer(
+              measurer: listIngredientCreate[index].measurer,
+              nameIngredient: nameIngredient,
+            );
+      }
     }
     errors.add(ingredientErro);
     errors.removeWhere((e) => e == null);
 
+    _create();
   }
+
+  _create(){
+    for(final ingredient in listIngredientCreate){
+      ingredient.toMap();
+    }
+  }
+
+
 }
