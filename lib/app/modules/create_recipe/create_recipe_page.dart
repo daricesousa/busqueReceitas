@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:busque_receitas/app/core/ui/app_color.dart';
 import 'package:busque_receitas/app/core/ui/app_theme.dart';
 import 'package:busque_receitas/app/core/utils/enum_difficulty.dart';

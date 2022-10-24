@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:busque_receitas/app/core/utils/enum_difficulty.dart';
+import 'package:busque_receitas/app/core/utils/enum_measurer.dart';
 import 'package:busque_receitas/app/models/ingredient_model.dart';
 import 'package:busque_receitas/app/modules/create_recipe/ingredient_create_recipe_model.dart';
 import 'package:busque_receitas/app/modules/create_recipe/validationCreateRecipe.dart';
@@ -44,23 +45,11 @@ class CreateRecipeController extends GetxController {
   }
 
   void _getListDropMeasurer() {
-    final listMeasurer = [
-      "grama",
-      "quilo",
-      "mililitro",
-      "litro",
-      "unidade",
-      "colher de sopa",
-      "xícara de chá (240ml)",
-      "copo (200 ml)",
-      "caixa",
-      "lata"
-    ];
-    final listDisplay = ["g", "kg", "ml", "L", "uni", "col", "xíc", "cp", "cx", "lata"];
+    final listMeasurer = Measurer.values.map((e) => e).toList();
     List.generate(listMeasurer.length, (index) {
       final item = DropdownMenuItem<String>(
-        value: listDisplay[index],
-        child: Text(listMeasurer[index]),
+        value: listMeasurer[index].instrution,
+        child: Text(listMeasurer[index].display),
       );
       listDropMeasurer.add(item);
     });
@@ -137,9 +126,7 @@ class CreateRecipeController extends GetxController {
   }
 
   _create(){
-    for(final ingredient in listIngredientCreate){
-      ingredient.toMap();
-    }
+    
   }
 
 

@@ -8,15 +8,11 @@ class IngredientCreateRecipeModel {
 
   IngredientCreateRecipeModel({this.ingredient, this.measurer});
 
-Map<String, dynamic> toMap(){
-  final map = {
-    'id': ingredient?.id,
-    'quantity': quantity.text,
-    'measurer': measurer
-  };
-  print(map);
-  return map;
-}
-
-
+  Map<String, dynamic> toMap() {
+    return {
+      'id': ingredient?.id,
+      'quantity': quantity.text,
+      'measurer': measurer
+    };
+  }
 }
