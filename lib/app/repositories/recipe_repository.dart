@@ -21,4 +21,22 @@ class RecipeRepository {
     });
     return res.data;
   }
+
+
+  Future<Map> createRecipe({
+    required String title,
+    required List<Map<String, dynamic>> ingredients,
+    required List<String> method,
+    // required picture,
+    required int difficulty,
+  })async{
+    final res = await _api.post('/recipe/create', data: {
+      "title": title,
+      "ingredients": {"list": ingredients},
+      "method": method,
+      "picture": 'picture',
+      "difficulty": difficulty,
+    });
+    return res.data;
+  }
 }

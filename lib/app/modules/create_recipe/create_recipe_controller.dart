@@ -1,11 +1,14 @@
 import 'dart:io';
 import 'package:busque_receitas/app/core/utils/enum_difficulty.dart';
 import 'package:busque_receitas/app/core/utils/enum_measurer.dart';
+import 'package:busque_receitas/app/core/widgets/app_snack_bar.dart';
 import 'package:busque_receitas/app/models/ingredient_model.dart';
 import 'package:busque_receitas/app/modules/create_recipe/ingredient_create_recipe_model.dart';
 import 'package:busque_receitas/app/modules/create_recipe/validationCreateRecipe.dart';
 import 'package:busque_receitas/app/modules/splash/splash_controller.dart';
+import 'package:busque_receitas/app/repositories/recipe_repository.dart';
 import 'package:camera_with_files/camera_with_files.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -48,8 +51,8 @@ class CreateRecipeController extends GetxController {
     final listMeasurer = Measurer.values.map((e) => e).toList();
     List.generate(listMeasurer.length, (index) {
       final item = DropdownMenuItem<String>(
-        value: listMeasurer[index].instrution,
-        child: Text(listMeasurer[index].display),
+        value: listMeasurer[index].display,
+        child: Text(listMeasurer[index].instrution),
       );
       listDropMeasurer.add(item);
     });
@@ -106,11 +109,10 @@ class CreateRecipeController extends GetxController {
 
       if (ingredientErro == null) {
         final nameIngredient = listIngredientCreate[index].ingredient!.name;
-        ingredientErro =
-            ValidationCreateRecipe.quantity(
-              quantity: listIngredientCreate[index].quantity.text,
-              nameIngredient: nameIngredient,
-            );
+        ingredientErro = ValidationCreateRecipe.quantity(
+          quantity: listIngredientCreate[index].quantity.text,
+          nameIngredient: nameIngredient,
+        );
 
         ingredientErro = ingredientErro ??
             ValidationCreateRecipe.measurer(
@@ -125,9 +127,22 @@ class CreateRecipeController extends GetxController {
     _create();
   }
 
-  _create(){
-    
+  _create() async{
+    final ingredients = listIngredientCreate.map((e) => e.toMap()).toList();
+    final method = listMethod.map((e) => e.text).toList();
+    final repository = RecipeRepository();
+
+    try {
+      final data = await repository.createRecipe(
+        title: title.text,
+        ingredients: ingredients,
+        method: method,
+        difficulty: difficulty.value!.index
+      );
+      AppSnackBar.success(message: data["message"]);
+      Get.back();
+    } on DioError catch (e) {
+       AppSnackBar.error(message: e.response?.data["message"]);
+    }
   }
-
-
 }

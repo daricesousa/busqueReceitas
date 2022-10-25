@@ -71,7 +71,7 @@ class HomePage extends GetView<HomeController> {
       return ErroPage(
           visible: controller.visibleRefrash.value,
           onPressed: () {
-            controller.filter();
+            controller.getRecipes();
           });
     }
     if (!controller.visibleRefrash.value && controller.listRecipes.isEmpty) {

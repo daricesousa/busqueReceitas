@@ -11,8 +11,8 @@ class IngredientCreateRecipeModel {
   Map<String, dynamic> toMap() {
     return {
       'id': ingredient?.id,
-      'quantity': quantity.text,
-      'measurer': measurer
+      'quantity': double.parse(quantity.text),
+      'measurer': measurer,
     };
   }
 }
