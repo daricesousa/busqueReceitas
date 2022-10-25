@@ -1,15 +1,23 @@
+import 'dart:math';
+
 class Decimal {
   Decimal._();
-  static forFraction(double number) {
-    double decimal = getDecimal(number);
-    int denominador = 1;
-    while ((decimal * 10) % 10 != 0) {
-      denominador *= 10;
-      decimal *= 10;
+
+  static forFraction(int decimal) {
+    final digitos = _digitos(decimal);
+    int div = pow(10, digitos).toInt();
+    final mdc = _mdc(div, decimal);
+    final numerador = inteiro(decimal / mdc);
+    final denominador = inteiro(div/mdc);
+    if(numerador >= 33 && numerador % 3 == 0){
+      if(denominador == 50){
+        return "2/3";
+      }
+      if(denominador == 100){
+        return "1/3";
+      }
     }
-    int numerador = int.parse(decimal.toStringAsFixed(0));
-    final mdc = _mdc(denominador, numerador);
-    return " ${(numerador / mdc).toStringAsFixed(0)}/${(denominador / mdc).toStringAsFixed(0)}";
+    return ("$numerador/$denominador");
   }
 
   static int _mdc(int a, int b) {
@@ -21,11 +29,27 @@ class Decimal {
     return a;
   }
 
-  static double getDecimal(double n) {
-    double decimal = 0;
-    if ((n * 10) % 10 != 0) {
-      decimal = n - double.parse(n.toStringAsFixed(0));
+static int _digitos(int n){
+   int digitos = 1;
+    while(n >=10){
+     n = int.parse((n/10).toString().split('.')[1]);
+     digitos +=1;
     }
-    return decimal;
+  return digitos;
+}
+
+static int inteiro(double n){
+  final inteiro = n.toString().split('.')[0];
+  return int.parse(inteiro);
+}
+
+static int decimal(double n){
+  int decimal = 0;
+  final list = n.toString().split('.');
+  if(list.length == 2){
+    decimal = int.parse(list[1]);
   }
+  return decimal;
+}
+
 }

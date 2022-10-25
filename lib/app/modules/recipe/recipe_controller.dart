@@ -87,9 +87,16 @@ class RecipeController extends GetxController {
   }
 
   String personalizeQuantity(double quantity){
-    String quantityString = quantity.toStringAsFixed(0);
-    final decimal = Decimal.getDecimal(quantity);
+    int inteiro = Decimal.inteiro(quantity);
+    int decimal = Decimal.decimal(quantity);
+    String quantityString = '';
+    if(inteiro != 0){
+      quantityString = inteiro.toString();
+    }
     if(decimal != 0){
+      if(quantityString!= ''){
+        quantityString+= ' ';
+      }
       quantityString += Decimal.forFraction(decimal);
     }
     return quantityString;
