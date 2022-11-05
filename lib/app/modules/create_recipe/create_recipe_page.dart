@@ -7,6 +7,7 @@ import 'package:busque_receitas/app/core/widgets/app_select.dart';
 import 'package:busque_receitas/app/core/widgets/app_drop.dart';
 import 'package:busque_receitas/app/core/widgets/app_form_field.dart';
 import 'package:busque_receitas/app/models/ingredient_model.dart';
+import 'package:busque_receitas/app/modules/recipe/widgets/list_item.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import './create_recipe_controller.dart';
@@ -76,12 +77,42 @@ class CreateRecipePage extends GetView<CreateRecipeController> {
             onTap: () async {
               await controller.getImage(context);
             }),
+        ListItem(
+          padding: 7,
+          leading: Icon(
+            controller.pictureIlustration.value
+                ? Icons.check_box
+                : Icons.check_box_outline_blank,
+            color: AppColor.dark1,
+          ),
+          text: "Imagem meramente ilustrativa",
+          onTap: () {
+            controller.pictureIlustration.value =
+                !controller.pictureIlustration.value;
+          },
+        ),
         const SizedBox(height: 30),
         difficultyWidget(context),
         const SizedBox(height: 30),
+        ListItem(
+          padding: 7,
+          leading: Icon(
+            controller.aceppetedTerm.value
+                ? Icons.check_box
+                : Icons.check_box_outline_blank,
+            color: AppColor.dark1,
+          ),
+          text: "Li e aceito o termo de responsabilidade",
+          onTap: () {
+            controller.aceppetedTerm.value = !controller.aceppetedTerm.value;
+          },
+        ),
+        const SizedBox(height: 30),
         ...controller.errors.map((e) => error(e ?? '')).toList(),
-         const SizedBox(height: 10),
+
+        const SizedBox(height: 10),
         AppButton(
+            visible: controller.loading.value,
             onPressed: () {
               controller.validations();
             },
@@ -131,7 +162,8 @@ class CreateRecipePage extends GetView<CreateRecipeController> {
               flex: 5,
               child: AppSelect<IngredientModel>(
                   label:
-                      controller.listIngredientCreate[index].ingredient?.name ?? "Ingrediente",
+                      controller.listIngredientCreate[index].ingredient?.name ??
+                          "Ingrediente",
                   items: controller.listAllIngredients,
                   titleItem: (e) => e.name,
                   onChange: (i) => controller.onChangeIngredient(
@@ -141,7 +173,8 @@ class CreateRecipePage extends GetView<CreateRecipeController> {
             Expanded(
                 flex: 3,
                 child: AppFormField(
-                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                   controller: controller.listIngredientCreate[index].quantity,
                   labelFontSize: 14,
                   label: "Quantidade",
@@ -151,7 +184,8 @@ class CreateRecipePage extends GetView<CreateRecipeController> {
             Expanded(
                 flex: 3,
                 child: AppDrop<String>(
-                  label: controller.listIngredientCreate[index].measurer ?? "Medida",
+                  label: controller.listIngredientCreate[index].measurer ??
+                      "Medida",
                   list: controller.listDropMeasurer,
                   onChange: (i) {
                     controller.onChangeMeasurer(measurer: i, index: index);
@@ -221,16 +255,16 @@ class CreateRecipePage extends GetView<CreateRecipeController> {
   Widget error(String text) {
     return Row(
       children: [
+        const SizedBox(width: 10),
         Container(
           height: 5,
-          width: 5, 
+          width: 5,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(20),
             color: AppColor.red,
           ),
         ),
         const SizedBox(width: 10),
-        // const Icon(Icons.warning_amber_sharp),
         Text(text, style: const TextStyle(color: AppColor.red)),
       ],
     );

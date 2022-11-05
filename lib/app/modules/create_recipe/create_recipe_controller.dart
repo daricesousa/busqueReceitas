@@ -7,7 +7,7 @@ import 'package:busque_receitas/app/modules/create_recipe/ingredient_create_reci
 import 'package:busque_receitas/app/modules/create_recipe/validationCreateRecipe.dart';
 import 'package:busque_receitas/app/modules/splash/splash_controller.dart';
 import 'package:busque_receitas/app/repositories/recipe_repository.dart';
-import 'package:camera_with_files/camera_with_files.dart';
+import 'package:whatsapp_camera/whatsapp_camera.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -22,6 +22,9 @@ class CreateRecipeController extends GetxController {
   final title = TextEditingController();
   final image = Rxn<File?>();
   final errors = <String?>[].obs;
+  final pictureIlustration = false.obs;
+  final loading = false.obs;
+  final aceppetedTerm = false.obs;
 
   @override
   void onInit() {
@@ -85,7 +88,8 @@ class CreateRecipeController extends GetxController {
   }
 
   Future<void> getImage(BuildContext context) async {
-    final res = await Get.to<List<File>>(CameraApp(isMultiple: true));
+    List<File>? res =
+        await Get.to<List<File>>(const WhatsappCamera(multiple: true));
     if (res != null && res.isNotEmpty) {
       image.value = res[0];
     }
@@ -122,27 +126,39 @@ class CreateRecipeController extends GetxController {
       }
     }
     errors.add(ingredientErro);
+
+    if (!aceppetedTerm.value) {
+      errors.add("É preciso aceitar os Termos");
+    }
+
     errors.removeWhere((e) => e == null);
 
-    _create();
+    if (errors.isEmpty) _create();
   }
 
-  _create() async{
+  _create() async {
     final ingredients = listIngredientCreate.map((e) => e.toMap()).toList();
     final method = listMethod.map((e) => e.text).toList();
     final repository = RecipeRepository();
-
     try {
+      loading.value = true;
       final data = await repository.createRecipe(
-        title: title.text,
-        ingredients: ingredients,
-        method: method,
-        difficulty: difficulty.value!.index
-      );
-      AppSnackBar.success(message: data["message"]);
+          title: title.text,
+          ingredients: ingredients,
+          method: method,
+          picturePath: image.value!.path,
+          difficulty: difficulty.value!.index);
+      loading.value = false;
       Get.back();
+      AppSnackBar.success(message: data["message"]);
     } on DioError catch (e) {
-       AppSnackBar.error(message: e.response?.data["message"]);
+      loading.value = false;
+      try{
+        AppSnackBar.error(message: e.response?.data["message"]);
+      }
+      catch(e){
+        AppSnackBar.error(message: "Erro de conexão");
+      }
     }
   }
 }

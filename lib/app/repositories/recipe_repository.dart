@@ -1,6 +1,8 @@
+import 'dart:convert';
+
 import 'package:busque_receitas/app/models/recipe/recipe_model.dart';
 import 'package:dio/dio.dart';
-import 'package:get/get.dart';
+import 'package:get/instance_manager.dart';
 
 class RecipeRepository {
   final _api = Get.find<Dio>();
@@ -27,16 +29,19 @@ class RecipeRepository {
     required String title,
     required List<Map<String, dynamic>> ingredients,
     required List<String> method,
-    // required picture,
+    required String picturePath,
     required int difficulty,
   })async{
-    final res = await _api.post('/recipe/create', data: {
+    var formIngredients = jsonEncode({"list": ingredients});
+    var formMethod = jsonEncode({"list": method});
+    final data = FormData.fromMap({
       "title": title,
-      "ingredients": {"list": ingredients},
-      "method": method,
-      "picture": 'picture',
+      "ingredients": formIngredients,
+      "method": formMethod,
+      "picture": await MultipartFile.fromFile(picturePath, filename: 'busqueReceitas'),
       "difficulty": difficulty,
     });
+    final res = await _api.post('/recipe/create', data: data);
     return res.data;
   }
 }

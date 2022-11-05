@@ -42,7 +42,8 @@ dependencies:
   material_design_icons_flutter: ^5.0.6996
   select_dialog: ^2.0.0
   drag_and_drop_lists: ^0.3.3
-  camera_with_files: ^0.0.12
+  whatsapp_camera: ^1.0.0
+  
   
 
 dev_dependencies:

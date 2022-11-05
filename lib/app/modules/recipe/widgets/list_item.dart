@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 class ListItem extends StatelessWidget {
   final Widget? leading;
+  final double? padding;
   final void Function()? onTap;
   final String? text;
   const ListItem({
@@ -10,6 +11,7 @@ class ListItem extends StatelessWidget {
     this.leading,
     this.onTap,
     this.text,
+    this.padding,
   });
 
   @override
@@ -20,6 +22,7 @@ class ListItem extends StatelessWidget {
         padding: const EdgeInsets.symmetric(vertical: 7, horizontal: 10),
         child: Row(
           children: [
+            SizedBox(width: padding),
             if (leading != null) leading!,
             const SizedBox(width: 10),
             if (text != null)
