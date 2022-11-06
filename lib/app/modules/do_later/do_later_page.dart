@@ -1,5 +1,5 @@
 import 'package:busque_receitas/app/core/ui/app_color.dart';
-import 'package:busque_receitas/app/core/utils/image_convert.dart';
+import 'package:busque_receitas/app/core/utils/image_cached.dart';
 import 'package:busque_receitas/app/core/widgets/no_results_page.dart';
 import 'package:busque_receitas/app/models/recipe/recipe_model.dart';
 import 'package:get/get.dart';
@@ -7,19 +7,20 @@ import 'package:flutter/material.dart';
 import './do_later_controller.dart';
 
 class DoLaterPage extends GetView<DoLaterController> {
-    
-    const DoLaterPage({Key? key}) : super(key: key);
+  const DoLaterPage({Key? key}) : super(key: key);
 
-    @override
-    Widget build(BuildContext context) {
-        return Scaffold(
-            appBar: AppBar(title: const Text('Fazer depois'),),
-            body: body(),
-        );
-    }
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Fazer depois'),
+      ),
+      body: body(),
+    );
+  }
 
-Widget body(){
-   return Obx(() {
+  Widget body() {
+    return Obx(() {
       if (controller.listDoLater.isEmpty) {
         return NoResultsPage(
             visible: false,
@@ -37,7 +38,7 @@ Widget body(){
             return widgetRecipe(recipe, context);
           }));
     });
-}
+  }
 
   Widget widgetRecipe(RecipeModel recipe, BuildContext context) {
     int missedIngredientsQuant =
@@ -55,10 +56,7 @@ Widget body(){
           child: Row(
             mainAxisSize: MainAxisSize.max,
             children: [
-              Container(
-                child: ImageConvert.base64fromImage(
-                    base64String: recipe.picture, width: context.width/5*2),
-              ),
+              ImageCached(recipe.picture, width: context.width / 5 * 2),
               Expanded(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -77,7 +75,6 @@ Widget body(){
                         color: AppColor.dark3,
                       ),
                     ),
-                    
                   ],
                 ),
               )
@@ -91,4 +88,3 @@ Widget body(){
     );
   }
 }
-

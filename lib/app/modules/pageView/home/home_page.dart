@@ -1,5 +1,5 @@
 import 'package:busque_receitas/app/core/ui/app_color.dart';
-import 'package:busque_receitas/app/core/utils/image_convert.dart';
+import 'package:busque_receitas/app/core/utils/image_cached.dart';
 import 'package:busque_receitas/app/core/widgets/app_form_field.dart';
 import 'package:busque_receitas/app/core/widgets/erro_page.dart';
 import 'package:busque_receitas/app/core/widgets/no_results_page.dart';
@@ -9,9 +9,11 @@ import 'package:busque_receitas/app/modules/pageView/home/filter_recipe/filter_r
 import 'package:busque_receitas/app/modules/pageView/home/filter_recipe/filter_recipe_page.dart';
 import 'package:busque_receitas/app/modules/pageView/home/home_controller.dart';
 import 'package:busque_receitas/app/modules/pageView/home/widgets/app_drawer.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:side_sheet/side_sheet.dart';
+import 'package:skeletons/skeletons.dart';
 
 class HomePage extends GetView<HomeController> {
   const HomePage({super.key});
@@ -51,8 +53,7 @@ class HomePage extends GetView<HomeController> {
         ],
       ),
       body: Obx(() => body(context)),
-      drawer: Obx(() => AppDrawer(
-          user: controller.user.value)),
+      drawer: Obx(() => AppDrawer(user: controller.user.value)),
     );
   }
 
@@ -124,8 +125,17 @@ class HomePage extends GetView<HomeController> {
       child: Card(
         child: Column(
           children: [
-            ImageConvert.base64fromImage(
-                base64String: recipe.picture, width: context.width / 2.1),
+            ImageCached(
+              recipe.picture,
+              width: context.width / 2.1,
+            ),
+            // Image.network(
+            //   recipe.picture,
+            //   width: context.width / 2.1,
+            //   height: 120,
+            //   fit: BoxFit.cover,
+            //   errorBuilder: (context, url, error) => const Icon(Icons.error),
+            // ),
             Container(height: 8),
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -139,7 +149,8 @@ class HomePage extends GetView<HomeController> {
                 missedIngredientsQuant != 0
                     ? Text(
                         textMissed,
-                        style: const TextStyle(fontSize: 15, color: AppColor.dark5),
+                        style: const TextStyle(
+                            fontSize: 15, color: AppColor.dark5),
                       )
                     : Container(),
                 Row(

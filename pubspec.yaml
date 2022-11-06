@@ -43,6 +43,8 @@ dependencies:
   select_dialog: ^2.0.0
   drag_and_drop_lists: ^0.3.3
   whatsapp_camera: ^1.0.0
+  cached_network_image: ^3.2.2
+  skeletons: ^0.0.3
   
   
 

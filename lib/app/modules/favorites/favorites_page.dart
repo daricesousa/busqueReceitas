@@ -1,5 +1,5 @@
 import 'package:busque_receitas/app/core/ui/app_color.dart';
-import 'package:busque_receitas/app/core/utils/image_convert.dart';
+import 'package:busque_receitas/app/core/utils/image_cached.dart';
 import 'package:busque_receitas/app/core/widgets/no_results_page.dart';
 import 'package:busque_receitas/app/models/recipe/recipe_model.dart';
 import 'package:get/get.dart';
@@ -56,10 +56,7 @@ class FavoritesPage extends GetView<FavoritesController> {
           child: Row(
             mainAxisSize: MainAxisSize.max,
             children: [
-              Container(
-                child: ImageConvert.base64fromImage(
-                    base64String: recipe.picture,  width: context.width/5*2),
-              ),
+              ImageCached(recipe.picture, width: context.width / 5 * 2),
               Expanded(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,

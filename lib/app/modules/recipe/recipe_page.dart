@@ -1,5 +1,5 @@
 import 'package:busque_receitas/app/core/ui/app_color.dart';
-import 'package:busque_receitas/app/core/utils/image_convert.dart';
+import 'package:busque_receitas/app/core/utils/image_cached.dart';
 import 'package:busque_receitas/app/core/widgets/app_rating.dart';
 import 'package:busque_receitas/app/core/widgets/stars.dart';
 import 'package:busque_receitas/app/models/recipe/recipe_ingredient_model.dart';
@@ -16,7 +16,6 @@ class RecipePage extends GetView<RecipeController> {
   @override
   Widget build(BuildContext context) {
     final recipe = controller.recipe;
-
     return Scaffold(
       appBar: AppBar(
         title: Text(recipe.title),
@@ -64,8 +63,8 @@ class RecipePage extends GetView<RecipeController> {
   }
 
   Widget image(RecipeModel recipe) {
-    return ImageConvert.base64fromImage(
-        base64String: recipe.picture, width: Get.width, height: Get.height / 3);
+    return ImageCached(recipe.picture,
+        width: Get.width, height: Get.height / 3);
   }
 
   List<Widget> actionsAppBar() {
@@ -79,13 +78,15 @@ class RecipePage extends GetView<RecipeController> {
             ),
             onPressed: controller.changeFavorite,
           )),
-      Obx(() => IconButton(
-        icon: Icon(
-          controller.isDoLater.value ? Icons.timer : Icons.timer_outlined,
-          color: AppColor.dark1,
+      Obx(
+        () => IconButton(
+          icon: Icon(
+            controller.isDoLater.value ? Icons.timer : Icons.timer_outlined,
+            color: AppColor.dark1,
+          ),
+          onPressed: controller.changeDoLater,
         ),
-        onPressed: controller.changeDoLater,
-      ),)
+      )
     ];
   }
 
