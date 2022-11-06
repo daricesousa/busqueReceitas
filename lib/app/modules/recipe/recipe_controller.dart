@@ -19,6 +19,7 @@ class RecipeController extends GetxController {
   final _listDoLater = Get.find<SplashController>().listDoLater;
   final isFavorite = false.obs;
   final isDoLater = false.obs;
+  final pictureError = false.obs;
 
   RecipeController({required this.recipe});
 

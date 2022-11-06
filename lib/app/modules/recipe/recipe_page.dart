@@ -4,32 +4,64 @@ import 'package:busque_receitas/app/core/widgets/app_rating.dart';
 import 'package:busque_receitas/app/core/widgets/stars.dart';
 import 'package:busque_receitas/app/models/recipe/recipe_ingredient_model.dart';
 import 'package:busque_receitas/app/models/recipe/recipe_model.dart';
+import 'package:busque_receitas/app/modules/recipe/widgets/app_banner.dart';
 import 'package:busque_receitas/app/modules/recipe/widgets/cards.dart';
 import 'package:busque_receitas/app/modules/recipe/widgets/list_item.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import './recipe_controller.dart';
-
-class RecipePage extends GetView<RecipeController> {
+class RecipePage extends StatefulWidget {
   const RecipePage({Key? key}) : super(key: key);
 
+  @override
+  State<RecipePage> createState() => _RecipePageState();
+}
+
+class _RecipePageState extends State<RecipePage> {
+  final controller = Get.find<RecipeController>();
   @override
   Widget build(BuildContext context) {
     final recipe = controller.recipe;
     return Scaffold(
       appBar: AppBar(
-        title: Text(recipe.title),
-        centerTitle: true,
+        // title: Text(recipe.title),
+        // centerTitle: true,
         actions: actionsAppBar(),
       ),
-      body: body(recipe),
+      body: Obx(() => body(recipe)),
     );
   }
 
   Widget body(RecipeModel recipe) {
+    print(recipe.pictureIlustration);
     return ListView(
       children: [
-        image(recipe),
+        Text(controller.pictureError.toString()),
+        AppBanner(
+          label: "Ilustrativa",
+          // color: AppColor.dark3,
+          // labelColor: AppColor.light,
+          visible: recipe.pictureIlustration && !controller.pictureError.value,
+          child: ImageCached(
+            recipe.picture,
+            width: Get.width,
+            height: Get.height / 3,
+            asError: (e) {
+              WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+                setState(() {
+                  controller.pictureError.value = e!= null;
+                });
+              });
+            },
+          ),
+        ),
+        // ImageCached(recipe.picture, width: Get.width, height: Get.height / 3),
+        const SizedBox(height: 10),
+        Text(
+          recipe.title,
+          textAlign: TextAlign.center,
+          style: const TextStyle(fontSize: 22),
+        ),
         cards(
           [
             cardDifficulty(recipe),
@@ -60,11 +92,6 @@ class RecipePage extends GetView<RecipeController> {
         )
       ],
     );
-  }
-
-  Widget image(RecipeModel recipe) {
-    return ImageCached(recipe.picture,
-        width: Get.width, height: Get.height / 3);
   }
 
   List<Widget> actionsAppBar() {

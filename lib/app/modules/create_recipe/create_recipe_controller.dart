@@ -147,6 +147,7 @@ class CreateRecipeController extends GetxController {
           ingredients: ingredients,
           method: method,
           picturePath: image.value!.path,
+          pictureIlustration: pictureIlustration.value,
           difficulty: difficulty.value!.index);
       loading.value = false;
       Get.back();

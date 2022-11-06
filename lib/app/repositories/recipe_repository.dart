@@ -24,22 +24,24 @@ class RecipeRepository {
     return res.data;
   }
 
-
   Future<Map> createRecipe({
     required String title,
     required List<Map<String, dynamic>> ingredients,
     required List<String> method,
     required String picturePath,
     required int difficulty,
-  })async{
+    bool pictureIlustration = false,
+  }) async {
     var formIngredients = jsonEncode({"list": ingredients});
     var formMethod = jsonEncode({"list": method});
     final data = FormData.fromMap({
       "title": title,
       "ingredients": formIngredients,
       "method": formMethod,
-      "picture": await MultipartFile.fromFile(picturePath, filename: 'busqueReceitas'),
+      "picture":
+          await MultipartFile.fromFile(picturePath, filename: 'busqueReceitas'),
       "difficulty": difficulty,
+      "picture_ilustration": pictureIlustration,
     });
     final res = await _api.post('/recipe/create', data: data);
     return res.data;

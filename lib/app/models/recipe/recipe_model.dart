@@ -11,6 +11,8 @@ class RecipeModel {
   String creator;
   List<String> method;
   AvaliationModel avaliation;
+  bool pictureIlustration;
+
 
   RecipeModel({
     required this.id,
@@ -21,6 +23,7 @@ class RecipeModel {
     required this.creator,
     required this.method,
     required this.avaliation,
+    this.pictureIlustration = false,
   });
 
   Map<String, dynamic> toMap() {
@@ -33,6 +36,7 @@ class RecipeModel {
       'ingredients': {"list": listIngredients.map((e) => e.toMap()).toList(),},
       'avaliation': avaliation.toMap(),
       'picture': picture,
+      'picture_ilustration': pictureIlustration,
     };
   }
 
@@ -41,6 +45,7 @@ class RecipeModel {
       id: json['id'],
       title: json['title'],
       picture: json['picture'],
+      pictureIlustration: json['picture_ilustration'] ?? false,
       difficulty: Difficulty.values[(json['difficulty'] ?? 0)],
       creator: json['name_creator'] ?? '',
       method: json['method'].map<String>((e) => e.toString()).toList(),
