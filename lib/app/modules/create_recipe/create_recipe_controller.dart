@@ -1,6 +1,8 @@
 import 'dart:io';
 import 'package:busque_receitas/app/core/utils/enum_difficulty.dart';
+import 'package:busque_receitas/app/core/utils/enum_home_appliance.dart';
 import 'package:busque_receitas/app/core/utils/enum_measurer.dart';
+import 'package:busque_receitas/app/core/utils/enum_recipe_type.dart';
 import 'package:busque_receitas/app/core/widgets/app_snack_bar.dart';
 import 'package:busque_receitas/app/models/ingredient_model.dart';
 import 'package:busque_receitas/app/modules/create_recipe/ingredient_create_recipe_model.dart';
@@ -16,20 +18,25 @@ class CreateRecipeController extends GetxController {
   final listAllIngredients = Get.find<SplashController>().listIngredients;
   List<DropdownMenuItem<String>> listDropMeasurer = [];
   List<DropdownMenuItem<Difficulty>> listDropDifficulty = [];
+  List<DropdownMenuItem<String>> listDropTime = [];
   final listIngredientCreate = <IngredientCreateRecipeModel>[].obs;
   final listMethod = <TextEditingController>[].obs;
   final difficulty = Rxn<Difficulty?>();
+  final timeSetup = Rxn<String?>();
+  final timeCooking = Rxn<String?>();
   final title = TextEditingController();
   final image = Rxn<File?>();
   final errors = <String?>[].obs;
   final pictureIlustration = false.obs;
   final loading = false.obs;
   final aceppetedTerm = false.obs;
+ 
 
   @override
   void onInit() {
     _getListDropMeasurer();
     _getListDifficulty();
+    _getListDropTime();
     newIngredient();
     newMethod();
     super.onInit();
@@ -50,6 +57,14 @@ class CreateRecipeController extends GetxController {
     this.difficulty.value = difficulty;
   }
 
+  void onChangeTimeSetup(String? time) {
+   timeSetup.value = time;
+  }
+
+    void onChangeTimeCooking(String? time) {
+   timeCooking.value = time;
+  }
+
   void _getListDropMeasurer() {
     final listMeasurer = Measurer.values.map((e) => e).toList();
     List.generate(listMeasurer.length, (index) {
@@ -58,6 +73,17 @@ class CreateRecipeController extends GetxController {
         child: Text(listMeasurer[index].instrution),
       );
       listDropMeasurer.add(item);
+    });
+  }
+
+  void _getListDropTime() {
+    final listTime = ["até 10 min", "11-30 min", "31-60 min", "mais de 1 hora"];
+    List.generate(listTime.length, (index) {
+      final item = DropdownMenuItem<String>(
+        value: listTime[index],
+        child: Text(listTime[index]),
+      );
+      listDropTime.add(item);
     });
   }
 
@@ -102,6 +128,8 @@ class CreateRecipeController extends GetxController {
       ValidationCreateRecipe.image(image.value),
       ValidationCreateRecipe.listIngredient(listIngredientCreate),
       ValidationCreateRecipe.method(listMethod),
+      ValidationCreateRecipe.timeSetup(timeSetup.value),
+      ValidationCreateRecipe.timeCooking(timeCooking.value),
     ]);
 
     String? ingredientErro;
@@ -148,16 +176,17 @@ class CreateRecipeController extends GetxController {
           method: method,
           picturePath: image.value!.path,
           pictureIlustration: pictureIlustration.value,
-          difficulty: difficulty.value!.index);
+          difficulty: difficulty.value!.index,
+          timeSetup: timeSetup.value!,
+          timeCooking: timeCooking.value!);
       loading.value = false;
       Get.back();
       AppSnackBar.success(message: data["message"]);
     } on DioError catch (e) {
       loading.value = false;
-      try{
+      try {
         AppSnackBar.error(message: e.response?.data["message"]);
-      }
-      catch(e){
+      } catch (e) {
         AppSnackBar.error(message: "Erro de conexão");
       }
     }

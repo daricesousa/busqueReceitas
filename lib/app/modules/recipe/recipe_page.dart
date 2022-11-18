@@ -33,10 +33,8 @@ class _RecipePageState extends State<RecipePage> {
   }
 
   Widget body(RecipeModel recipe) {
-    print(recipe.pictureIlustration);
     return ListView(
       children: [
-        Text(controller.pictureError.toString()),
         AppBanner(
           label: "Ilustrativa",
           // color: AppColor.dark3,

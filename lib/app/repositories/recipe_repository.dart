@@ -30,6 +30,8 @@ class RecipeRepository {
     required List<String> method,
     required String picturePath,
     required int difficulty,
+    required String timeSetup,
+    required String timeCooking,
     bool pictureIlustration = false,
   }) async {
     var formIngredients = jsonEncode({"list": ingredients});
@@ -42,6 +44,8 @@ class RecipeRepository {
           await MultipartFile.fromFile(picturePath, filename: 'busqueReceitas'),
       "difficulty": difficulty,
       "picture_ilustration": pictureIlustration,
+      "time_setup": timeSetup,
+      "time_cooking": timeCooking,
     });
     final res = await _api.post('/recipe/create', data: data);
     return res.data;

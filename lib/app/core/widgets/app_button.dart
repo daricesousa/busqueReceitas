@@ -51,7 +51,7 @@ class _AppButtonState extends State<AppButton> {
               height: 15,
               width: 15,
               child: CircularProgressIndicator(
-                color: AppColor.light5,
+                color: AppColor.dark2,
               ),
             ),
           )),

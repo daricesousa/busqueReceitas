@@ -47,22 +47,34 @@ class ValidationCreateRecipe {
     }
   }
 
-  static measurer({required String? measurer, required String nameIngredient}){
+  static measurer({required String? measurer, required String nameIngredient}) {
     if (measurer == null) {
-        return "Medida do ingrediente $nameIngredient não preechida";
-      }
+      return "Medida do ingrediente $nameIngredient não preechida";
+    }
   }
 
-  static quantity({required String quantity, required String nameIngredient}){
+  static quantity({required String quantity, required String nameIngredient}) {
     final quantityDouble = double.tryParse(quantity);
-      if (quantityDouble == null || quantityDouble <= 0) {
-        return "Quantidade do ingrediente $nameIngredient inválida";
-      }
-  } 
+    if (quantityDouble == null || quantityDouble <= 0) {
+      return "Quantidade do ingrediente $nameIngredient inválida";
+    }
+  }
 
-  static listIngredient(List<IngredientCreateRecipeModel?> listIngredient){
+  static listIngredient(List<IngredientCreateRecipeModel?> listIngredient) {
     if (listIngredient.isEmpty) {
       return "Preencha os ingredientes";
+    }
+  }
+
+  static timeSetup(String? time) {
+    if (time == null) {
+      return "Seleciona o tempo de preparo";
+    }
+  }
+
+  static timeCooking(String? time) {
+    if (time == null) {
+      return "Seleciona o tempo de cozimento";
     }
   }
 }
