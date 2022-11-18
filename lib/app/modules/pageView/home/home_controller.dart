@@ -1,8 +1,10 @@
+import 'package:busque_receitas/app/core/widgets/app_snack_bar.dart';
 import 'package:busque_receitas/app/models/recipe/filter_recipe_model.dart';
 import 'package:busque_receitas/app/models/recipe/recipe_model.dart';
 import 'package:busque_receitas/app/modules/pageView/home/app_filter.dart';
 import 'package:busque_receitas/app/modules/splash/splash_controller.dart';
 import 'package:busque_receitas/app/repositories/recipe_repository.dart';
+import 'package:dio/dio.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 
@@ -39,12 +41,16 @@ class HomeController extends GetxController {
     try {
       visibleRefrash.value = true;
       _listRecipes.assignAll(await _repository.getRecipes());
-      visibleRefrash.value = false;
       sortRecipes();
-    } catch (e) {
+    } on DioError catch (e) {
+      try {
+        AppSnackBar.error(message: e.response?.data["message"]);
+      } catch (e) {
+        AppSnackBar.error(message: "Erro de conexão");
+      }
+    }
+    finally{
       visibleRefrash.value = false;
-      print(e);
-      print("erro ao carregar receitas");
     }
   }
 

@@ -2,12 +2,12 @@ import 'dart:io';
 import 'package:busque_receitas/app/core/ui/app_color.dart';
 import 'package:busque_receitas/app/core/ui/app_theme.dart';
 import 'package:busque_receitas/app/core/utils/enum_difficulty.dart';
-import 'package:busque_receitas/app/core/utils/enum_home_appliance.dart';
-import 'package:busque_receitas/app/core/utils/enum_recipe_type.dart';
 import 'package:busque_receitas/app/core/widgets/app_button.dart';
 import 'package:busque_receitas/app/core/widgets/app_select.dart';
 import 'package:busque_receitas/app/core/widgets/app_drop.dart';
 import 'package:busque_receitas/app/core/widgets/app_form_field.dart';
+import 'package:busque_receitas/app/core/widgets/app_select_dialog.dart';
+import 'package:busque_receitas/app/models/groupIngredients_model.dart';
 import 'package:busque_receitas/app/models/ingredient_model.dart';
 import 'package:busque_receitas/app/modules/create_recipe/widgets/time_widget.dart';
 import 'package:busque_receitas/app/modules/recipe/widgets/list_item.dart';
@@ -47,6 +47,7 @@ class CreateRecipePage extends GetView<CreateRecipeController> {
           return ingredientWidget(
             index: index,
             remove: () => controller.removeIngredient(index),
+            context: context,
           );
         }),
         const SizedBox(height: 30),
@@ -151,7 +152,10 @@ class CreateRecipePage extends GetView<CreateRecipeController> {
     );
   }
 
-  Widget ingredientWidget({required int index, void Function()? remove}) {
+  Widget ingredientWidget(
+      {required int index,
+      void Function()? remove,
+      required BuildContext context}) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -163,13 +167,19 @@ class CreateRecipePage extends GetView<CreateRecipeController> {
             Expanded(
               flex: 5,
               child: AppSelect<IngredientModel>(
-                  label:
-                      controller.listIngredientCreate[index].ingredient?.name ??
-                          "Ingrediente",
-                  items: controller.listAllIngredients,
-                  titleItem: (e) => e.name,
-                  onChange: (i) => controller.onChangeIngredient(
-                      ingredient: i, index: index)),
+                title: "Ingrediente",
+                label:
+                    controller.listIngredientCreate[index].ingredient?.name ??
+                        "Ingrediente",
+                items: controller.listAllIngredients,
+                titleItem: (e) => e.name,
+                onChange: (i) =>
+                    controller.onChangeIngredient(ingredient: i, index: index),
+                notFind: (ingredientName) => createIngredient(
+                    context: context,
+                    ingredientName: ingredientName,
+                    index: index),
+              ),
             ),
             const SizedBox(width: 5),
             Expanded(
@@ -210,7 +220,35 @@ class CreateRecipePage extends GetView<CreateRecipeController> {
     );
   }
 
-  
+  Widget createIngredient({
+    required BuildContext context,
+    required String ingredientName,
+    required int index,
+  }) {
+    return Column(
+      children: [
+        const Text("Ingrediente não encontrado"),
+        const SizedBox(height: 10),
+        AppButton(
+            onPressed: () {
+              AppSelectDialog().showModal<GroupIngredientsModel>(
+                  context: context,
+                  items: controller.listGroups,
+                  titleItem: (group) => group.name,
+                  notFind: (e) => const Text("Nada encontrado"),
+                  title: "Selecione o grupo que $ingredientName pertence",
+                  onChange: (group) {
+                    controller.createIngredient(
+                        ingredientName: ingredientName,
+                        group: group,
+                        index: index);
+                  });
+            },
+            child: const Text("Criar ingrediente"))
+      ],
+    );
+  }
+
   Widget methodWidget({
     required int index,
     void Function()? remove,
@@ -268,32 +306,33 @@ class CreateRecipePage extends GetView<CreateRecipeController> {
     );
   }
 
-  Widget timeCooking(BuildContext context){
+  Widget timeCooking(BuildContext context) {
     return TimeWidget(
-          icon: MdiIcons.gasBurner,
-          context: context,
-          title: "Tempo de cozimento",
-          appDrop: AppDrop<String>(
-            label: controller.timeCooking.value ?? "Tempo",
-            list: controller.listDropTime,
-            onChange: controller.onChangeTimeCooking,
-          ),
-        );
+      icon: MdiIcons.gasBurner,
+      context: context,
+      title: "Tempo de cozimento",
+      appDrop: AppDrop<String>(
+        label: controller.timeCooking.value ?? "Tempo",
+        list: controller.listDropTime,
+        onChange: controller.onChangeTimeCooking,
+      ),
+    );
   }
-  Widget accept(){
+
+  Widget accept() {
     return ListItem(
-          padding: 7,
-          leading: Icon(
-            controller.aceppetedTerm.value
-                ? Icons.check_box
-                : Icons.check_box_outline_blank,
-            color: AppColor.dark1,
-          ),
-          text: "Li e aceito o termo de responsabilidade",
-          onTap: () {
-            controller.aceppetedTerm.value = !controller.aceppetedTerm.value;
-          },
-        );
+      padding: 7,
+      leading: Icon(
+        controller.aceppetedTerm.value
+            ? Icons.check_box
+            : Icons.check_box_outline_blank,
+        color: AppColor.dark1,
+      ),
+      text: "Li e aceito o termo de responsabilidade",
+      onTap: () {
+        controller.aceppetedTerm.value = !controller.aceppetedTerm.value;
+      },
+    );
   }
 
   Widget error(String text) {

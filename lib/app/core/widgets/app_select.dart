@@ -1,10 +1,12 @@
+import 'package:busque_receitas/app/core/widgets/app_select_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:select_dialog/select_dialog.dart';
 
 class AppSelect<T> extends StatefulWidget {
   final String label;
+  final String title;
   final void Function(T)? onChange;
+  final Widget Function(String)? notFind;
   final String Function(T)? titleItem;
   final bool Function()? onTap;
   final List<T> items;
@@ -12,7 +14,9 @@ class AppSelect<T> extends StatefulWidget {
   const AppSelect({
     super.key,
     required this.items,
+    this.notFind,
     this.label = "",
+    this.title = '',
     this.titleItem,
     this.onChange,
     this.onTap,
@@ -28,6 +32,7 @@ class _AppSelectState<T> extends State<AppSelect<T>> {
   @override
   void dispose() {
     selected.dispose();
+    textFind.dispose();
     super.dispose();
   }
 
@@ -37,6 +42,7 @@ class _AppSelectState<T> extends State<AppSelect<T>> {
     super.didUpdateWidget(oldWidget);
   }
 
+  final textFind = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return AnimatedBuilder(
@@ -46,7 +52,7 @@ class _AppSelectState<T> extends State<AppSelect<T>> {
             child: Column(
               children: [
                 Container(
-                   height: 47,
+                  height: 47,
                   margin: const EdgeInsets.only(top: 2),
                   alignment: Alignment.centerLeft,
                   decoration: BoxDecoration(
@@ -56,7 +62,10 @@ class _AppSelectState<T> extends State<AppSelect<T>> {
                     ),
                   ),
                   padding: const EdgeInsets.all(10),
-                  child: Text(widget.label, style: const TextStyle(fontSize: 14),),
+                  child: Text(
+                    widget.label,
+                    style: const TextStyle(fontSize: 14),
+                  ),
                 ),
               ],
             ),
@@ -64,24 +73,12 @@ class _AppSelectState<T> extends State<AppSelect<T>> {
               Get.focusScope?.unfocus();
               var res = widget.onTap?.call();
               if (res == false) return;
-              SelectDialog.showModal<T>(
-                context,
-                emptyBuilder: (_) {
-                  return const Text("Nenhum item encontrado");
-                },
-                itemBuilder: (context, item, isSelected) {
-                  return ListTile(
-                    title: Text(widget.titleItem?.call(item) ?? ""),
-                  );
-                },
-                searchBoxDecoration: InputDecoration(
-                  hintText: "Pesquisar",
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                ),
-                label: "Ingrediente",
+              AppSelectDialog().showModal(
+                context: context,
                 items: widget.items,
+                titleItem: widget.titleItem,
+                notFind: widget.notFind,
+                title: widget.title,
                 onChange: (v) {
                   selected.value = v.toString();
                   widget.onChange?.call(v);

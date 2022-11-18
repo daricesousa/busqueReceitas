@@ -1,9 +1,8 @@
 import 'dart:io';
 import 'package:busque_receitas/app/core/utils/enum_difficulty.dart';
-import 'package:busque_receitas/app/core/utils/enum_home_appliance.dart';
 import 'package:busque_receitas/app/core/utils/enum_measurer.dart';
-import 'package:busque_receitas/app/core/utils/enum_recipe_type.dart';
 import 'package:busque_receitas/app/core/widgets/app_snack_bar.dart';
+import 'package:busque_receitas/app/models/groupIngredients_model.dart';
 import 'package:busque_receitas/app/models/ingredient_model.dart';
 import 'package:busque_receitas/app/modules/create_recipe/ingredient_create_recipe_model.dart';
 import 'package:busque_receitas/app/modules/create_recipe/validationCreateRecipe.dart';
@@ -15,7 +14,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class CreateRecipeController extends GetxController {
-  final listAllIngredients = Get.find<SplashController>().listIngredients;
+  final _listAllIngredients = Get.find<SplashController>().listIngredients;
+  final listGroups = Get.find<SplashController>().listGroups;
   List<DropdownMenuItem<String>> listDropMeasurer = [];
   List<DropdownMenuItem<Difficulty>> listDropDifficulty = [];
   List<DropdownMenuItem<String>> listDropTime = [];
@@ -30,7 +30,13 @@ class CreateRecipeController extends GetxController {
   final pictureIlustration = false.obs;
   final loading = false.obs;
   final aceppetedTerm = false.obs;
- 
+
+  RxList<IngredientModel> get listAllIngredients {
+    _listAllIngredients.sort((a, b) {
+      return a.name.toLowerCase().compareTo(b.name.toLowerCase());
+    });
+    return _listAllIngredients;
+  }
 
   @override
   void onInit() {
@@ -58,11 +64,11 @@ class CreateRecipeController extends GetxController {
   }
 
   void onChangeTimeSetup(String? time) {
-   timeSetup.value = time;
+    timeSetup.value = time;
   }
 
-    void onChangeTimeCooking(String? time) {
-   timeCooking.value = time;
+  void onChangeTimeCooking(String? time) {
+    timeCooking.value = time;
   }
 
   void _getListDropMeasurer() {
@@ -119,6 +125,18 @@ class CreateRecipeController extends GetxController {
     if (res != null && res.isNotEmpty) {
       image.value = res[0];
     }
+  }
+
+  void createIngredient({
+    required String ingredientName,
+    required GroupIngredientsModel group,
+    required int index,
+  }) {
+    Get.back();
+    final ingredient = IngredientModel(
+        id: -1, name: ingredientName, groupId: group.id, associates: []);
+    _listAllIngredients.add(ingredient);
+    onChangeIngredient(ingredient: ingredient, index: index);
   }
 
   void validations() {
