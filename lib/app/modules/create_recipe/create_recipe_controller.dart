@@ -7,6 +7,7 @@ import 'package:busque_receitas/app/models/ingredient_model.dart';
 import 'package:busque_receitas/app/modules/create_recipe/ingredient_create_recipe_model.dart';
 import 'package:busque_receitas/app/modules/create_recipe/validationCreateRecipe.dart';
 import 'package:busque_receitas/app/modules/splash/splash_controller.dart';
+import 'package:busque_receitas/app/repositories/ingredient_repository.dart';
 import 'package:busque_receitas/app/repositories/recipe_repository.dart';
 import 'package:whatsapp_camera/whatsapp_camera.dart';
 import 'package:dio/dio.dart';
@@ -14,7 +15,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class CreateRecipeController extends GetxController {
-  final _listAllIngredients = Get.find<SplashController>().listIngredients;
+  final _listAllIngredients = <IngredientModel>[].obs;
   final listGroups = Get.find<SplashController>().listGroups;
   List<DropdownMenuItem<String>> listDropMeasurer = [];
   List<DropdownMenuItem<Difficulty>> listDropDifficulty = [];
@@ -40,6 +41,7 @@ class CreateRecipeController extends GetxController {
 
   @override
   void onInit() {
+    _listAllIngredients.assignAll(Get.find<SplashController>().listIngredients);
     _getListDropMeasurer();
     _getListDifficulty();
     _getListDropTime();
@@ -182,13 +184,54 @@ class CreateRecipeController extends GetxController {
     if (errors.isEmpty) _create();
   }
 
+  Future<void> _createIngredientAPI()async{
+  final repositoryIngredient = IngredientRepository();
+      final listNewIngredients = listIngredientCreate.map((i) {
+        if (i.ingredient!.id == -1) {
+          return i.ingredient;
+        }
+      }).toList();
+      listNewIngredients.removeWhere((e) => e == null);
+      if (listNewIngredients.isNotEmpty) {
+        final listIngredientsCreated =
+            await Future.wait(listNewIngredients.map((i) {
+          return _createIngredientFunctionRepository(
+              ingredient: i!, repositoryIngredient: repositoryIngredient);
+        }).toList());
+
+        for (int index = 0; index < listIngredientCreate.length; index += 1) {
+          if (listIngredientCreate[index].ingredient!.id == -1) {
+            listIngredientCreate[index].ingredient =
+                listIngredientsCreated.firstWhere((element) =>
+                    element.name ==
+                    listIngredientCreate[index].ingredient!.name);
+          }
+          print(listIngredientCreate[index].ingredient!.id);
+          print("cima");
+        }
+      }
+  }
+
+  Future<IngredientModel> _createIngredientFunctionRepository({
+    required IngredientModel ingredient,
+    required repositoryIngredient,
+  }) async {
+    final data = await repositoryIngredient.createIngredient(
+      name: ingredient.name,
+      groupId: ingredient.groupId,
+    );
+    return IngredientModel.fromMap(data["data"]);
+  }
+
   _create() async {
-    final ingredients = listIngredientCreate.map((e) => e.toMap()).toList();
+    loading.value = true;
     final method = listMethod.map((e) => e.text).toList();
-    final repository = RecipeRepository();
+    final repositoryRecipe = RecipeRepository();
+
     try {
-      loading.value = true;
-      final data = await repository.createRecipe(
+      await _createIngredientAPI();
+      final ingredients = listIngredientCreate.map((e) => e.toMap()).toList();
+      final data = await repositoryRecipe.createRecipe(
           title: title.text,
           ingredients: ingredients,
           method: method,
@@ -197,16 +240,17 @@ class CreateRecipeController extends GetxController {
           difficulty: difficulty.value!.index,
           timeSetup: timeSetup.value!,
           timeCooking: timeCooking.value!);
-      loading.value = false;
-      Get.back();
+      // Get.back();
       AppSnackBar.success(message: data["message"]);
     } on DioError catch (e) {
-      loading.value = false;
       try {
         AppSnackBar.error(message: e.response?.data["message"]);
       } catch (e) {
         AppSnackBar.error(message: "Erro de conexão");
       }
+    } catch (e) {
+      print(e);
     }
+    loading.value = false;
   }
 }

@@ -8,8 +8,8 @@ class IngredientModel {
     required this.id,
     required this.name,
     required this.groupId,
-    required this.associates,
-  });
+    List<int>? associates,
+  }):associates = associates ?? [];
 
   Map<String, dynamic> toMap() {
     return {
@@ -20,7 +20,7 @@ class IngredientModel {
     };
   }
 
-  factory IngredientModel.fromMap(Map<String, dynamic> json) {
+  factory IngredientModel.fromMap(json) {
     return IngredientModel(
       id: json['id'],
       name: json['name'],

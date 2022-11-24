@@ -34,4 +34,13 @@ class IngredientRepository {
   Future<void> _saveGroups(List data) async {
     await GetStorage().write('groups', data);
   }
+
+  Future<Map> createIngredient({
+    required String name,
+    required int groupId,
+  }) async {
+    final res = await _api
+        .post("/new-ingredient", data: {"name": name, "group": groupId});
+    return res.data;
+  }
 }

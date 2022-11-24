@@ -11,23 +11,24 @@ import 'package:flutter/material.dart';
 class HomeController extends GetxController {
   final _listRecipes = <RecipeModel>[].obs;
   final _repository = RecipeRepository();
-  final visibleRefrash = false.obs; 
+  final visibleRefrash = false.obs;
   final user = Get.find<SplashController>().user;
   final TextEditingController searchController = TextEditingController();
   final search = ''.obs;
   List<FilterRecipeModel> listFilters = [];
   final _listFiltersObs = <FilterRecipeModel>[].obs;
 
-
-  missedIngredientsQuant(listIngredients) => Get.find<SplashController>().missedIngredientsQuant(listIngredients);
+  missedIngredientsQuant(listIngredients) =>
+      Get.find<SplashController>().missedIngredientsQuant(listIngredients);
 
   List<RecipeModel> get listRecipes {
     return _listRecipes.where((e) {
-      return AppFilter.filter(filters: _listFiltersObs, recipe: e, word: search.value);
+      return AppFilter.filter(
+          filters: _listFiltersObs, recipe: e, word: search.value);
     }).toList();
   }
 
-  void filter(){
+  void filter() {
     _listFiltersObs.assignAll(listFilters);
   }
 
@@ -38,19 +39,20 @@ class HomeController extends GetxController {
   }
 
   Future<void> getRecipes() async {
-    try {
-      visibleRefrash.value = true;
-      _listRecipes.assignAll(await _repository.getRecipes());
-      sortRecipes();
-    } on DioError catch (e) {
+    if (visibleRefrash.value == false) {
       try {
-        AppSnackBar.error(message: e.response?.data["message"]);
-      } catch (e) {
-        AppSnackBar.error(message: "Erro de conexão");
+        visibleRefrash.value = true;
+        _listRecipes.assignAll(await _repository.getRecipes());
+        sortRecipes();
+      } on DioError catch (e) {
+        try {
+          AppSnackBar.error(message: e.response?.data["message"]);
+        } catch (e) {
+          AppSnackBar.error(message: "Erro de conexão");
+        }
+      } finally {
+        visibleRefrash.value = false;
       }
-    }
-    finally{
-      visibleRefrash.value = false;
     }
   }
 
@@ -58,8 +60,6 @@ class HomeController extends GetxController {
     Get.focusScope?.unfocus();
     Get.toNamed('/recipe', arguments: recipe);
   }
-
-
 
   void sortRecipes() {
     _listRecipes.sort((RecipeModel a, RecipeModel b) {
@@ -72,13 +72,12 @@ class HomeController extends GetxController {
     });
   }
 
-  void removeFilter(int id){
-     listFilters.removeWhere((e) => e.id == id);
-     filter();
+  void removeFilter(int id) {
+    listFilters.removeWhere((e) => e.id == id);
+    filter();
   }
 
-
-  void clearFilters(){
+  void clearFilters() {
     searchController.clear();
     listFilters.clear();
     search.value = '';
