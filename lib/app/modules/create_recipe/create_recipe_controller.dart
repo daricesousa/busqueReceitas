@@ -23,8 +23,8 @@ class CreateRecipeController extends GetxController {
   final listIngredientCreate = <IngredientCreateRecipeModel>[].obs;
   final listMethod = <TextEditingController>[].obs;
   final difficulty = Rxn<Difficulty?>();
-  final timeSetup = Rxn<String?>();
-  final timeCooking = Rxn<String?>();
+  final timeSetup = RxnInt();
+  final timeCooking = RxnInt();
   final title = TextEditingController();
   final image = Rxn<File?>();
   final errors = <String?>[].obs;
@@ -44,7 +44,6 @@ class CreateRecipeController extends GetxController {
     _listAllIngredients.assignAll(Get.find<SplashController>().listIngredients);
     _getListDropMeasurer();
     _getListDifficulty();
-    _getListDropTime();
     newIngredient();
     newMethod();
     super.onInit();
@@ -65,11 +64,11 @@ class CreateRecipeController extends GetxController {
     this.difficulty.value = difficulty;
   }
 
-  void onChangeTimeSetup(String? time) {
+  void onChangeTimeSetup(int? time) {
     timeSetup.value = time;
   }
 
-  void onChangeTimeCooking(String? time) {
+  void onChangeTimeCooking(int? time) {
     timeCooking.value = time;
   }
 
@@ -84,16 +83,7 @@ class CreateRecipeController extends GetxController {
     });
   }
 
-  void _getListDropTime() {
-    final listTime = ["até 10 min", "11-30 min", "31-60 min", "mais de 1 hora"];
-    List.generate(listTime.length, (index) {
-      final item = DropdownMenuItem<String>(
-        value: listTime[index],
-        child: Text(listTime[index]),
-      );
-      listDropTime.add(item);
-    });
-  }
+  
 
   void _getListDifficulty() {
     final list = Difficulty.values.map((difficulty) {

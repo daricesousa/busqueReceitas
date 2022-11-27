@@ -45,6 +45,10 @@ dependencies:
   whatsapp_camera: ^1.0.0
   cached_network_image: ^3.2.2
   skeletons: ^0.0.3
+  time_pickerr: ^1.0.6
+  time_picker_sheet: ^0.0.2+1
+  duration_picker: ^1.1.1
+
   
   
 

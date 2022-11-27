@@ -9,7 +9,9 @@ import 'package:busque_receitas/app/modules/recipe/widgets/cards.dart';
 import 'package:busque_receitas/app/modules/recipe/widgets/list_item.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import './recipe_controller.dart';
+
 class RecipePage extends StatefulWidget {
   const RecipePage({Key? key}) : super(key: key);
 
@@ -47,7 +49,7 @@ class _RecipePageState extends State<RecipePage> {
             asError: (e) {
               WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
                 setState(() {
-                  controller.pictureError.value = e!= null;
+                  controller.pictureError.value = e != null;
                 });
               });
             },
@@ -59,6 +61,18 @@ class _RecipePageState extends State<RecipePage> {
           recipe.title,
           textAlign: TextAlign.center,
           style: const TextStyle(fontSize: 22),
+        ),
+        ListTile(
+          leading: Icon(
+            MdiIcons.chefHat,
+          ),
+          title: Text("Preparo: ${recipe.timeSetup}"),
+        ),
+        ListTile(
+          leading: Icon(
+            MdiIcons.gasBurner,
+          ),
+          title: Text("Cozimento: ${recipe.timeSetup}"),
         ),
         cards(
           [

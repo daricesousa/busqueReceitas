@@ -30,8 +30,8 @@ class RecipeRepository {
     required List<String> method,
     required String picturePath,
     required int difficulty,
-    required String timeSetup,
-    required String timeCooking,
+    required int timeSetup,
+    required int timeCooking,
     bool pictureIlustration = false,
   }) async {
     var formIngredients = jsonEncode({"list": ingredients});

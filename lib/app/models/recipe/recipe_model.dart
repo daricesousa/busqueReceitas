@@ -12,6 +12,8 @@ class RecipeModel {
   List<String> method;
   AvaliationModel avaliation;
   bool pictureIlustration;
+  String timeSetup;
+  String timeCooking;
 
 
   RecipeModel({
@@ -23,6 +25,8 @@ class RecipeModel {
     required this.creator,
     required this.method,
     required this.avaliation,
+    required this.timeSetup,
+    required this.timeCooking,
     this.pictureIlustration = false,
   });
 
@@ -37,6 +41,8 @@ class RecipeModel {
       'avaliation': avaliation.toMap(),
       'picture': picture,
       'picture_ilustration': pictureIlustration,
+      'time_setup': timeSetup,
+      'time_cooking': timeCooking,
     };
   }
 
@@ -48,6 +54,8 @@ class RecipeModel {
       pictureIlustration: json['picture_ilustration'] ?? false,
       difficulty: Difficulty.values[(json['difficulty'] ?? 0)],
       creator: json['name_creator'] ?? '',
+      timeSetup: json['time_setup'] ?? '',
+      timeCooking: json['time_cooking'] ?? '',
       method: json['method'].map<String>((e) => e.toString()).toList(),
       listIngredients: json['ingredients']['list']
           .map<RecipeIngredientModel>((e) => RecipeIngredientModel.fromMap(e))

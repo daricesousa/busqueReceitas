@@ -35,6 +35,7 @@ class SplashController extends GetxController {
     try {
       await Future.wait([_getIngredientsInternet(), _getGroupsIngredients()]);
     } catch (e) {
+      print(e);
       print("Erro ao carregar ingredientes da internet");
       await Future.wait([_loadIngredients(), _loadGroups()]);
     }

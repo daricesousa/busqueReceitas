@@ -66,13 +66,16 @@ class ValidationCreateRecipe {
     }
   }
 
-  static timeSetup(String? time) {
+  static timeSetup(int? time) {
     if (time == null) {
       return "Seleciona o tempo de preparo";
     }
+    if(time == 0){
+      return "O tempo de preparo não pode ser 0";
+    }
   }
 
-  static timeCooking(String? time) {
+  static timeCooking(int? time) {
     if (time == null) {
       return "Seleciona o tempo de cozimento";
     }

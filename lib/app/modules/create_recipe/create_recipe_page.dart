@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:busque_receitas/app/core/ui/app_color.dart';
 import 'package:busque_receitas/app/core/ui/app_theme.dart';
 import 'package:busque_receitas/app/core/utils/enum_difficulty.dart';
+import 'package:busque_receitas/app/core/utils/timer_convert.dart';
 import 'package:busque_receitas/app/core/widgets/app_button.dart';
 import 'package:busque_receitas/app/core/widgets/app_select.dart';
 import 'package:busque_receitas/app/core/widgets/app_drop.dart';
@@ -9,11 +10,18 @@ import 'package:busque_receitas/app/core/widgets/app_form_field.dart';
 import 'package:busque_receitas/app/core/widgets/app_select_dialog.dart';
 import 'package:busque_receitas/app/models/groupIngredients_model.dart';
 import 'package:busque_receitas/app/models/ingredient_model.dart';
+import 'package:busque_receitas/app/modules/create_recipe/timer.dart';
+import 'package:busque_receitas/app/modules/create_recipe/widgets/duration_picker_app.dart';
+import 'package:busque_receitas/app/modules/create_recipe/widgets/duration_picker_app.dart';
 import 'package:busque_receitas/app/modules/create_recipe/widgets/time_widget.dart';
 import 'package:busque_receitas/app/modules/recipe/widgets/list_item.dart';
+import 'package:duration_picker/duration_picker.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:time_picker_sheet/widget/sheet.dart';
+import 'package:time_picker_sheet/widget/time_picker.dart';
+import 'package:time_pickerr/time_pickerr.dart';
 import './create_recipe_controller.dart';
 
 class CreateRecipePage extends GetView<CreateRecipeController> {
@@ -293,29 +301,68 @@ class CreateRecipePage extends GetView<CreateRecipeController> {
     );
   }
 
-  Widget timeSetup(BuildContext context) {
-    return TimeWidget(
-      icon: MdiIcons.chefHat,
+  Widget timeWidget({
+    required BuildContext context,
+    required IconData icon,
+    required int? time,
+    required dynamic Function(Duration?) confirm,
+    String title = '',
+    String toolTip = '',
+    Duration? durationInitial,
+  }) {
+    return Row(
+      children: [
+        Icon(icon, color: AppColor.dark2),
+        const SizedBox(width: 10),
+        SizedBox(
+          width: context.width / 2,
+          child: Tooltip( 
+            message: toolTip,
+            child: Text(
+            title,
+            style: const TextStyle(fontSize: 16),
+          ),)
+        ),
+        Expanded(
+          child: AppButton(
+              onPressed: () => showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return DurationPickerApp(
+                      context: context,
+                      title: title,
+                      confirm: confirm,
+                      durationInitial: durationInitial,
+                    );
+                  }),
+              child:
+                  Text(time != null ? TimerConvert.forString(time) : "Tempo", style: const TextStyle(fontSize: 16),),),
+        )
+      ],
+    );
+  }
+
+  timeSetup(BuildContext context) {
+    return timeWidget(
       context: context,
+      time: controller.timeSetup.value,
+      icon: MdiIcons.chefHat,
       title: "Tempo de preparo",
-      appDrop: AppDrop<String>(
-        label: controller.timeSetup.value ?? "Tempo",
-        list: controller.listDropTime,
-        onChange: controller.onChangeTimeSetup,
-      ),
+      toolTip: "Tempo de preparação da receita. Não inclui o tempo de cozimento",
+      durationInitial: Duration(minutes: controller.timeSetup.value ?? 0),
+      confirm: (e) => controller.onChangeTimeSetup(e!.inMinutes),
     );
   }
 
   Widget timeCooking(BuildContext context) {
-    return TimeWidget(
-      icon: MdiIcons.gasBurner,
+    return timeWidget(
       context: context,
+      icon: MdiIcons.gasBurner,
+      time: controller.timeCooking.value,
+      confirm: (e) => controller.onChangeTimeCooking(e!.inMinutes),
+      durationInitial: Duration(minutes: controller.timeCooking.value ?? 0),
       title: "Tempo de cozimento",
-      appDrop: AppDrop<String>(
-        label: controller.timeCooking.value ?? "Tempo",
-        list: controller.listDropTime,
-        onChange: controller.onChangeTimeCooking,
-      ),
+      toolTip : "Tempo que o alimento precisa ficar no fogo"
     );
   }
 
