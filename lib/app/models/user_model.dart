@@ -2,11 +2,13 @@ class UserModel {
   int id;
   String name;
   String email;
+  String? rule;
 
   UserModel({
     required this.id,
     required this.name,
     required this.email,
+    this.rule
   });
 
 
@@ -15,6 +17,7 @@ class UserModel {
       'id': id,
       'name': name,
       'email': email,
+      'rule': rule,
     };
   }
 
@@ -23,6 +26,7 @@ class UserModel {
       id: map['id']?.toInt() ?? 0,
       name: map['name'] ?? '',
       email: map['email'] ?? '',
+      rule: map['rule'],
     );
   }
 

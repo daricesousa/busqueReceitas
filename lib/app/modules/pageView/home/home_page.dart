@@ -9,12 +9,9 @@ import 'package:busque_receitas/app/modules/pageView/home/filter_recipe/filter_r
 import 'package:busque_receitas/app/modules/pageView/home/filter_recipe/filter_recipe_page.dart';
 import 'package:busque_receitas/app/modules/pageView/home/home_controller.dart';
 import 'package:busque_receitas/app/modules/pageView/home/widgets/app_drawer.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:side_sheet/side_sheet.dart';
-import 'package:skeletons/skeletons.dart';
-
 class HomePage extends GetView<HomeController> {
   const HomePage({super.key});
 

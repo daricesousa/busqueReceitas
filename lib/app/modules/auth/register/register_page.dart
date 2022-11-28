@@ -1,4 +1,4 @@
-import 'package:busque_receitas/app/core/utils/validations.dart';
+import 'package:busque_receitas/app/core/utils/validations_field.dart';
 import 'package:busque_receitas/app/core/widgets/app_button.dart';
 import 'package:busque_receitas/app/core/widgets/app_form_field.dart';
 import 'package:get/get.dart';
