@@ -196,8 +196,6 @@ class CreateRecipeController extends GetxController {
                     element.name ==
                     listIngredientCreate[index].ingredient!.name);
           }
-          print(listIngredientCreate[index].ingredient!.id);
-          print("cima");
         }
       }
   }
@@ -230,7 +228,7 @@ class CreateRecipeController extends GetxController {
           difficulty: difficulty.value!.index,
           timeSetup: timeSetup.value!,
           timeCooking: timeCooking.value!);
-      // Get.back();
+      Get.back();
       AppSnackBar.success(message: data["message"]);
     } on DioError catch (e) {
       try {

@@ -1,11 +1,11 @@
 import 'package:busque_receitas/app/core/ui/app_color.dart';
 import 'package:busque_receitas/app/core/utils/image_cached.dart';
+import 'package:busque_receitas/app/core/utils/timer_convert.dart';
 import 'package:busque_receitas/app/core/widgets/app_rating.dart';
 import 'package:busque_receitas/app/core/widgets/stars.dart';
 import 'package:busque_receitas/app/models/recipe/recipe_ingredient_model.dart';
 import 'package:busque_receitas/app/models/recipe/recipe_model.dart';
 import 'package:busque_receitas/app/modules/recipe/widgets/app_banner.dart';
-import 'package:busque_receitas/app/modules/recipe/widgets/cards.dart';
 import 'package:busque_receitas/app/modules/recipe/widgets/list_item.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
@@ -26,8 +26,6 @@ class _RecipePageState extends State<RecipePage> {
     final recipe = controller.recipe;
     return Scaffold(
       appBar: AppBar(
-        // title: Text(recipe.title),
-        // centerTitle: true,
         actions: actionsAppBar(),
       ),
       body: Obx(() => body(recipe)),
@@ -39,8 +37,6 @@ class _RecipePageState extends State<RecipePage> {
       children: [
         AppBanner(
           label: "Ilustrativa",
-          // color: AppColor.dark3,
-          // labelColor: AppColor.light,
           visible: recipe.pictureIlustration && !controller.pictureError.value,
           child: ImageCached(
             recipe.picture,
@@ -55,33 +51,54 @@ class _RecipePageState extends State<RecipePage> {
             },
           ),
         ),
-        // ImageCached(recipe.picture, width: Get.width, height: Get.height / 3),
         const SizedBox(height: 10),
         Text(
           recipe.title,
           textAlign: TextAlign.center,
           style: const TextStyle(fontSize: 22),
         ),
-        ListTile(
-          leading: Icon(
-            MdiIcons.chefHat,
-          ),
-          title: Text("Preparo: ${recipe.timeSetup}"),
-        ),
-        ListTile(
-          leading: Icon(
-            MdiIcons.gasBurner,
-          ),
-          title: Text("Cozimento: ${recipe.timeSetup}"),
-        ),
-        cards(
-          [
-            cardDifficulty(recipe),
-            cardAvaliation(recipe),
+        const SizedBox(height: 10),
+        Row(
+          children: [
+            SizedBox(
+              width: context.width / 2,
+              child: ListItem(
+                leading: const Icon(MdiIcons.chefHat, color: AppColor.primary),
+                text: "Preparo: ${TimerConvert.forString(recipe.timeSetup)}",
+              ),
+            ),
+            Expanded(
+              child: ListItem(
+                  leading: const Icon(Icons.bar_chart, color: AppColor.primary),
+                  text: "Esforço: ${recipe.difficulty.name}"),
+            ),
           ],
         ),
+        Row(
+          children: [
+            SizedBox(
+              width: context.width / 2,
+              child: ListItem(
+                  leading:
+                      const Icon(MdiIcons.gasBurner, color: AppColor.primary),
+                  text:
+                      "Cozimento: ${TimerConvert.forString(recipe.timeCooking)}"),
+            ),
+            Expanded(
+              child: ListItem(child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: Stars.avaliation(
+                    rating: recipe.avaliation.ratingAverage.toDouble()),
+              ),)
+            ),
+          ],
+        ),
+
+        const SizedBox(height: 30),
         ...listIngredients(recipe),
+        const SizedBox(height: 30),
         ...listMethods(recipe),
+        const SizedBox(height: 30),
         Obx(() => avaliation(recipe)),
         Center(
           child: Text.rich(
@@ -129,19 +146,6 @@ class _RecipePageState extends State<RecipePage> {
     ];
   }
 
-  Widget cardAvaliation(RecipeModel recipe) {
-    return cardInfo(Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Row(
-          mainAxisSize: MainAxisSize.min,
-          children: Stars.avaliation(
-              rating: recipe.avaliation.ratingAverage.toDouble()),
-        ),
-      ],
-    ));
-  }
-
   List<Widget> listIngredients(RecipeModel recipe) {
     return [
       const Padding(
@@ -172,26 +176,9 @@ class _RecipePageState extends State<RecipePage> {
     ];
   }
 
-  Widget cardDifficulty(RecipeModel recipe) {
-    final difficulty = recipe.difficulty.name;
-    return cardInfo(
-      Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          const Icon(
-            Icons.bar_chart,
-            color: AppColor.dark1,
-          ),
-          Text(difficulty,
-              style: const TextStyle(fontSize: 16, color: AppColor.dark1))
-        ],
-      ),
-    );
-  }
 
   Widget methodWidget({required String method, required int index}) {
     return ListItem(
-      // contentPadding: EdgeInsets.zero,
       leading: Text(index.toString()),
       text: method,
     );

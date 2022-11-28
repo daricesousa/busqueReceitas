@@ -12,8 +12,8 @@ class RecipeModel {
   List<String> method;
   AvaliationModel avaliation;
   bool pictureIlustration;
-  String timeSetup;
-  String timeCooking;
+  int timeSetup;
+  int timeCooking;
 
 
   RecipeModel({
@@ -52,10 +52,10 @@ class RecipeModel {
       title: json['title'],
       picture: json['picture'],
       pictureIlustration: json['picture_ilustration'] ?? false,
-      difficulty: Difficulty.values[(json['difficulty'] ?? 0)],
+      difficulty: Difficulty.values[(json['difficulty'] ?? 1)],
       creator: json['name_creator'] ?? '',
-      timeSetup: json['time_setup'] ?? '',
-      timeCooking: json['time_cooking'] ?? '',
+      timeSetup: json['time_setup'] ?? 0,
+      timeCooking: json['time_cooking'] ?? 0,
       method: json['method'].map<String>((e) => e.toString()).toList(),
       listIngredients: json['ingredients']['list']
           .map<RecipeIngredientModel>((e) => RecipeIngredientModel.fromMap(e))

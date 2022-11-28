@@ -8,7 +8,7 @@ import 'package:get_storage/get_storage.dart';
 class ConnectBinding implements Bindings {
   @override
   void dependencies() {
-    const baseUrl = "https://e8bb-2804-5fb8-c018-bb00-8b7b-5b8a-2dc0-8a92.ngrok.io";
+    const baseUrl = "https://7943-2804-5fb8-c018-bb00-dc19-775b-fd88-5079.ngrok.io";
     final user = GetStorage().read('user') as Map?;
     Map<String, dynamic> headers = {};
     if (user != null) {

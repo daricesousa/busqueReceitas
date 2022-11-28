@@ -10,18 +10,11 @@ import 'package:busque_receitas/app/core/widgets/app_form_field.dart';
 import 'package:busque_receitas/app/core/widgets/app_select_dialog.dart';
 import 'package:busque_receitas/app/models/groupIngredients_model.dart';
 import 'package:busque_receitas/app/models/ingredient_model.dart';
-import 'package:busque_receitas/app/modules/create_recipe/timer.dart';
 import 'package:busque_receitas/app/modules/create_recipe/widgets/duration_picker_app.dart';
-import 'package:busque_receitas/app/modules/create_recipe/widgets/duration_picker_app.dart';
-import 'package:busque_receitas/app/modules/create_recipe/widgets/time_widget.dart';
 import 'package:busque_receitas/app/modules/recipe/widgets/list_item.dart';
-import 'package:duration_picker/duration_picker.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-import 'package:time_picker_sheet/widget/sheet.dart';
-import 'package:time_picker_sheet/widget/time_picker.dart';
-import 'package:time_pickerr/time_pickerr.dart';
 import './create_recipe_controller.dart';
 
 class CreateRecipePage extends GetView<CreateRecipeController> {

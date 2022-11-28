@@ -282,13 +282,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.2.2"
-  infinite_listview:
-    dependency: transitive
-    description:
-      name: infinite_listview
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.1.0"
   js:
     dependency: transitive
     description:
@@ -331,13 +324,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.8.0"
-  numberpicker:
-    dependency: transitive
-    description:
-      name: numberpicker
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "2.1.1"
   octo_image:
     dependency: transitive
     description:
@@ -602,20 +588,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.4.12"
-  time_picker_sheet:
-    dependency: "direct main"
-    description:
-      name: time_picker_sheet
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.0.2+1"
-  time_pickerr:
-    dependency: "direct main"
-    description:
-      name: time_pickerr
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.0.6"
   typed_data:
     dependency: transitive
     description:

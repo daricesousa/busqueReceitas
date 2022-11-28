@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 class ListItem extends StatelessWidget {
   final Widget? leading;
+  final Widget? child;
   final double? padding;
   final void Function()? onTap;
   final String? text;
@@ -12,6 +13,7 @@ class ListItem extends StatelessWidget {
     this.onTap,
     this.text,
     this.padding,
+    this.child,
   });
 
   @override
@@ -30,6 +32,7 @@ class ListItem extends StatelessWidget {
                 child:
                     Text(text!, style: const TextStyle(color: AppColor.dark)),
               ),
+            if(child != null) child!,
           ],
         ),
       ),
