@@ -12,6 +12,7 @@ import 'package:busque_receitas/app/models/groupIngredients_model.dart';
 import 'package:busque_receitas/app/models/ingredient_model.dart';
 import 'package:busque_receitas/app/modules/create_recipe/widgets/duration_picker_app.dart';
 import 'package:busque_receitas/app/modules/recipe/widgets/list_item.dart';
+import 'package:flutter/gestures.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
@@ -109,7 +110,7 @@ class CreateRecipePage extends GetView<CreateRecipeController> {
             await controller.getImage(context);
           }),
       ListItem(
-        padding: 7,
+        padding_leading: 7,
         leading: Icon(
           controller.pictureIlustration.value
               ? Icons.check_box
@@ -308,28 +309,31 @@ class CreateRecipePage extends GetView<CreateRecipeController> {
         Icon(icon, color: AppColor.dark2),
         const SizedBox(width: 10),
         SizedBox(
-          width: context.width / 2,
-          child: Tooltip( 
-            message: toolTip,
-            child: Text(
-            title,
-            style: const TextStyle(fontSize: 16),
-          ),)
-        ),
+            width: context.width / 2,
+            child: Tooltip(
+              message: toolTip,
+              child: Text(
+                title,
+                style: const TextStyle(fontSize: 16),
+              ),
+            )),
         Expanded(
           child: AppButton(
-              onPressed: () => showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return DurationPickerApp(
-                      context: context,
-                      title: title,
-                      confirm: confirm,
-                      durationInitial: durationInitial,
-                    );
-                  }),
-              child:
-                  Text(time != null ? TimerConvert.forString(time) : "Tempo", style: const TextStyle(fontSize: 16),),),
+            onPressed: () => showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return DurationPickerApp(
+                    context: context,
+                    title: title,
+                    confirm: confirm,
+                    durationInitial: durationInitial,
+                  );
+                }),
+            child: Text(
+              time != null ? TimerConvert.forString(time) : "Tempo",
+              style: const TextStyle(fontSize: 16),
+            ),
+          ),
         )
       ],
     );
@@ -341,7 +345,8 @@ class CreateRecipePage extends GetView<CreateRecipeController> {
       time: controller.timeSetup.value,
       icon: MdiIcons.chefHat,
       title: "Tempo de preparo",
-      toolTip: "Tempo de preparação da receita. Não inclui o tempo de cozimento",
+      toolTip:
+          "Tempo de preparação da receita. Não inclui o tempo de cozimento",
       durationInitial: Duration(minutes: controller.timeSetup.value ?? 0),
       confirm: (e) => controller.onChangeTimeSetup(e!.inMinutes),
     );
@@ -349,29 +354,44 @@ class CreateRecipePage extends GetView<CreateRecipeController> {
 
   Widget timeCooking(BuildContext context) {
     return timeWidget(
-      context: context,
-      icon: MdiIcons.gasBurner,
-      time: controller.timeCooking.value,
-      confirm: (e) => controller.onChangeTimeCooking(e!.inMinutes),
-      durationInitial: Duration(minutes: controller.timeCooking.value ?? 0),
-      title: "Tempo de cozimento",
-      toolTip : "Tempo que o alimento precisa ficar no fogo"
-    );
+        context: context,
+        icon: MdiIcons.gasBurner,
+        time: controller.timeCooking.value,
+        confirm: (e) => controller.onChangeTimeCooking(e!.inMinutes),
+        durationInitial: Duration(minutes: controller.timeCooking.value ?? 0),
+        title: "Tempo de cozimento",
+        toolTip: "Tempo que o alimento precisa ficar no fogo");
   }
 
   Widget accept() {
     return ListItem(
-      padding: 7,
-      leading: Icon(
-        controller.aceppetedTerm.value
-            ? Icons.check_box
-            : Icons.check_box_outline_blank,
-        color: AppColor.dark1,
+      leading: IconButton(
+        icon: Icon(
+          controller.aceppetedTerm.value
+              ? Icons.check_box
+              : Icons.check_box_outline_blank,
+          color: AppColor.dark1,
+        ),
+        onPressed: () {
+          controller.aceppetedTerm.value = !controller.aceppetedTerm.value;
+        },
       ),
-      text: "Li e aceito o termo de responsabilidade",
-      onTap: () {
-        controller.aceppetedTerm.value = !controller.aceppetedTerm.value;
-      },
+      padding_child: 0,
+      child: Text.rich(TextSpan(
+        text: "Li e aceito o ",
+        children: [
+          TextSpan(
+            text: "termo de responsabilidade",
+            recognizer: TapGestureRecognizer()
+            ..onTap = (){
+              print("termo");
+              // OpenUrl.url(Env.LINK_FORM);
+            },
+            style: const TextStyle(
+                decoration: TextDecoration.underline, color: AppColor.dark1),
+          ),
+        ],
+      )),
     );
   }
 

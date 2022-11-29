@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 class ListItem extends StatelessWidget {
   final Widget? leading;
   final Widget? child;
-  final double? padding;
+  final double? padding_leading;
+  final double? padding_child;
   final void Function()? onTap;
   final String? text;
   const ListItem({
@@ -12,7 +13,8 @@ class ListItem extends StatelessWidget {
     this.leading,
     this.onTap,
     this.text,
-    this.padding,
+    this.padding_leading,
+    this.padding_child = 10,
     this.child,
   });
 
@@ -24,9 +26,9 @@ class ListItem extends StatelessWidget {
         padding: const EdgeInsets.symmetric(vertical: 7, horizontal: 10),
         child: Row(
           children: [
-            SizedBox(width: padding),
+            SizedBox(width: padding_leading),
             if (leading != null) leading!,
-            const SizedBox(width: 10),
+            SizedBox(width: padding_child),
             if (text != null)
               Expanded(
                 child:
