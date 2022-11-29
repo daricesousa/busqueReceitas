@@ -22,6 +22,8 @@ import 'package:busque_receitas/app/modules/favorites/favorites_page.dart';
 import 'package:busque_receitas/app/modules/splash/splash_page.dart';
 import 'package:busque_receitas/app/modules/create_recipe/create_recipe_page.dart';
 import 'package:busque_receitas/app/modules/create_recipe/create_recipe_bindings.dart';
+import 'package:busque_receitas/app/modules/validation_by_admin/validation_by_admin_bindings.dart';
+import 'package:busque_receitas/app/modules/validation_by_admin/validation_by_admin_page.dart';
 import 'package:get/get_navigation/src/routes/get_route.dart';
 
 class AppPages {
@@ -88,5 +90,10 @@ class AppPages {
       page: () => const CreateRecipePage(),
       binding: CreateRecipeBindings(),
     ),
+    GetPage(
+      name: '/validation_by_admin',
+      page: () => const ValidationByAdminPage(),
+      binding: ValidationByAdminBindings(),
+    )
   ];
 }

@@ -8,8 +8,8 @@ import '../models/ingredient_model.dart';
 class IngredientRepository {
   final _api = Get.find<Dio>();
 
-  Future<List<IngredientModel>> getIngredients() async {
-    final res = await _api.get("/ingredients");
+  Future<List<IngredientModel>> getIngredients({String? show}) async {
+    final res = await _api.get("/ingredients", queryParameters: {"show": show});
     final data = res.data["data"]["ingredients"] as List;
     final ingredients =
         data.map<IngredientModel>((e) => IngredientModel.fromMap(e)).toList();
@@ -43,4 +43,13 @@ class IngredientRepository {
         .post("/new-ingredient", data: {"name": name, "group": groupId});
     return res.data;
   }
+
+  Future<Map> validateIngredient({
+    required  int id,
+    required bool accept,
+  })async {
+    final res = await _api.put('/validate/ingredient', data: {"id": id, "accept": accept});
+    return res.data;
+  }
+
 }

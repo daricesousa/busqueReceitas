@@ -7,8 +7,8 @@ import 'package:get/instance_manager.dart';
 class RecipeRepository {
   final _api = Get.find<Dio>();
 
-  Future<List<RecipeModel>> getRecipes() async {
-    final res = await _api.get('/recipes');
+  Future<List<RecipeModel>> getRecipes({String? show}) async {
+    final res = await _api.get('/recipes', queryParameters: {"show": show});
     final data = res.data["data"]["recipes"] as List;
     return data.map<RecipeModel>((e) => RecipeModel.fromMap(e)).toList();
   }

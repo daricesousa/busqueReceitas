@@ -9,7 +9,7 @@ class NoResultsPage extends StatefulWidget {
 
   const NoResultsPage({
     Key? key,
-    required this.visible,
+    this.visible = false,
     required this.title,
     required this.subtitle,
     required this.onPressed,

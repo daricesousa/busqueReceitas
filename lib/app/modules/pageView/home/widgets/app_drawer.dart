@@ -80,6 +80,19 @@ class _AppDrawerState extends State<AppDrawer> {
               Get.toNamed("/shopping_list");
             },
           ),
+          widget.user?.rule == "admin"
+              ? ListTile(
+                  leading: const Icon(
+                    Icons.check,
+                    color: AppColor.dark1,
+                  ),
+                  title: const Text("Validações"),
+                  onTap: () {
+                    Get.back();
+                    Get.toNamed("/validation_by_admin");
+                  },
+                )
+              : const SizedBox(),
         ],
       ),
     );
