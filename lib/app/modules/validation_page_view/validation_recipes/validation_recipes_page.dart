@@ -9,7 +9,7 @@ class ValidationRecipesPage extends GetView<ValidationRecipesController> {
     @override
     Widget build(BuildContext context) {
         return Scaffold(
-            appBar: AppBar(title: const Text('Validação de receitas', style: TextStyle(fontSize: 16),), centerTitle: true),
+            appBar: AppBar(title: const Text('Validação de receitas', style: TextStyle(fontSize: 18),), centerTitle: true),
             body: Container(),
         );
     }

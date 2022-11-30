@@ -13,7 +13,7 @@ class ValidationIngredientsPage extends GetView<ValidationIngredientsController>
     Widget build(BuildContext context) {
         return Scaffold(
             appBar: AppBar(title: const Text('Ingredientes para validação', style: TextStyle(fontSize: 18),), centerTitle: true,),
-            body: body(),
+            body: Obx(body),
         );
     }
 
@@ -31,17 +31,9 @@ class ValidationIngredientsPage extends GetView<ValidationIngredientsController>
       );
     }
     return ListView.builder(
-      itemCount: controller.listIngredients.length + 1,
+      itemCount: controller.listIngredients.length,
       itemBuilder: ((context, index) {
-        if (index == 0) {
-          return const ListItem(
-            child: Text(
-              "Ingredientes para validação",
-              style: TextStyle(color: AppColor.dark2),
-            ),
-          );
-        }
-        final ingredient = controller.listIngredients[index - 1];
+        final ingredient = controller.listIngredients[index];
         return ListItem(
           child: Row(crossAxisAlignment: CrossAxisAlignment.end, children: [
             SizedBox(

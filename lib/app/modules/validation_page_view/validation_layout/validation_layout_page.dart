@@ -25,7 +25,7 @@ class ValidationLayoutPage extends GetView<ValidationLayoutController> {
             onTap: controller.onPageChanged,
             items: const [
               BottomNavigationBarItem(icon: Icon(MdiIcons.carrot), label: "Validação de ingredientes"),
-              BottomNavigationBarItem(icon: Icon(MdiIcons.cupcake), label: "Validação de receitas"),
+              BottomNavigationBarItem(icon: Icon(MdiIcons.noodles), label: "Validação de receitas"),
             ]),
       ),
     );
