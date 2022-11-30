@@ -3,20 +3,21 @@ import 'package:busque_receitas/app/core/widgets/no_results_page.dart';
 import 'package:busque_receitas/app/modules/recipe/widgets/list_item.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
-import './validation_by_admin_controller.dart';
+import './validation_ingredients_controller.dart';
 
-class ValidationByAdminPage extends GetView<ValidationByAdminController> {
-  const ValidationByAdminPage({Key? key}) : super(key: key);
+class ValidationIngredientsPage extends GetView<ValidationIngredientsController> {
+    
+    const ValidationIngredientsPage({Key? key}) : super(key: key);
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(),
-      body: Obx(() => body()),
-    );
-  }
+    @override
+    Widget build(BuildContext context) {
+        return Scaffold(
+            appBar: AppBar(title: const Text('Ingredientes para validação', style: TextStyle(fontSize: 18),), centerTitle: true,),
+            body: body(),
+        );
+    }
 
-  Widget body() {
+    Widget body() {
     if (!controller.loading.value && controller.listIngredients.isEmpty) {
       return NoResultsPage(
         title: "Nada para validar",

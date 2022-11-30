@@ -5,7 +5,8 @@ import 'package:busque_receitas/app/repositories/ingredient_repository.dart';
 import 'package:dio/dio.dart';
 import 'package:get/get.dart';
 
-class ValidationByAdminController extends GetxController {
+class ValidationIngredientsController extends GetxController {
+
   final listIngredients = <IngredientModel>[].obs;
   final _listGroups = Get.find<SplashController>().listGroups;
   final _repositoryIngredient = IngredientRepository();

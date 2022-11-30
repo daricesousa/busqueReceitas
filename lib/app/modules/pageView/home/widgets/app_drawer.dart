@@ -89,7 +89,7 @@ class _AppDrawerState extends State<AppDrawer> {
                   title: const Text("Validações"),
                   onTap: () {
                     Get.back();
-                    Get.toNamed("/validation_by_admin");
+                    Get.toNamed("/validation_layout");
                   },
                 )
               : const SizedBox(),
