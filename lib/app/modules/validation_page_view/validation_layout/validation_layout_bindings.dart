@@ -8,5 +8,6 @@ class ValidationLayoutBindings implements Bindings {
     void dependencies() {
         Get.put(ValidationLayoutController());
         Get.put(ValidationIngredientsController());
+        Get.put(ValidationRecipesController());
     }
 }

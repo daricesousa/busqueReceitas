@@ -1,5 +1,6 @@
 import 'package:busque_receitas/app/models/ingredient_model.dart';
 import 'package:busque_receitas/app/repositories/ingredient_repository.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 
@@ -9,11 +10,11 @@ class ValidationLayoutController extends GetxController {
   final listIngredients = <IngredientModel>[].obs;
   final loadingIngredient = false.obs;
 
-@override
-void onInit(){
-  _getIngredients();
-  super.onInit();
-}
+  @override
+  void onInit() {
+    _getIngredients();
+    super.onInit();
+  }
 
   @override
   void onClose() {
@@ -31,16 +32,17 @@ void onInit(){
     this.index.value = index;
   }
 
-
-   Future<void> _getIngredients() async {
+  Future<void> _getIngredients() async {
     loadingIngredient.value = true;
     try {
       final repositoryIngredient = IngredientRepository();
       listIngredients.assignAll(
           await repositoryIngredient.getIngredients(show: 'invalid'));
-      loadingIngredient.value = false;
+    } on DioError catch (e) {
+      print(e);
     } catch (e) {
       print(e);
+    } finally {
       loadingIngredient.value = false;
     }
   }

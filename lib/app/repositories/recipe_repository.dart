@@ -50,4 +50,12 @@ class RecipeRepository {
     final res = await _api.post('/recipe/create', data: data);
     return res.data;
   }
+
+  Future<Map> validateRecipe({
+    required int id,
+    required bool accept,
+  }) async{
+    final res = await _api.put("/validate/recipe", data: {"id": id, "accept": accept});
+    return res.data;
+  }
 }
