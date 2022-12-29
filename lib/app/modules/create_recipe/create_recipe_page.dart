@@ -383,10 +383,10 @@ class CreateRecipePage extends GetView<CreateRecipeController> {
           TextSpan(
             text: "termo de responsabilidade",
             recognizer: TapGestureRecognizer()
-            ..onTap = (){
-              print("termo");
-              // OpenUrl.url(Env.LINK_FORM);
-            },
+              ..onTap = () {
+                print("termo");
+                // OpenUrl.url(Env.LINK_FORM);
+              },
             style: const TextStyle(
                 decoration: TextDecoration.underline, color: AppColor.dark1),
           ),

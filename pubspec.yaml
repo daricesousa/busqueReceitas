@@ -38,7 +38,6 @@ dependencies:
   get_storage: ^2.0.3
   dio: ^4.0.6
   side_sheet: ^1.0.3
-  flutter_native_splash: ^2.2.11
   material_design_icons_flutter: ^5.0.6996
   select_dialog: ^2.0.0
   drag_and_drop_lists: ^0.3.3
@@ -46,6 +45,7 @@ dependencies:
   cached_network_image: ^3.2.2
   skeletons: ^0.0.3
   duration_picker: ^1.1.1
+  flutter_native_splash: ^2.2.11
 
   
   
@@ -107,4 +107,3 @@ flutter_native_splash:
   image: "assets/images/splash.png"
   android: true
   ios: true
-

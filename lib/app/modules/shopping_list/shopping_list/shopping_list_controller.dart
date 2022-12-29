@@ -57,7 +57,6 @@ class ShoppingListController extends GetxController {
     _saveShoppingList();
   }
 
-
   List<int> _missedIngredients(RecipeModel recipe) {
     List<int> list = [];
     for (final ingredient in recipe.listIngredients) {
@@ -84,9 +83,8 @@ class ShoppingListController extends GetxController {
     }
     if (item.recipe == null) {
       removeShoppingListUser(item.ingredient.id);
-    }
-    else{
-    _shoppingList.removeWhere((e) => e == item);
+    } else {
+      _shoppingList.removeWhere((e) => e == item);
     }
     AppSnackBar.success(
         message: "${item.ingredient.name} adicionado à despensa");
@@ -103,7 +101,9 @@ class ShoppingListController extends GetxController {
 
   void addShopping() async {
     final ingredient = await Get.toNamed('/add_shopping');
-    _shoppingListUser.add(ingredient.id);
+    if (ingredient != null) {
+      _shoppingListUser.add(ingredient.id);
+    }
     _saveShoppingList();
     _shoppingList.assignAll([]);
   }

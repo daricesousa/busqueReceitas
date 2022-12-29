@@ -48,22 +48,22 @@ class ProfilePage extends GetView<ProfileController> {
             Get.toNamed('/create_recipe');
           },
         ),
-        ListTile(
-          title: const Text("Restrições alimentares"),
-          leading: const Icon(
-            MdiIcons.foodDrumstickOff,
-            color: AppColor.dark1,
-          ),
-          onTap: () {},
-        ),
-        ListTile(
-          title: const Text("Alterar a senha"),
-          leading: const Icon(
-            Icons.lock,
-            color: AppColor.dark1,
-          ),
-          onTap: () {},
-        ),
+        // ListTile(
+        //   title: const Text("Restrições alimentares"),
+        //   leading: const Icon(
+        //     MdiIcons.foodDrumstickOff,
+        //     color: AppColor.dark1,
+        //   ),
+        //   onTap: () {},
+        // ),
+        // ListTile(
+        //   title: const Text("Alterar a senha"),
+        //   leading: const Icon(
+        //     Icons.lock,
+        //     color: AppColor.dark1,
+        //   ),
+        //   onTap: () {},
+        // ),
         ListTile(
           title: const Text("sair"),
           leading: const Icon(

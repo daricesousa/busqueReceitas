@@ -112,8 +112,8 @@ class CreateRecipeController extends GetxController {
   }
 
   Future<void> getImage(BuildContext context) async {
-    List<File>? res =
-        await Get.to<List<File>>(const WhatsappCamera(multiple: true));
+    List<File>? res = await Get.to(const WhatsappCamera(multiple: true));
+    print(res?[0].path);
     if (res != null && res.isNotEmpty) {
       image.value = res[0];
     }
