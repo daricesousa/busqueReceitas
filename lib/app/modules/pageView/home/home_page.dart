@@ -20,6 +20,7 @@ class HomePage extends GetView<HomeController> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Receitas'),
+        centerTitle: true,
         bottom: PreferredSize(
           preferredSize: Size(context.width, 100),
           child: Padding(
@@ -188,7 +189,7 @@ class HomePage extends GetView<HomeController> {
           children: [
             ...controller.listFilters.map((e) {
               return cardFilter(
-                  child: e.widget(color: AppColor.light),
+                  child: e.widget(color: AppColor.light, home: true),
                   action: () => controller.removeFilter(e.id));
             }).toList()
           ],

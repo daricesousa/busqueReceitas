@@ -36,6 +36,12 @@ class FilterRecipeController extends GetxController {
       if(filter.type == TypeFilters.avaliation){
         _listFilters.removeWhere((e) => e.type == TypeFilters.avaliation);
       }
+      if(filter.type == TypeFilters.timeCooking){
+        _listFilters.removeWhere((e) => e.type == TypeFilters.timeCooking);
+      }
+      if(filter.type == TypeFilters.timeSetup){
+        _listFilters.removeWhere((e) => e.type == TypeFilters.timeSetup);
+      }
     _listFilters.add(filter);
     }
 

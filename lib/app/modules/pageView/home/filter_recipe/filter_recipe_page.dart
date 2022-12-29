@@ -2,6 +2,8 @@ import 'package:busque_receitas/app/core/ui/app_color.dart';
 import 'package:busque_receitas/app/core/ui/app_theme.dart';
 import 'package:busque_receitas/app/core/ui/app_view.dart';
 import 'package:busque_receitas/app/core/utils/enum_difficulty.dart';
+import 'package:busque_receitas/app/core/utils/enum_time_cooking.dart';
+import 'package:busque_receitas/app/core/utils/enum_time_setup.dart';
 import 'package:busque_receitas/app/core/widgets/app_button.dart';
 import 'package:busque_receitas/app/models/recipe/filter_recipe_model.dart';
 import 'package:busque_receitas/app/modules/pageView/home/filter_recipe/filter_recipe_controller.dart';
@@ -35,6 +37,8 @@ class _FilterRecipePageState
           ListView(shrinkWrap: true, children: [
             filterDifficulty(),
             filterAvaliation(),
+            filterCooking(),
+            filterSetup(),
             filterIngredient(),
           ]),
           Row(
@@ -44,14 +48,19 @@ class _FilterRecipePageState
                 onPressed: () => controller.clearFilters(context),
                 color: AppColor.light,
                 borderColor: AppColor.dark2,
-                child: const Text("Limpar filtros", style: TextStyle(fontSize: 20, color: AppColor.dark2,)),
+                child: const Text("Limpar filtros",
+                    style: TextStyle(
+                      fontSize: 20,
+                      color: AppColor.dark2,
+                    )),
               ),
               Container(width: 10),
               AppButton(
                 onPressed: controller.filter,
                 color: AppColor.dark1,
                 width: context.width / 5 * 1.5,
-                child: const Text("Filtrar", style: TextStyle(fontSize: 20, color: AppColor.light)),
+                child: const Text("Filtrar",
+                    style: TextStyle(fontSize: 20, color: AppColor.light)),
               ),
             ],
           )
@@ -94,6 +103,44 @@ class _FilterRecipePageState
               child: filter.widget(color: textColor),
               filter: filter);
         }))
+      ],
+    );
+  }
+
+  Widget filterCooking() {
+    return ExpansionTile(
+      title: const Text("Tempo de cozimento"),
+      children: [
+        wrap(TimeCooking.values.map((e) {
+          final isSelected = controller.searchFilter(value: e);
+          final textColor = isSelected ? AppColor.light : Colors.grey;
+          final cardColor = isSelected ? AppColor.dark1 : AppColor.light5;
+          final filter =
+              FilterRecipeModel(type: TypeFilters.timeCooking, value: e);
+          return card(
+              child: filter.widget(color: textColor),
+              filter: filter,
+              color: cardColor);
+        }).toList())
+      ],
+    );
+  }
+
+  Widget filterSetup() {
+    return ExpansionTile(
+      title: const Text("Tempo de preparo"),
+      children: [
+        wrap(TimeSetup.values.map((e) {
+          final isSelected = controller.searchFilter(value: e);
+          final textColor = isSelected ? AppColor.light : Colors.grey;
+          final cardColor = isSelected ? AppColor.dark1 : AppColor.light5;
+          final filter =
+              FilterRecipeModel(type: TypeFilters.timeSetup, value: e);
+          return card(
+              child: filter.widget(color: textColor),
+              filter: filter,
+              color: cardColor);
+        }).toList())
       ],
     );
   }

@@ -1,4 +1,6 @@
 import 'package:busque_receitas/app/core/utils/enum_difficulty.dart';
+import 'package:busque_receitas/app/core/utils/enum_time_cooking.dart';
+import 'package:busque_receitas/app/core/utils/enum_time_setup.dart';
 import 'package:busque_receitas/app/models/ingredient_model.dart';
 import 'package:busque_receitas/app/models/recipe/filter_recipe_model.dart';
 import 'package:busque_receitas/app/models/recipe/recipe_model.dart';
@@ -35,9 +37,19 @@ class AppFilter {
             return false;
           }
           break;
+        case TypeFilters.timeCooking:
+          if (!_filterCooking(recipe, filter.value)) {
+            return false;
+          }
+          break;
+        case TypeFilters.timeSetup:
+          if (!_filterSetup(recipe, filter.value)) {
+            return false;
+          }
+          break;
       }
     }
-    if(difficulty == -1){
+    if (difficulty == -1) {
       return false;
     }
     return true;
@@ -55,6 +67,20 @@ class AppFilter {
       return true;
     }
     return false;
+  }
+
+  static bool _filterCooking(RecipeModel recipe, TimeCooking cooking) {
+    if (recipe.timeCooking <= cooking.value)
+      return true;
+    else
+      return false;
+  }
+
+  static bool _filterSetup(RecipeModel recipe, TimeSetup setup) {
+    if (recipe.timeSetup <= setup.value)
+      return true;
+    else
+      return false;
   }
 
   static bool _filterIngredient(
