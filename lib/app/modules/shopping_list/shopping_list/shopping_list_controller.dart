@@ -1,4 +1,5 @@
 import 'package:busque_receitas/app/core/widgets/app_snack_bar.dart';
+import 'package:busque_receitas/app/models/ingredient_model.dart';
 import 'package:busque_receitas/app/models/recipe/recipe_model.dart';
 import 'package:busque_receitas/app/models/shopping_list_model.dart';
 import 'package:busque_receitas/app/modules/splash/splash_controller.dart';
@@ -40,20 +41,21 @@ class ShoppingListController extends GetxController {
     for (final recipe in _listDoLater) {
       final ingredientsId = _missedIngredients(recipe);
       for (final ingredientId in ingredientsId) {
-        _addShoppingList(ingredientId: ingredientId, recipe: recipe);
+        final ingredient = _findIngredient(ingredientId);
+        _addShoppingList(ingredient: ingredient, recipe: recipe);
       }
     }
   }
 
   void _getItensInListUser() {
-    for (final ingredientId in _shoppingListUser) {
-      _addShoppingList(ingredientId: ingredientId);
+    for (final ingredient in _shoppingListUser) {
+      _addShoppingList(ingredient: ingredient);
     }
   }
 
   void removeShoppingListUser(ingredientId) {
-    _shoppingListUser.removeWhere((e) => e == ingredientId);
-    _shoppingList.removeWhere((e) => e.ingredient.id == ingredientId);
+    _shoppingListUser.removeWhere((IngredientModel e) => e.id == ingredientId);
+    _shoppingList.removeWhere((ShoppingListModel e) => e.ingredient.id == ingredientId);
     _saveShoppingList();
   }
 
@@ -86,13 +88,18 @@ class ShoppingListController extends GetxController {
     } else {
       _shoppingList.removeWhere((e) => e == item);
     }
+    if(item.ingredient.id >= 0){
     AppSnackBar.success(
         message: "${item.ingredient.name} adicionado à despensa");
+    }
+    else{
+      AppSnackBar.success(
+        message: "${item.ingredient.name} removido da lista de compras");
+    }
   }
 
-  void _addShoppingList({required int ingredientId, RecipeModel? recipe}) {
-    if (!_searchInShoppingList(ingredientId)) {
-      final ingredient = _findIngredient(ingredientId);
+  void _addShoppingList({required IngredientModel ingredient, RecipeModel? recipe}) {
+    if (!_searchInShoppingList(ingredient.id)) {
       final itemShopping =
           ShoppingListModel(ingredient: ingredient, recipe: recipe);
       _shoppingList.add(itemShopping);
@@ -102,7 +109,7 @@ class ShoppingListController extends GetxController {
   void addShopping() async {
     final ingredient = await Get.toNamed('/add_shopping');
     if (ingredient != null) {
-      _shoppingListUser.add(ingredient.id);
+      _shoppingListUser.add(ingredient);
     }
     _saveShoppingList();
     _shoppingList.assignAll([]);

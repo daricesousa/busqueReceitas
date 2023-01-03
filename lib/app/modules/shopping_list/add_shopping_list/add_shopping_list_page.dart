@@ -1,4 +1,5 @@
 import 'package:busque_receitas/app/core/ui/app_color.dart';
+import 'package:busque_receitas/app/core/widgets/app_button.dart';
 import 'package:busque_receitas/app/core/widgets/app_form_field.dart';
 import 'package:busque_receitas/app/models/ingredient_model.dart';
 import 'package:get/get.dart';
@@ -32,8 +33,15 @@ class AddShoppingListPage extends GetView<AddShoppingListController> {
             )),
         Flexible(
           child: ListView.builder(
-              itemCount: controller.listNotShopping.length,
+              itemCount: controller.listNotShopping.length + 1,
               itemBuilder: (context, index) {
+                if(index == controller.listNotShopping.length){
+                  return AppButton(onPressed: (){
+                    print(controller.search.value);
+                    final ingredient = IngredientModel(id: DateTime.now().millisecondsSinceEpoch * -1, name: controller.search.value, groupId: -1);
+                    controller.addShopping(ingredient);
+                  }, child: const Text("Novo ingrediente"));
+                }
                 IngredientModel ingredient = controller.listNotShopping[index];
                 return Card(
                   child: ListTile(

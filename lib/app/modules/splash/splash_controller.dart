@@ -12,7 +12,7 @@ class SplashController extends GetxController {
   final listIngredients = <IngredientModel>[].obs;
   List<GroupIngredientsModel> listGroups = [];
   final listPantry = <int>[].obs;
-  List<int> shoppingListUser = [];
+  List<IngredientModel> shoppingListUser = [];
   final listFavorites = <RecipeModel>[].obs;
   final listDoLater = <RecipeModel>[].obs;
   final _repositoryIngredient = IngredientRepository();
@@ -70,7 +70,9 @@ class SplashController extends GetxController {
 
   void _loadShoppingList() {
       final data = (_storage.read('shopping_list') ?? []).cast<int>();
-      shoppingListUser.assignAll(data as List<int>);
+      List<IngredientModel> ingredients = [];
+      ingredients = data.map<IngredientModel>((e)=> IngredientModel.fromMap(e)).toList();
+      shoppingListUser.assignAll(ingredients);
   } 
 
   Future<void> _loadIngredients() async {
@@ -134,8 +136,10 @@ class SplashController extends GetxController {
         0, (value, e) => havePantry(e.ingredientId) ? value : value + 1);
   }  
 
- void saveShoppingList() {
-    GetStorage().write('shopping_list', shoppingListUser);
+  void saveShoppingList() {
+    final data = shoppingListUser.map((e) => e.toMap());
+    GetStorage().write('shopping_list', data);
   }
+ 
 
 }

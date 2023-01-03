@@ -32,6 +32,5 @@ class AddShoppingListController extends GetxController {
 
   void addShopping(IngredientModel ingredient){
     Get.back(result: ingredient);
-
   }
 }
