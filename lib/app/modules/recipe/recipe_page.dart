@@ -85,15 +85,15 @@ class _RecipePageState extends State<RecipePage> {
                       "Cozimento: ${TimerConvert.forString(recipe.timeCooking)}"),
             ),
             Expanded(
-              child: ListItem(child: Row(
+                child: ListItem(
+              child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: Stars.avaliation(
                     rating: recipe.avaliation.ratingAverage.toDouble()),
-              ),)
-            ),
+              ),
+            )),
           ],
         ),
-
         const SizedBox(height: 30),
         ...listIngredients(recipe),
         const SizedBox(height: 30),
@@ -125,7 +125,9 @@ class _RecipePageState extends State<RecipePage> {
 
   List<Widget> actionsAppBar() {
     return [
-      Obx(() => IconButton(
+      Obx(() => Tooltip(
+          message: "Adicione a receita aos favoritos para encontrá-la mais fácil",
+          child: IconButton(
             icon: Icon(
               controller.isFavorite.value
                   ? Icons.favorite
@@ -133,16 +135,17 @@ class _RecipePageState extends State<RecipePage> {
               color: AppColor.dark1,
             ),
             onPressed: controller.changeFavorite,
-          )),
-      Obx(
-        () => IconButton(
-          icon: Icon(
-            controller.isDoLater.value ? Icons.timer : Icons.timer_outlined,
-            color: AppColor.dark1,
-          ),
-          onPressed: controller.changeDoLater,
-        ),
-      )
+          ))),
+      Obx(() => Tooltip(
+        message: "Faça essa receita mais tarde. Os ingredientes da receita que não tiverem na despensa serão adicionados à lista de compras.",
+            child: IconButton(
+              icon: Icon(
+                controller.isDoLater.value ? Icons.timer : Icons.timer_outlined,
+                color: AppColor.dark1,
+              ),
+              onPressed: controller.changeDoLater,
+            ),
+          ))
     ];
   }
 
@@ -175,7 +178,6 @@ class _RecipePageState extends State<RecipePage> {
       })
     ];
   }
-
 
   Widget methodWidget({required String method, required int index}) {
     return ListItem(

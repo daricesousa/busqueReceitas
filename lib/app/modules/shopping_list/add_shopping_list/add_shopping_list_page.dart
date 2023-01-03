@@ -37,7 +37,6 @@ class AddShoppingListPage extends GetView<AddShoppingListController> {
               itemBuilder: (context, index) {
                 if(index == controller.listNotShopping.length){
                   return AppButton(onPressed: (){
-                    print(controller.search.value);
                     final ingredient = IngredientModel(id: DateTime.now().millisecondsSinceEpoch * -1, name: controller.search.value, groupId: -1);
                     controller.addShopping(ingredient);
                   }, child: const Text("Novo ingrediente"));
