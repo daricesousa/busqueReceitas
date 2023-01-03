@@ -34,6 +34,7 @@ class ShoppingListController extends GetxController {
     list = list
         .where((e) => e.ingredient.name.contains(search.value.toLowerCase()))
         .toList();
+      print(list);
     return list;
   }
 

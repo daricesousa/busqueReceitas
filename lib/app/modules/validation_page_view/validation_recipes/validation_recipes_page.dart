@@ -38,7 +38,6 @@ class ValidationRecipesPage extends GetView<ValidationRecipesController> {
     return ListView.builder(
         itemCount: controller.listRecipes.length,
         itemBuilder: ((context, index) {
-          print(index);
           final recipe = controller.listRecipes[index];
           return widgetRecipe(recipe, context);
         }));

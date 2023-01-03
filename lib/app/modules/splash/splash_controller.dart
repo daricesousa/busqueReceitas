@@ -69,7 +69,7 @@ class SplashController extends GetxController {
   } 
 
   void _loadShoppingList() {
-      final data = (_storage.read('shopping_list') ?? []).cast<int>();
+      final data = (_storage.read('shopping_list') ?? []) as List;
       List<IngredientModel> ingredients = [];
       ingredients = data.map<IngredientModel>((e)=> IngredientModel.fromMap(e)).toList();
       shoppingListUser.assignAll(ingredients);
@@ -115,8 +115,6 @@ class SplashController extends GetxController {
     _storage.write('pantry', listPantry);
   }
 
- 
-
   bool havePantry(int ingredientId) {
     final findIndex = listPantry.indexWhere((i) => i == ingredientId);
     return findIndex >= 0;
@@ -137,7 +135,7 @@ class SplashController extends GetxController {
   }  
 
   void saveShoppingList() {
-    final data = shoppingListUser.map((e) => e.toMap());
+    final data = shoppingListUser.map((e) => e.toMap()).toList();
     GetStorage().write('shopping_list', data);
   }
  
