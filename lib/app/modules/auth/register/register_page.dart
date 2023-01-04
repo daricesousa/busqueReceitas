@@ -6,7 +6,10 @@ import 'package:flutter/material.dart';
 import './register_controller.dart';
 
 class RegisterPage extends GetView<RegisterController> {
-  const RegisterPage({Key? key}) : super(key: key);
+
+  GlobalKey<FormState> _form = GlobalKey<FormState>();
+
+  RegisterPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +26,7 @@ class RegisterPage extends GetView<RegisterController> {
           Padding(
             padding: const EdgeInsets.only(top: 20),
             child: CloseButton(
-              onPressed:(){
+              onPressed: () {
                 Get.back();
                 Get.back();
               },
@@ -35,7 +38,7 @@ class RegisterPage extends GetView<RegisterController> {
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Form(
-                  key: controller.form,
+                  key: _form,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -100,7 +103,11 @@ class RegisterPage extends GetView<RegisterController> {
 
   Widget button() {
     return AppButton(
-      onPressed: controller.createUser,
+      onPressed: () {
+        if (_form.currentState!.validate()) {
+          controller.createUser();
+        }
+      },
       visible: controller.loading.value,
       child: const Text("Cadastrar", style: TextStyle(fontSize: 20)),
     );

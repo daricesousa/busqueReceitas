@@ -6,7 +6,8 @@ import 'package:flutter/material.dart';
 import './login_controller.dart';
 
 class LoginPage extends GetView<LoginController> {
-  const LoginPage({Key? key}) : super(key: key);
+  GlobalKey<FormState> _form = GlobalKey<FormState>();
+  LoginPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +31,7 @@ class LoginPage extends GetView<LoginController> {
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Form(
-                  key: controller.form,
+                  key: _form,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -44,16 +45,19 @@ class LoginPage extends GetView<LoginController> {
                       AppFormField(
                         label: 'Email',
                         controller: controller.editEmail,
-                        validator: Validations.email ,
+                        validator: Validations.email,
                       ),
                       const SizedBox(height: 10),
                       AppFormField(
-                        label: 'Senha',
-                        controller: controller.editPass,
-                        obscuredText: true,
-                        validator: Validations.password,
-                        onSubmit: controller.login,
-                      ),
+                          label: 'Senha',
+                          controller: controller.editPass,
+                          obscuredText: true,
+                          validator: Validations.password,
+                          onSubmit: () {
+                            if (_form.currentState!.validate()) {
+                              controller.login();
+                            }
+                          }),
                       const SizedBox(height: 20),
                       Obx(() => button()),
                       const SizedBox(height: 20),

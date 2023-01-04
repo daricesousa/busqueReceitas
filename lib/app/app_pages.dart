@@ -44,12 +44,12 @@ class AppPages {
     ),
     GetPage(
       name: '/login',
-      page: () => const LoginPage(),
+      page: () => LoginPage(),
       binding: LoginBindings(),
     ),
     GetPage(
       name: '/register',
-      page: () => const RegisterPage(),
+      page: () => RegisterPage(),
       binding: RegisterBindings(),
     ),
     GetPage(
