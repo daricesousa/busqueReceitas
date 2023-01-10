@@ -83,8 +83,6 @@ class CreateRecipeController extends GetxController {
     });
   }
 
-  
-
   void _getListDifficulty() {
     final list = Difficulty.values.map((difficulty) {
       return DropdownMenuItem(
@@ -173,30 +171,29 @@ class CreateRecipeController extends GetxController {
     if (errors.isEmpty) _create();
   }
 
-  Future<void> _createIngredientAPI()async{
-  final repositoryIngredient = IngredientRepository();
-      final listNewIngredients = listIngredientCreate.map((i) {
-        if (i.ingredient!.id == -1) {
-          return i.ingredient;
-        }
-      }).toList();
-      listNewIngredients.removeWhere((e) => e == null);
-      if (listNewIngredients.isNotEmpty) {
-        final listIngredientsCreated =
-            await Future.wait(listNewIngredients.map((i) {
-          return _createIngredientFunctionRepository(
-              ingredient: i!, repositoryIngredient: repositoryIngredient);
-        }).toList());
+  Future<void> _createIngredientAPI() async {
+    final repositoryIngredient = IngredientRepository();
+    final listNewIngredients = listIngredientCreate.map((i) {
+      if (i.ingredient!.id == -1) {
+        return i.ingredient;
+      }
+    }).toList();
+    listNewIngredients.removeWhere((e) => e == null);
+    if (listNewIngredients.isNotEmpty) {
+      final listIngredientsCreated =
+          await Future.wait(listNewIngredients.map((i) {
+        return _createIngredientFunctionRepository(
+            ingredient: i!, repositoryIngredient: repositoryIngredient);
+      }).toList());
 
-        for (int index = 0; index < listIngredientCreate.length; index += 1) {
-          if (listIngredientCreate[index].ingredient!.id == -1) {
-            listIngredientCreate[index].ingredient =
-                listIngredientsCreated.firstWhere((element) =>
-                    element.name ==
-                    listIngredientCreate[index].ingredient!.name);
-          }
+      for (int index = 0; index < listIngredientCreate.length; index += 1) {
+        if (listIngredientCreate[index].ingredient!.id == -1) {
+          listIngredientCreate[index].ingredient =
+              listIngredientsCreated.firstWhere((element) =>
+                  element.name == listIngredientCreate[index].ingredient!.name);
         }
       }
+    }
   }
 
   Future<IngredientModel> _createIngredientFunctionRepository({

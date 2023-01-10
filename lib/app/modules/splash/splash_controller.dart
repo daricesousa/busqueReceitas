@@ -20,20 +20,24 @@ class SplashController extends GetxController {
   final user = Rxn<UserModel>();
 
   @override
-  void onInit() async {
+  void onReady() async {
     _loadUser();
     _loadPantry();
     _loadFavorites();
     _loadDoLater();
     _loadShoppingList();
-    await getIngredients();
-    Get.offNamedUntil('/layout', (route) => false);
-    super.onInit();
+    getIngredients();
+    await Future.delayed(const Duration(milliseconds: 500));
+    Get.offAndToNamed('/layout');
+    super.onReady();
   }
 
   Future<void> getIngredients() async {
     try {
-      await Future.wait([_getIngredientsInternet(), _getGroupsIngredients()]);
+      await Future.wait([
+        _getIngredientsInternet(),
+        _getGroupsIngredients(),
+      ]);
     } catch (e) {
       print(e);
       print("Erro ao carregar ingredientes da internet");
@@ -50,30 +54,28 @@ class SplashController extends GetxController {
   }
 
   void _loadPantry() {
-      final data = (_storage.read('pantry') ?? []).cast<int>();
-      listPantry.assignAll(data as List<int>);
-  } 
+    final data = (_storage.read('pantry') ?? []).cast<int>();
+    listPantry.assignAll(data as List<int>);
+  }
 
   void _loadFavorites() {
-      final data = (_storage.read('favorites') ?? []) as List;
-      List<RecipeModel> recipes = [];
-      recipes = data.map<RecipeModel>((e)=> RecipeModel.fromMap(e)).toList();
-      listFavorites.assignAll(recipes);
-  } 
+    final data = (_storage.read('favorites') ?? []) as List;
+    final recipes = data.map<RecipeModel>(RecipeModel.fromMap).toList();
+    listFavorites.assignAll(recipes);
+  }
 
   void _loadDoLater() {
-      final data = (_storage.read('do_later') ?? []) as List;
-      List<RecipeModel> recipes = [];
-      recipes = data.map<RecipeModel>((e)=> RecipeModel.fromMap(e)).toList();
-      listDoLater.assignAll(recipes);
-  } 
+    final data = (_storage.read('do_later') ?? []) as List;
+    final recipes = data.map<RecipeModel>(RecipeModel.fromMap).toList();
+    listDoLater.assignAll(recipes);
+  }
 
   void _loadShoppingList() {
-      final data = (_storage.read('shopping_list') ?? []) as List;
-      List<IngredientModel> ingredients = [];
-      ingredients = data.map<IngredientModel>((e)=> IngredientModel.fromMap(e)).toList();
-      shoppingListUser.assignAll(ingredients);
-  } 
+    final data = (_storage.read('shopping_list') ?? []) as List;
+    List<IngredientModel> ingredients = [];
+    ingredients = data.map<IngredientModel>(IngredientModel.fromMap).toList();
+    shoppingListUser.assignAll(ingredients);
+  }
 
   Future<void> _loadIngredients() async {
     final data = await _storage.read('ingredients') ?? [];
@@ -122,22 +124,19 @@ class SplashController extends GetxController {
 
   IngredientModel findIngredient(int id) {
     final index = listIngredients.indexWhere((i) => i.id == id);
-    if(index > -1){
+    if (index > -1) {
       return listIngredients[index];
     }
     return IngredientModel(id: id, name: "", groupId: 1, associates: []);
   }
 
-
   int missedIngredientsQuant(List<RecipeIngredientModel> listIngredients) {
     return listIngredients.fold<int>(
         0, (value, e) => havePantry(e.ingredientId) ? value : value + 1);
-  }  
+  }
 
   void saveShoppingList() {
     final data = shoppingListUser.map((e) => e.toMap()).toList();
     GetStorage().write('shopping_list', data);
   }
- 
-
 }

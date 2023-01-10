@@ -23,16 +23,16 @@ class _RecipePageState extends State<RecipePage> {
   final controller = Get.find<RecipeController>();
   @override
   Widget build(BuildContext context) {
-    final recipe = controller.recipe;
     return Scaffold(
-      appBar: AppBar(
-        actions: actionsAppBar(),
-      ),
-      body: Obx(() => body(recipe)),
+      appBar: AppBar(actions: actionsAppBar()),
+      body: Obx(() => body(controller.recipe)),
     );
   }
 
   Widget body(RecipeModel recipe) {
+    if (controller.loading.value) {
+      return const Center(child: CircularProgressIndicator());
+    }
     return ListView(
       children: [
         AppBanner(
@@ -116,9 +116,7 @@ class _RecipePageState extends State<RecipePage> {
           ),
         ),
         Center(child: Text("criado por ${recipe.creator}")),
-        const SizedBox(
-          height: 20,
-        )
+        const SizedBox(height: 20)
       ],
     );
   }
@@ -126,7 +124,8 @@ class _RecipePageState extends State<RecipePage> {
   List<Widget> actionsAppBar() {
     return [
       Obx(() => Tooltip(
-          message: "Adicione a receita aos favoritos para encontrá-la mais fácil",
+          message:
+              "Adicione a receita aos favoritos para encontrá-la mais fácil",
           child: IconButton(
             icon: Icon(
               controller.isFavorite.value
@@ -137,7 +136,8 @@ class _RecipePageState extends State<RecipePage> {
             onPressed: controller.changeFavorite,
           ))),
       Obx(() => Tooltip(
-        message: "Faça essa receita mais tarde. Os ingredientes da receita que não tiverem na despensa serão adicionados à lista de compras.",
+            message:
+                "Faça essa receita mais tarde. Os ingredientes da receita que não tiverem na despensa serão adicionados à lista de compras.",
             child: IconButton(
               icon: Icon(
                 controller.isDoLater.value ? Icons.timer : Icons.timer_outlined,

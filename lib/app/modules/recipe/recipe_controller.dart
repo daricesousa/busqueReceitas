@@ -5,6 +5,7 @@ import 'package:busque_receitas/app/modules/recipe/decimal.dart';
 import 'package:busque_receitas/app/modules/splash/splash_controller.dart';
 import 'package:busque_receitas/app/repositories/recipe_repository.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
@@ -19,15 +20,23 @@ class RecipeController extends GetxController {
   final _listDoLater = Get.find<SplashController>().listDoLater;
   final isFavorite = false.obs;
   final isDoLater = false.obs;
+  final loading = false.obs;
   final pictureError = false.obs;
 
   RecipeController({required this.recipe});
 
   @override
-  void onInit(){
+  void onInit() {
     isFavorite.value = _searchFavorite();
     isDoLater.value = _searchDoLater();
+
     super.onInit();
+  }
+
+  Future<void> loadIngredients() async {
+    loading.value = true;
+    await Get.find<SplashController>().getIngredients();
+    loading.value = false;
   }
 
   Future<void> newAvaliation(int star) async {
@@ -40,13 +49,13 @@ class RecipeController extends GetxController {
       }
       AppSnackBar.success(message: "Avaliação realizada");
     } on DioError catch (e) {
-      print(e.response?.data["message"]);
-      AppSnackBar.error(message:
-          "Algo deu errado. Verifique sua conexão com a internet");
+      debugPrint(e.response?.data["message"]);
+      AppSnackBar.error(
+          message: "Algo deu errado. Verifique sua conexão com a internet");
     }
   }
 
-  bool _searchFavorite(){
+  bool _searchFavorite() {
     final index = _listFavorites.indexWhere((e) => e.id == recipe.id);
     if (index > -1) {
       return true;
@@ -54,7 +63,7 @@ class RecipeController extends GetxController {
     return false;
   }
 
-    bool _searchDoLater(){
+  bool _searchDoLater() {
     final index = _listDoLater.indexWhere((e) => e.id == recipe.id);
     if (index > -1) {
       return true;
@@ -62,48 +71,45 @@ class RecipeController extends GetxController {
     return false;
   }
 
-  
-  void changeFavorite(){
+  void changeFavorite() {
     final find = _searchFavorite();
-    if (find){
-     _listFavorites.removeWhere((e) => e.id == recipe.id);
-    }
-    else{
+    if (find) {
+      _listFavorites.removeWhere((e) => e.id == recipe.id);
+    } else {
       _listFavorites.insert(0, recipe);
     }
     isFavorite.value = !isFavorite.value;
     _saveFavorite();
   }
 
-  void changeDoLater(){
+  void changeDoLater() {
     final find = _searchDoLater();
-    if (find){
-     _listDoLater.removeWhere((e) => e.id == recipe.id);
-    }
-    else{
+    if (find) {
+      _listDoLater.removeWhere((e) => e.id == recipe.id);
+    } else {
       _listDoLater.insert(0, recipe);
     }
     isDoLater.value = !isDoLater.value;
-   _saveDoLater();
+    _saveDoLater();
   }
 
-  String personalizeQuantity(double quantity){
+  String personalizeQuantity(double quantity) {
     int inteiro = Decimal.inteiro(quantity);
     int decimal = Decimal.decimal(quantity);
     String quantityString = '';
-    if(inteiro != 0){
+    if (inteiro != 0) {
       quantityString = inteiro.toString();
     }
-    if(decimal != 0){
-      if(quantityString!= ''){
-        quantityString+= ' ';
+    if (decimal != 0) {
+      if (quantityString != '') {
+        quantityString += ' ';
       }
       quantityString += Decimal.forFraction(decimal);
     }
     return quantityString;
   }
 
-   void _saveFavorite() {
+  void _saveFavorite() {
     final data = _listFavorites.map((e) => e.toMap()).toList();
     GetStorage().write('favorites', data);
   }

@@ -15,7 +15,6 @@ class RecipeModel {
   int timeSetup;
   int timeCooking;
 
-
   RecipeModel({
     required this.id,
     required this.title,
@@ -37,7 +36,9 @@ class RecipeModel {
       'difficulty': difficulty.index,
       'name_creator': creator,
       'method': method,
-      'ingredients': {"list": listIngredients.map((e) => e.toMap()).toList(),},
+      'ingredients': {
+        "list": listIngredients.map((e) => e.toMap()).toList(),
+      },
       'avaliation': avaliation.toMap(),
       'picture': picture,
       'picture_ilustration': pictureIlustration,
@@ -46,7 +47,7 @@ class RecipeModel {
     };
   }
 
-  factory RecipeModel.fromMap(Map<String, dynamic> json) {
+  factory RecipeModel.fromMap(json) {
     return RecipeModel(
       id: json['id'],
       title: json['title'],
