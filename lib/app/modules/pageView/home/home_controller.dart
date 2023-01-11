@@ -18,6 +18,22 @@ class HomeController extends GetxController {
   List<FilterRecipeModel> listFilters = [];
   final _listFiltersObs = <FilterRecipeModel>[].obs;
 
+  bool get loading => Get.find<SplashController>().loadingIngredients.value;
+
+  @override
+  void onInit() async {
+    await Future.wait([
+      getRecipes(),
+      loadIngredients(),
+    ]);
+    super.onInit();
+  }
+
+    Future<void> loadIngredients() async {
+    await Get.find<SplashController>().getIngredients();
+  }
+
+
   missedIngredientsQuant(listIngredients) =>
       Get.find<SplashController>().missedIngredientsQuant(listIngredients);
 
@@ -32,11 +48,6 @@ class HomeController extends GetxController {
     _listFiltersObs.assignAll(listFilters);
   }
 
-  @override
-  void onInit() {
-    getRecipes();
-    super.onInit();
-  }
 
   Future<void> getRecipes() async {
     if (visibleRefrash.value == false) {

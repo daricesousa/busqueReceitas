@@ -9,7 +9,7 @@ class PantryController extends GetxController {
   final visibleRefrash = false.obs;
 
   PantryController({required this.splashController});
-
+  final loading = Get.find<SplashController>().loadingIngredients;
 
   void changeIngredient({required IngredientModel ingredient}) {
     final index = splashController.listIngredients.indexWhere((e) => e.id == ingredient.id);

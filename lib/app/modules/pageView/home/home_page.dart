@@ -9,6 +9,7 @@ import 'package:busque_receitas/app/modules/pageView/home/filter_recipe/filter_r
 import 'package:busque_receitas/app/modules/pageView/home/filter_recipe/filter_recipe_page.dart';
 import 'package:busque_receitas/app/modules/pageView/home/home_controller.dart';
 import 'package:busque_receitas/app/modules/pageView/home/widgets/app_drawer.dart';
+import 'package:busque_receitas/app/modules/splash/splash_controller.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:side_sheet/side_sheet.dart';
@@ -56,7 +57,7 @@ class HomePage extends GetView<HomeController> {
   }
 
   Widget body(BuildContext context) {
-    if (controller.visibleRefrash.value) {
+    if (controller.visibleRefrash.value || controller.loading) {
       return const Center(
         child: CircularProgressIndicator(
           color: AppColor.dark2,

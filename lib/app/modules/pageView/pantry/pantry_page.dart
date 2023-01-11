@@ -17,25 +17,33 @@ class PantryPage extends GetView<PantryController> {
         title: const Text('Despensa'),
         centerTitle: true,
       ),
-      body: body(),
+      body: Obx(body),
       floatingActionButton: addButton(),
     );
   }
 
+
+
   Widget body() {
+    if (controller.loading.value) {
+      return const Center(
+        child: CircularProgressIndicator(
+          color: AppColor.dark2,
+        ),
+      );
+    }
     if (controller.splashController.listGroups.isEmpty) {
-      return Obx(() => ErroPage(
+      return ErroPage(
             visible: controller.visibleRefrash.value,
             onPressed: controller.refrashPage,
-          ));
+          );
     }
     return ListView.builder(
         itemCount: controller.splashController.listGroups.length,
         itemBuilder: ((context, index) {
           final group = controller.splashController.listGroups[index];
-          return Obx(() {
+        
             return groupCard(group);
-          });
         }));
   }
 

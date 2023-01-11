@@ -30,9 +30,6 @@ class _RecipePageState extends State<RecipePage> {
   }
 
   Widget body(RecipeModel recipe) {
-    if (controller.loading.value) {
-      return const Center(child: CircularProgressIndicator());
-    }
     return ListView(
       children: [
         AppBanner(

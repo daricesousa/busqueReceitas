@@ -20,7 +20,6 @@ class RecipeController extends GetxController {
   final _listDoLater = Get.find<SplashController>().listDoLater;
   final isFavorite = false.obs;
   final isDoLater = false.obs;
-  final loading = false.obs;
   final pictureError = false.obs;
 
   RecipeController({required this.recipe});
@@ -29,15 +28,9 @@ class RecipeController extends GetxController {
   void onInit() {
     isFavorite.value = _searchFavorite();
     isDoLater.value = _searchDoLater();
-
     super.onInit();
   }
 
-  Future<void> loadIngredients() async {
-    loading.value = true;
-    await Get.find<SplashController>().getIngredients();
-    loading.value = false;
-  }
 
   Future<void> newAvaliation(int star) async {
     try {

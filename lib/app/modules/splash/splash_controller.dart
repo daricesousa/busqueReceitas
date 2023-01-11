@@ -12,6 +12,7 @@ class SplashController extends GetxController {
   final listIngredients = <IngredientModel>[].obs;
   List<GroupIngredientsModel> listGroups = [];
   final listPantry = <int>[].obs;
+  final loadingIngredients = false.obs;
   List<IngredientModel> shoppingListUser = [];
   final listFavorites = <RecipeModel>[].obs;
   final listDoLater = <RecipeModel>[].obs;
@@ -26,7 +27,6 @@ class SplashController extends GetxController {
     _loadFavorites();
     _loadDoLater();
     _loadShoppingList();
-    getIngredients();
     await Future.delayed(const Duration(milliseconds: 500));
     Get.offAndToNamed('/layout');
     super.onReady();
@@ -34,6 +34,7 @@ class SplashController extends GetxController {
 
   Future<void> getIngredients() async {
     try {
+      loadingIngredients(true);
       await Future.wait([
         _getIngredientsInternet(),
         _getGroupsIngredients(),
@@ -42,6 +43,9 @@ class SplashController extends GetxController {
       print(e);
       print("Erro ao carregar ingredientes da internet");
       await Future.wait([_loadIngredients(), _loadGroups()]);
+    } finally{
+      loadingIngredients(false);
+      print("carregou ingredientes");
     }
   }
 
