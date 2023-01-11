@@ -52,6 +52,8 @@ class _RecipePageState extends State<RecipePage> {
         Text(
           recipe.title,
           textAlign: TextAlign.center,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
           style: const TextStyle(fontSize: 22),
         ),
         const SizedBox(height: 10),

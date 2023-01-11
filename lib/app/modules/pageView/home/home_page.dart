@@ -143,6 +143,8 @@ class HomePage extends GetView<HomeController> {
                 Text(
                   textAlign: TextAlign.center,
                   recipe.title,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
                   style: const TextStyle(fontSize: 18),
                 ),
                 missedIngredientsQuant != 0
