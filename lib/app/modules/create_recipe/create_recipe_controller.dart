@@ -39,6 +39,7 @@ class CreateRecipeController extends GetxController {
     return _listAllIngredients;
   }
 
+
   @override
   void onInit() {
     _listAllIngredients.assignAll(Get.find<SplashController>().listIngredients);
@@ -224,7 +225,7 @@ class CreateRecipeController extends GetxController {
           difficulty: difficulty.value!.index,
           timeSetup: timeSetup.value!,
           timeCooking: timeCooking.value!);
-      Get.back();
+      // Get.back();
       AppSnackBar.success(message: data["message"]);
     } on DioError catch (e) {
       try {

@@ -22,8 +22,6 @@ class PantryPage extends GetView<PantryController> {
     );
   }
 
-
-
   Widget body() {
     if (controller.loading.value) {
       return const Center(
@@ -34,16 +32,15 @@ class PantryPage extends GetView<PantryController> {
     }
     if (controller.splashController.listGroups.isEmpty) {
       return ErroPage(
-            visible: controller.visibleRefrash.value,
-            onPressed: controller.refrashPage,
-          );
+        visible: controller.visibleRefrash.value,
+        onPressed: controller.refrashPage,
+      );
     }
     return ListView.builder(
         itemCount: controller.splashController.listGroups.length,
         itemBuilder: ((context, index) {
           final group = controller.splashController.listGroups[index];
-        
-            return groupCard(group);
+          return Obx(() => groupCard(group));
         }));
   }
 

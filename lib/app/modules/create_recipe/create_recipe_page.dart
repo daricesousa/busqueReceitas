@@ -81,7 +81,9 @@ class CreateRecipePage extends GetView<CreateRecipeController> {
         AppButton(
             visible: controller.loading.value,
             onPressed: () {
+              if(!controller.loading.value){
               controller.validations();
+              }
             },
             child: const Text("Confirmar")),
       ],

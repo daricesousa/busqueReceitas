@@ -1,5 +1,4 @@
 import 'package:busque_receitas/app/core/widgets/app_select_dialog.dart';
-import 'package:busque_receitas/app/models/ingredient_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

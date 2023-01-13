@@ -56,7 +56,10 @@ class DoLaterPage extends GetView<DoLaterController> {
           child: Row(
             mainAxisSize: MainAxisSize.max,
             children: [
-              ImageCached(recipe.picture, width: context.width / 5 * 2),
+              ClipRRect(
+                borderRadius: const BorderRadius.horizontal(left: Radius.circular(10)),
+                child: ImageCached(recipe.picture, width: context.width / 5 * 2),
+              ),
               Expanded(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,

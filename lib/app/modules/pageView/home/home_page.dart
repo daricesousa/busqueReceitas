@@ -9,10 +9,10 @@ import 'package:busque_receitas/app/modules/pageView/home/filter_recipe/filter_r
 import 'package:busque_receitas/app/modules/pageView/home/filter_recipe/filter_recipe_page.dart';
 import 'package:busque_receitas/app/modules/pageView/home/home_controller.dart';
 import 'package:busque_receitas/app/modules/pageView/home/widgets/app_drawer.dart';
-import 'package:busque_receitas/app/modules/splash/splash_controller.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:side_sheet/side_sheet.dart';
+
 class HomePage extends GetView<HomeController> {
   const HomePage({super.key});
 
@@ -57,7 +57,7 @@ class HomePage extends GetView<HomeController> {
   }
 
   Widget body(BuildContext context) {
-    if (controller.visibleRefrash.value || controller.loading) {
+    if (controller.visibleRefrash.value) {
       return const Center(
         child: CircularProgressIndicator(
           color: AppColor.dark2,
@@ -124,17 +124,18 @@ class HomePage extends GetView<HomeController> {
       child: Card(
         child: Column(
           children: [
-            ImageCached(
-              recipe.picture,
-              width: context.width / 2.1,
+            Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(40)
+              ),
+              child: ClipRRect(
+                borderRadius: const BorderRadius.vertical(top: Radius.circular(10)),
+                child: ImageCached(
+                recipe.picture,
+                width: context.width / 2.1,
+              ),
+              )
             ),
-            // Image.network(
-            //   recipe.picture,
-            //   width: context.width / 2.1,
-            //   height: 120,
-            //   fit: BoxFit.cover,
-            //   errorBuilder: (context, url, error) => const Icon(Icons.error),
-            // ),
             Container(height: 8),
             Column(
               mainAxisAlignment: MainAxisAlignment.center,

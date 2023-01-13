@@ -18,7 +18,6 @@ class HomeController extends GetxController {
   List<FilterRecipeModel> listFilters = [];
   final _listFiltersObs = <FilterRecipeModel>[].obs;
 
-  bool get loading => Get.find<SplashController>().loadingIngredients.value;
 
   @override
   void onInit() async {
