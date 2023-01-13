@@ -57,7 +57,7 @@ class RecipeModel {
       creator: json['name_creator'] ?? '',
       timeSetup: json['time_setup'] ?? 0,
       timeCooking: json['time_cooking'] ?? 0,
-      method: json['method'].map<String>((e) => e.toString()).toList(),
+      method: json['method'].map<String>((e) => e.toString().replaceAll("<>", ",")).toList(),
       listIngredients: json['ingredients']['list']
           .map<RecipeIngredientModel>((e) => RecipeIngredientModel.fromMap(e))
           .toList(),
