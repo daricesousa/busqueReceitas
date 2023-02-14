@@ -27,10 +27,14 @@ class SplashController extends GetxController {
     _loadFavorites();
     _loadDoLater();
     _loadShoppingList();
+    _loadIngredients();
+    _loadGroups();
     await Future.delayed(const Duration(milliseconds: 500));
     Get.offAndToNamed('/layout');
     super.onReady();
   }
+
+
 
   Future<void> getIngredients() async {
     try {
@@ -41,9 +45,7 @@ class SplashController extends GetxController {
       ]);
     } catch (e) {
       print(e);
-      print("Erro ao carregar ingredientes da internet");
-      await Future.wait([_loadIngredients(), _loadGroups()]);
-    } finally{
+    } finally {
       loadingIngredients(false);
       print("carregou ingredientes");
     }

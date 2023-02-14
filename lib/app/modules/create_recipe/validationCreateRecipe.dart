@@ -19,7 +19,7 @@ class ValidationCreateRecipe {
 
   static difficulty(Difficulty? difficulty) {
     if (difficulty == null) {
-      return 'Preencha a dificuldade';
+      return 'Preencha o esforço';
     }
   }
 

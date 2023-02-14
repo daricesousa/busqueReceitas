@@ -1,3 +1,4 @@
+import 'package:busque_receitas/app/core/widgets/app_avaliation.dart';
 import 'package:busque_receitas/app/core/widgets/app_snack_bar.dart';
 import 'package:busque_receitas/app/models/recipe/filter_recipe_model.dart';
 import 'package:busque_receitas/app/models/recipe/recipe_model.dart';
@@ -7,6 +8,7 @@ import 'package:busque_receitas/app/repositories/recipe_repository.dart';
 import 'package:dio/dio.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
+import 'package:get_storage/get_storage.dart';
 
 class HomeController extends GetxController {
   final _listRecipes = <RecipeModel>[].obs;
@@ -18,9 +20,9 @@ class HomeController extends GetxController {
   List<FilterRecipeModel> listFilters = [];
   final _listFiltersObs = <FilterRecipeModel>[].obs;
 
-
   @override
   void onInit() async {
+    
     await Future.wait([
       getRecipes(),
       loadIngredients(),
@@ -28,10 +30,28 @@ class HomeController extends GetxController {
     super.onInit();
   }
 
-    Future<void> loadIngredients() async {
-    await Get.find<SplashController>().getIngredients();
+  @override
+  void onReady() {
+    _loadDateInitial();
+    super.onReady();
   }
 
+  void _loadDateInitial() {
+    final dateString =
+        (GetStorage().read('date_initial') ?? "");
+      final date = DateTime.tryParse(dateString) ?? DateTime.now();
+    final now = DateTime.now();
+    final dif = now.difference(date);
+    if (dif.inMinutes > 20) {
+      Get.dialog(const AppAvaliation());
+    } else {
+      GetStorage().write('date_initial', date.toString());
+    }
+  }
+
+  Future<void> loadIngredients() async {
+    await Get.find<SplashController>().getIngredients();
+  }
 
   missedIngredientsQuant(listIngredients) =>
       Get.find<SplashController>().missedIngredientsQuant(listIngredients);
@@ -46,7 +66,6 @@ class HomeController extends GetxController {
   void filter() {
     _listFiltersObs.assignAll(listFilters);
   }
-
 
   Future<void> getRecipes() async {
     if (visibleRefrash.value == false) {

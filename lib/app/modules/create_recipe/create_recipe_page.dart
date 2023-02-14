@@ -16,6 +16,7 @@ import 'package:flutter/gestures.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:url_launcher/url_launcher.dart';
 import './create_recipe_controller.dart';
 
 class CreateRecipePage extends GetView<CreateRecipeController> {
@@ -81,8 +82,8 @@ class CreateRecipePage extends GetView<CreateRecipeController> {
         AppButton(
             visible: controller.loading.value,
             onPressed: () {
-              if(!controller.loading.value){
-              controller.validations();
+              if (!controller.loading.value) {
+                controller.validations();
               }
             },
             child: const Text("Confirmar")),
@@ -386,8 +387,11 @@ class CreateRecipePage extends GetView<CreateRecipeController> {
             text: "termo de responsabilidade",
             recognizer: TapGestureRecognizer()
               ..onTap = () {
-                print("termo");
-                // OpenUrl.url(Env.LINK_FORM);
+                launchUrl(
+                  Uri.parse(
+                      "https://drive.google.com/file/d/1b0gdOjtu0iIP6mMy9QU1E-S35whGBJLm/view?usp=sharing"),
+                  mode: LaunchMode.externalApplication,
+                );
               },
             style: const TextStyle(
                 decoration: TextDecoration.underline, color: AppColor.dark1),

@@ -71,7 +71,7 @@ class _FilterRecipePageState
 
   Widget filterDifficulty() {
     return ExpansionTile(
-      title: const Text("Dificuldade"),
+      title: const Text("Esforço"),
       children: [
         wrap(Difficulty.values.map((e) {
           final isSelected = controller.searchFilter(value: e);

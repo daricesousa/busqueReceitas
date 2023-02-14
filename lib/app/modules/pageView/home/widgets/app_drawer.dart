@@ -1,7 +1,9 @@
 import 'package:busque_receitas/app/core/ui/app_color.dart';
+import 'package:busque_receitas/app/core/widgets/app_snack_bar.dart';
 import 'package:busque_receitas/app/models/user_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class AppDrawer extends StatefulWidget {
   final UserModel? user;
@@ -80,6 +82,22 @@ class _AppDrawerState extends State<AppDrawer> {
               Get.toNamed("/shopping_list");
             },
           ),
+           ListTile(
+            leading: const Icon(
+              Icons.add,
+              color: AppColor.dark1,
+            ),
+            title: const Text("Cadastrar receita"),
+            onTap: () {
+              if (widget.user == null){
+                AppSnackBar.error(message: "Faça login para cadastrar receitas");
+              }
+              else{
+              Get.back();
+              Get.toNamed('/create_recipe');
+              }
+            },
+          ),
           widget.user?.rule == "admin"
               ? ListTile(
                   leading: const Icon(
@@ -93,6 +111,20 @@ class _AppDrawerState extends State<AppDrawer> {
                   },
                 )
               : const SizedBox(),
+          ListTile(
+            leading: const Icon(
+              Icons.checklist,
+              color: AppColor.dark2,
+            ),
+            title: const Text("Avalie o app",style: TextStyle(color: AppColor.dark2),),
+            onTap: () {
+              Get.back();
+              launchUrl(
+                Uri.parse("https://forms.gle/dD8Vib8zP9KbGK276"),
+                mode: LaunchMode.externalApplication,
+              );
+            },
+          ),
         ],
       ),
     );
