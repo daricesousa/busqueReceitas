@@ -8,8 +8,7 @@ import 'package:get_storage/get_storage.dart';
 class ConnectBinding implements Bindings {
   @override
   void dependencies() {
-    const baseUrl =
-        "https://b6b6-2804-5fb8-c02d-2a00-518a-3b94-601c-d38.sa.ngrok.io";
+    const baseUrl = "http://ec2-3-209-11-224.compute-1.amazonaws.com/";
     final user = GetStorage().read('user') as Map?;
     Map<String, dynamic> headers = {};
     if (user != null) headers["Authorization"] = "Bearer ${user['token']}";
