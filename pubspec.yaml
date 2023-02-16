@@ -25,7 +25,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   get: ^4.6.5
   get_storage: ^2.0.3
-  dio: ^4.0.6
+  dio: ^5.0.0
   side_sheet: ^1.0.3
   material_design_icons_flutter: ^5.0.6996
   select_dialog: ^2.0.0
