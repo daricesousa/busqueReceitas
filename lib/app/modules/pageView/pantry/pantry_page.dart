@@ -23,7 +23,7 @@ class PantryPage extends GetView<PantryController> {
   }
 
   Widget body() {
-    if (controller.loading.value) {
+    if (controller.visibleRefrash.value) {
       return const Center(
         child: CircularProgressIndicator(
           color: AppColor.dark2,
