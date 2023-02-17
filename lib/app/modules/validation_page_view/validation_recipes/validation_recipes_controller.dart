@@ -47,7 +47,7 @@ class ValidationRecipesController extends GetxController {
       listRecipes.remove(recipe);
     } on DioError catch (e) {
       print(e);
-      AppSnackBar.success(message: e.response?.data["message"]);
+      AppSnackBar.error(message: e.response?.data["message"]);
     }
   }
 

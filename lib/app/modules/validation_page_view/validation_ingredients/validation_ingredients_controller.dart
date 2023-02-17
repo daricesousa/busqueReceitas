@@ -22,7 +22,7 @@ class ValidationIngredientsController extends GetxController {
       listIngredients.remove(ingredient);
     } on DioError catch (e) {
       print(e);
-      AppSnackBar.success(message: e.response?.data["message"]);
+      AppSnackBar.error(message: e.response?.data["message"]);
     }
   }
 
