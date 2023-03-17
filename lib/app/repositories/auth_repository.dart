@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:busque_receitas/app/models/user_model.dart';
 import 'package:dio/dio.dart';
 import 'package:get/get.dart';
@@ -30,7 +32,8 @@ class AuthRepository {
     final  user = UserModel.fromMap(res.data);
     await GetStorage().write('user', res.data);
     _api.options.headers = {
-      "Authorization": "Bearer ${res.data['token']}"
+      "Authorization": "Bearer ${res.data['token']}",
+      HttpHeaders.contentTypeHeader: "application/json"
     };
     return user;
   }

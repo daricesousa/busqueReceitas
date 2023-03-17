@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:busque_receitas/app/core/widgets/app_snack_bar.dart';
 import 'package:busque_receitas/app/modules/splash/splash_controller.dart';
 import 'package:dio/dio.dart';
@@ -19,7 +21,7 @@ class ProfileController extends GetxController {
     Get.back();
     Get.find<SplashController>().user.value = null;
     GetStorage().remove('user');
-    Get.find<Dio>().options.headers = {};
+    Get.find<Dio>().options.headers = {HttpHeaders.contentTypeHeader: "application/json"};
     AppSnackBar.success(message: "Usuário deslogado");
   }
 

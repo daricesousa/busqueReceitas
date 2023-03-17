@@ -10,7 +10,7 @@ class ConnectBinding implements Bindings {
   void dependencies() {
     const baseUrl = "http://ec2-3-209-11-224.compute-1.amazonaws.com/";
     final user = GetStorage().read('user') as Map?;
-    Map<String, dynamic> headers = {};
+    Map<String, dynamic> headers = { HttpHeaders.contentTypeHeader: "application/json"};
     if (user != null) headers["Authorization"] = "Bearer ${user['token']}";
 
     Dio dio = Dio(BaseOptions(
