@@ -35,6 +35,8 @@ Esta ferramenta foi desenvolvida como parte do meu Trabalho de Conclusão de Cur
 
 Por conta dos altos custos de manter a API Online, o aplicativo foi removido do Google Play.
 
+Acesse <a href="https://github.com/daricesousa/busqueReceitas-api">aqui</a> a API do Busque Receitas
+
 <br>
 <p align="center">
    Feito por <b>Darice Sousa</b>
